@@ -1,0 +1,1252 @@
+.docsApp {
+  min-height: 100vh;
+  color: #eaf5f3;
+  background:
+    radial-gradient(circle at 50% -12rem, rgba(4, 248, 219, 0.055), transparent 34rem),
+    #070b0d;
+}
+
+.docsHeader {
+  position: sticky;
+  z-index: 40;
+  top: 0;
+  border-bottom: 1px solid rgba(238, 248, 246, 0.08);
+  background: rgba(7, 11, 13, 0.82);
+  backdrop-filter: blur(20px) saturate(130%);
+}
+
+.docsHeaderInner {
+  width: min(calc(100% - 32px), 1440px);
+  min-height: 64px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.docsBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #eef8f6;
+  font-size: 14px;
+  font-weight: 760;
+}
+
+.docsBrand i {
+  width: 1px;
+  height: 18px;
+  margin-inline: 2px;
+  background: rgba(238, 248, 246, 0.14);
+}
+
+.docsBrand strong {
+  color: #7d8c89;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.docsHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #788784;
+  font-size: 11px;
+}
+
+.docsHeaderActions a:hover {
+  color: #d6e6e3;
+}
+
+.docsVersion {
+  padding: 5px 8px;
+  border: 1px solid rgba(4, 248, 219, 0.12);
+  border-radius: 8px;
+  color: #93dcd3;
+  background: rgba(4, 248, 219, 0.035);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+}
+
+.docsFrame {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 292px minmax(0, 1fr);
+}
+
+.docsSidebar {
+  border-right: 1px solid rgba(238, 248, 246, 0.07);
+}
+
+.docsSidebarSticky {
+  position: sticky;
+  top: 65px;
+  height: calc(100vh - 65px);
+  padding: 38px 26px 30px;
+  overflow-y: auto;
+}
+
+.docsNavSection + .docsNavSection {
+  margin-top: 30px;
+}
+
+.docsNavSection h2 {
+  margin: 0 0 9px;
+  color: #53625f;
+  font-size: 9px;
+  font-weight: 760;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.docsNavSection nav {
+  display: grid;
+  gap: 3px;
+}
+
+.docsNavSection a {
+  padding: 9px 10px;
+  display: grid;
+  gap: 3px;
+  border-radius: 9px;
+  transition:
+    color 140ms ease,
+    background 140ms ease;
+}
+
+.docsNavSection a:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.docsNavSection a span {
+  color: #bac8c5;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.docsNavSection a small {
+  color: #596764;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.docsSidebarFoot {
+  margin-top: 36px;
+  padding: 18px 10px 0;
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid rgba(238, 248, 246, 0.07);
+}
+
+.docsSidebarFoot span {
+  color: #4d5c59;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.docsSidebarFoot a {
+  color: #72817e;
+  font-size: 10px;
+}
+
+.docsContent {
+  width: min(100%, 900px);
+  min-width: 0;
+  padding: 72px 72px 120px;
+}
+
+.docEyebrow {
+  margin: 0 0 14px;
+  color: #73e6d8;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.docHero h1,
+.docArticle h1 {
+  margin: 0;
+  max-width: 760px;
+  color: #f1f8f7;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.052em;
+  font-weight: 640;
+}
+
+.docHero > p,
+.docArticleHeader > p {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: #95a4a1;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.docStatusRow {
+  margin-top: 34px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.docStatus {
+  padding: 7px 10px;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 9px;
+  color: #778683;
+  background: rgba(255, 255, 255, 0.025);
+  font-size: 10px;
+}
+
+.docStatus strong {
+  color: #a8f7ed;
+  font-weight: 700;
+}
+
+.docCardGrid {
+  margin-top: 58px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.docCard {
+  min-height: 190px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.024), transparent),
+    #0a0f11;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+
+.docCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(4, 248, 219, 0.16);
+}
+
+.docCard > span {
+  color: #53625f;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+}
+
+.docCard h2 {
+  margin: auto 0 8px;
+  color: #e6f0ee;
+  font-size: 19px;
+  letter-spacing: -0.025em;
+}
+
+.docCard p {
+  margin: 0;
+  color: #71807d;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.docSection {
+  margin-top: 64px;
+}
+
+.docSection h2 {
+  margin: 0 0 18px;
+  color: #e9f3f1;
+  font-size: 29px;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  font-weight: 620;
+}
+
+.docSection h3 {
+  margin: 34px 0 12px;
+  color: #dfeae8;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.docSection p,
+.docSection li {
+  color: #91a09d;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.docSection p {
+  margin: 0 0 16px;
+}
+
+.docSection ul,
+.docSection ol {
+  padding-left: 22px;
+}
+
+.docSection li + li {
+  margin-top: 7px;
+}
+
+.docSection code:not(pre code) {
+  padding: 2px 6px;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 6px;
+  color: #b9eee7;
+  background: rgba(255, 255, 255, 0.035);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.86em;
+}
+
+.docDivider {
+  height: 1px;
+  margin: 64px 0;
+  border: 0;
+  background: rgba(238, 248, 246, 0.08);
+}
+
+.docCode {
+  margin: 20px 0 28px;
+  overflow: hidden;
+  border: 1px solid rgba(238, 248, 246, 0.09);
+  border-radius: 14px;
+  background: #050809;
+}
+
+.docCodeBar {
+  height: 34px;
+  padding-inline: 14px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(238, 248, 246, 0.07);
+}
+
+.docCodeBar span {
+  color: #4f5d5a;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.docCode pre {
+  margin: 0;
+  padding: 18px;
+  overflow-x: auto;
+}
+
+.docCode code {
+  color: #b7c7c4;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.docCallout {
+  margin: 24px 0;
+  padding: 18px 20px;
+  border: 1px solid rgba(238, 248, 246, 0.09);
+  border-left-width: 2px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.docCallout > strong {
+  display: block;
+  margin-bottom: 7px;
+  color: #dce8e5;
+  font-size: 11px;
+}
+
+.docCallout > div,
+.docCallout p {
+  margin: 0;
+  color: #84928f;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.docCallout-note {
+  border-left-color: #4c8a98;
+}
+
+.docCallout-important {
+  border-left-color: #d29b6b;
+}
+
+.docCallout-safe {
+  border-left-color: #04f8db;
+}
+
+.docFlow {
+  margin: 28px 0 34px;
+  display: grid;
+  gap: 8px;
+}
+
+.docFlowNode {
+  min-height: 78px;
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 12px;
+  background: #0a0f11;
+}
+
+.docFlowNode > span {
+  color: #4e605c;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+}
+
+.docFlowNode strong {
+  display: block;
+  color: #dae6e3;
+  font-size: 13px;
+}
+
+.docFlowNode p {
+  margin: 3px 0 0;
+  color: #64736f;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.docFlowArrow {
+  height: 14px;
+  margin-left: 36px;
+  border-left: 1px solid rgba(4, 248, 219, 0.18);
+}
+
+.docDefinitionGrid {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  border-top: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docDefinitionGrid dt,
+.docDefinitionGrid dd {
+  margin: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docDefinitionGrid dt {
+  padding-right: 24px;
+  color: #c8d4d1;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.docDefinitionGrid dd {
+  color: #758481;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.docPageFooter {
+  margin-top: 80px;
+  padding-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  border-top: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docPageFooterItem {
+  min-height: 82px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(238, 248, 246, 0.07);
+  border-radius: 12px;
+  background: rgba(255,255,255,.018);
+}
+
+.docPageFooterItem span {
+  color: #4f5e5b;
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.docPageFooterItem strong {
+  margin-top: 6px;
+  color: #aebdba;
+  font-size: 11px;
+}
+
+.docPageFooterNext {
+  text-align: right;
+}
+
+.docsMobileNav {
+  display: none;
+}
+
+@media (max-width: 920px) {
+  .docsFrame {
+    display: block;
+  }
+
+  .docsSidebar {
+    display: none;
+  }
+
+  .docsMobileNav {
+    display: block;
+    position: sticky;
+    z-index: 35;
+    top: 64px;
+    border-bottom: 1px solid rgba(238,248,246,.07);
+    background: rgba(7, 11, 13, .94);
+    backdrop-filter: blur(16px);
+  }
+
+  .docsMobileNav > details {
+    width: min(calc(100% - 32px), 860px);
+    margin-inline: auto;
+  }
+
+  .docsMobileNav summary {
+    padding: 13px 0;
+    color: #8c9a97;
+    cursor: pointer;
+    font-size: 11px;
+  }
+
+  .docsMobileNav details > div {
+    padding: 0 0 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .docsMobileNav section {
+    display: grid;
+    gap: 7px;
+  }
+
+  .docsMobileNav section strong {
+    color: #52615e;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+
+  .docsMobileNav section a {
+    color: #a5b3b0;
+    font-size: 11px;
+  }
+
+  .docsContent {
+    width: min(calc(100% - 32px), 860px);
+    margin-inline: auto;
+    padding: 58px 0 100px;
+  }
+}
+
+@media (max-width: 620px) {
+  .docsHeaderInner {
+    width: calc(100% - 24px);
+  }
+
+  .docsHeaderActions .docsVersion {
+    display: none;
+  }
+
+  .docsMobileNav details > div {
+    grid-template-columns: 1fr;
+  }
+
+  .docsContent {
+    width: calc(100% - 24px);
+    padding-top: 44px;
+  }
+
+  .docHero h1,
+  .docArticle h1 {
+    font-size: 44px;
+  }
+
+  .docCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .docDefinitionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .docDefinitionGrid dt {
+    padding-bottom: 3px;
+    border-bottom: 0;
+  }
+
+  .docDefinitionGrid dd {
+    padding-top: 3px;
+  }
+
+  .docPageFooter {
+    grid-template-columns: 1fr;
+  }
+
+  .docPageFooterNext {
+    text-align: left;
+  }
+}
+
+/* Documentation Phase 2A — workflow visuals */
+
+.docVisual {
+  margin: 30px 0 36px;
+  overflow: hidden;
+  border: 1px solid rgba(238, 248, 246, 0.09);
+  border-radius: 18px;
+  background: #080d0f;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.docVisual img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.docVisual figcaption {
+  padding: 12px 16px;
+  border-top: 1px solid rgba(238, 248, 246, 0.07);
+  color: #687774;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.docSurfaceGrid {
+  margin: 24px 0 34px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.docSurfaceCard {
+  min-height: 148px;
+  padding: 18px;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 13px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.02), transparent),
+    #090e10;
+}
+
+.docSurfaceCard > span {
+  color: #04f8db;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+}
+
+.docSurfaceCard h3 {
+  margin: 34px 0 7px;
+  color: #dce8e5;
+  font-size: 15px;
+}
+
+.docSurfaceCard p {
+  margin: 0;
+  color: #6f7e7b;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.docPath {
+  margin: 18px 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(238, 248, 246, 0.07);
+  border-radius: 10px;
+  color: #83a49f;
+  background: rgba(255,255,255,.02);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 620px) {
+  .docSurfaceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Documentation Phase 4B — search, active navigation, accessibility, closure */
+
+.docsSrOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.docsSkipLink {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  left: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(4, 248, 219, 0.35);
+  border-radius: 10px;
+  color: #d8fffa;
+  background: #071113;
+  font-size: 11px;
+  font-weight: 700;
+  transform: translateY(-150%);
+  transition: transform 140ms ease;
+}
+
+.docsSkipLink:focus {
+  transform: translateY(0);
+}
+
+.docsHeaderInner {
+  grid-template-columns: minmax(180px, 1fr) minmax(260px, 520px) minmax(180px, 1fr);
+  display: grid;
+}
+
+.docsHeaderCenter {
+  min-width: 0;
+}
+
+.docsHeaderActions {
+  justify-self: end;
+}
+
+.docsSearchTrigger {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px 0 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid rgba(238, 248, 246, 0.085);
+  border-radius: 10px;
+  color: #73827f;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  text-align: left;
+  transition:
+    border-color 140ms ease,
+    color 140ms ease,
+    background 140ms ease;
+}
+
+.docsSearchTrigger:hover {
+  color: #a9bbb7;
+  border-color: rgba(4, 248, 219, 0.16);
+  background: rgba(4, 248, 219, 0.03);
+}
+
+.docsSearchTrigger kbd {
+  min-width: 24px;
+  height: 22px;
+  padding-inline: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(238, 248, 246, 0.09);
+  border-radius: 6px;
+  color: #61716e;
+  background: rgba(255, 255, 255, 0.025);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 9px;
+}
+
+.docsNavSection a[aria-current="page"] {
+  background:
+    linear-gradient(90deg, rgba(4, 248, 219, 0.075), transparent 82%);
+  box-shadow: inset 2px 0 0 rgba(4, 248, 219, 0.65);
+}
+
+.docsNavSection a[aria-current="page"] span {
+  color: #d7fbf6;
+}
+
+.docsNavSection a[aria-current="page"] small {
+  color: #75938e;
+}
+
+.docsSearchBackdrop {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  padding: min(14vh, 120px) 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: rgba(1, 4, 5, 0.72);
+  backdrop-filter: blur(15px) saturate(115%);
+}
+
+.docsSearchDialog {
+  width: min(680px, 100%);
+  overflow: hidden;
+  border: 1px solid rgba(238, 248, 246, 0.13);
+  border-radius: 18px;
+  background: #090e10;
+  box-shadow:
+    0 36px 110px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.docsSearchInputRow {
+  min-height: 62px;
+  padding: 0 14px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docsSearchInputRow > span {
+  color: #6e827e;
+  font-size: 18px;
+}
+
+.docsSearchInputRow input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #eaf5f3;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+}
+
+.docsSearchInputRow input::placeholder {
+  color: #56635f;
+}
+
+.docsSearchClose {
+  height: 30px;
+  padding-inline: 9px;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 7px;
+  color: #6c7a77;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  font: inherit;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.docsSearchResults {
+  max-height: min(55vh, 520px);
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.docsSearchResult {
+  width: 100%;
+  min-height: 74px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3px 16px;
+  border: 0;
+  border-radius: 10px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.docsSearchResult:hover,
+.docsSearchResultActive {
+  background: rgba(4, 248, 219, 0.055);
+}
+
+.docsSearchResultSection {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  color: #53635f;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docsSearchResult strong {
+  grid-column: 1;
+  color: #d9e6e3;
+  font-size: 12px;
+}
+
+.docsSearchResult small {
+  grid-column: 1;
+  color: #697774;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.docsSearchEmpty {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  color: #687572;
+  font-size: 11px;
+  text-align: center;
+}
+
+.docsSearchFooter {
+  min-height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid rgba(238, 248, 246, 0.07);
+  color: #4e5b58;
+  font-size: 8px;
+}
+
+.docsSearchHint {
+  margin-top: 22px;
+  width: fit-content;
+  padding: 9px 11px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(238, 248, 246, 0.075);
+  border-radius: 9px;
+  color: #56635f;
+  background: rgba(255, 255, 255, 0.018);
+  font-size: 9px;
+}
+
+.docsSearchHint strong {
+  color: #81928e;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-weight: 500;
+}
+
+.docsJourneySection {
+  margin-top: 56px;
+}
+
+.docsJourneyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.docsJourneyCard {
+  min-height: 230px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(238, 248, 246, 0.08);
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.024), transparent),
+    #090e10;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.docsJourneyCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(4, 248, 219, 0.17);
+  background:
+    linear-gradient(145deg, rgba(4,248,219,.035), transparent 55%),
+    #090e10;
+}
+
+.docsJourneyCard > span {
+  color: #53635f;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+}
+
+.docsJourneyCard h3 {
+  margin: 54px 0 10px;
+  color: #e3eeec;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+
+.docsJourneyCard p {
+  margin: 0;
+  color: #75837f;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.docsJourneyCard small {
+  margin-top: auto;
+  padding-top: 22px;
+  color: #5b6a67;
+  font-size: 9px;
+}
+
+.docsMap {
+  margin-top: 26px;
+  border-top: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docsMapSection {
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 30px;
+  border-bottom: 1px solid rgba(238, 248, 246, 0.08);
+}
+
+.docsMapSection > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.docsMapSection > header h3 {
+  margin: 0;
+  color: #aab8b5;
+  font-size: 12px;
+}
+
+.docsMapSection > header span {
+  color: #4f5d5a;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 8px;
+}
+
+.docsMapSection > div {
+  display: grid;
+  gap: 4px;
+}
+
+.docsMapSection a {
+  padding: 9px 11px;
+  display: grid;
+  gap: 3px;
+  border-radius: 8px;
+}
+
+.docsMapSection a:hover {
+  background: rgba(255,255,255,.025);
+}
+
+.docsMapSection a strong {
+  color: #b7c5c2;
+  font-size: 11px;
+}
+
+.docsMapSection a small {
+  color: #5f6d6a;
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.docsApp a:focus-visible,
+.docsApp button:focus-visible,
+.docsApp summary:focus-visible,
+.docsApp input:focus-visible,
+.docsContent:focus-visible {
+  outline: 2px solid rgba(4, 248, 219, 0.72);
+  outline-offset: 3px;
+}
+
+.docsContent:focus-visible {
+  border-radius: 8px;
+}
+
+@media (max-width: 920px) {
+  .docsHeaderInner {
+    grid-template-columns: auto minmax(180px, 1fr) auto;
+  }
+
+  .docsGithubLink {
+    display: none;
+  }
+
+  .docsSearchTrigger span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .docsMapSection {
+    grid-template-columns: 145px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .docsHeaderInner {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .docsHeaderCenter {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .docsHeaderActions {
+    display: none;
+  }
+
+  .docsBrand i,
+  .docsBrand strong {
+    display: none;
+  }
+
+  .docsSearchTrigger {
+    min-height: 36px;
+  }
+
+  .docsSearchTrigger kbd {
+    display: none;
+  }
+
+  .docsSearchBackdrop {
+    padding: 76px 10px 10px;
+  }
+
+  .docsSearchDialog {
+    border-radius: 14px;
+  }
+
+  .docsSearchFooter {
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-block: 8px;
+  }
+
+  .docsJourneyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .docsMapSection {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .docsMapSection > header {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docsSkipLink,
+  .docsJourneyCard,
+  .docsSearchTrigger {
+    transition: none;
+  }
+}
+
+/* NYVOREL DOCS READABILITY POLISH V1
+   Visual alignment with the polished landing; no documentation contract changes. */
+
+.docsContent {
+  width: min(100%, 1040px);
+  padding: 72px 72px 120px;
+}
+
+.docsNavSection h2 {
+  color: #5f706c;
+  font-size: 9.5px;
+}
+
+.docsNavSection a span {
+  color: #c2cfcc;
+  font-size: 12.5px;
+}
+
+.docsNavSection a small {
+  color: #687773;
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
+.docsSidebarFoot span {
+  color: #5b6a67;
+}
+
+.docsSidebarFoot a {
+  color: #81908c;
+}
+
+.docHero > p,
+.docArticleHeader > p {
+  color: #9eadaa;
+}
+
+.docStatus {
+  color: #84928f;
+}
+
+.docsSearchHint {
+  color: #687773;
+  font-size: 9.5px;
+}
+
+.docsJourneyCard p {
+  color: #82908d;
+  font-size: 12px;
+}
+
+.docsJourneyCard small {
+  color: #6b7976;
+  font-size: 9.5px;
+}
+
+.docsMapSection a strong {
+  color: #c0cdca;
+  font-size: 11.5px;
+}
+
+.docsMapSection a small {
+  color: #6d7b78;
+  font-size: 9.5px;
+}
+
+.docsSearchResult small {
+  color: #75827f;
+  font-size: 9.5px;
+}
+
+@media (max-width: 920px) {
+  .docsContent {
+    width: min(calc(100% - 32px), 900px);
+    padding: 58px 0 100px;
+  }
+}
+
+@media (max-width: 620px) {
+  .docsContent {
+    width: calc(100% - 24px);
+    padding: 44px 0 88px;
+  }
+
+  .docsNavSection a small {
+    font-size: 10px;
+  }
+}
