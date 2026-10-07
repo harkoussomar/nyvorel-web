@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "systemd integration",
   description:
     "How Nyvorel installs and activates user services, path units, runtime monitoring, and Quickshell lifecycle ownership.",
+  alternates: { canonical: "/docs/reference/systemd-integration" },
 };
 
 const pathUnits = [

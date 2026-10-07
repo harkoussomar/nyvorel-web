@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { CopyCommand } from "@/components/copy-command";
 import { project } from "@/lib/project";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const featureCards = [
   {

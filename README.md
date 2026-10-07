@@ -1,6 +1,8 @@
 # Nyvorel Web
 
-Official website and future documentation application for Nyvorel Shell.
+Official website and documentation application for **Nyvorel Shell**.
+
+**Live site:** https://nyvorel-web.vercel.app
 
 ## Local development
 
@@ -13,16 +15,28 @@ pnpm dev
 
 ```sh
 pnpm lint
+pnpm exec tsc --noEmit
 pnpm build
 ```
 
 ## Structure
 
-- `src/app/page.tsx` — marketing landing page
-- `src/app/globals.css` — brand and responsive design system
+- `src/app/page.tsx` — Nyvorel landing page
+- `src/app/docs/` — documentation routes
+- `src/app/sitemap.ts` — production sitemap
+- `src/app/robots.ts` — crawler policy
+- `src/app/globals.css` — landing design system
+- `src/app/docs/docs.css` — documentation design system
 - `src/components/` — reusable interactive pieces
-- `src/lib/project.ts` — project URLs and release metadata
+- `src/lib/project.ts` — Nyvorel project/release metadata
+- `src/lib/docs-navigation.ts` — documentation information architecture
 - `public/brand/` — Nyvorel visual identity
 - `public/showcase/` — real Nyvorel screenshots
 
-The documentation application will be added after the landing page is approved.
+## Deployment
+
+The `main` branch is connected to Vercel and automatically deploys to Production.
+
+Production domain: https://nyvorel-web.vercel.app
+
+The website documents Nyvorel v0.1.0 and links to the public Nyvorel source repository and release.

@@ -7,6 +7,7 @@ import { PageFooter } from "@/components/docs/page-footer";
 export const metadata: Metadata = {
   title: "Install",
   description: "Preview, install, and activate Nyvorel safely.",
+  alternates: { canonical: "/docs/getting-started/install" },
 };
 
 export default function InstallPage() {

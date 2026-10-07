@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Settings",
   description:
     "Navigate Nyvorel Settings and understand its Quick, General, Bar, Background, Interface, Services, Advanced, and About sections.",
+  alternates: { canonical: "/docs/workflows/settings" },
 };
 
 const sections = [

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Backup & Recovery",
   description:
     "Understand Nyvorel protection state, Restic backups, Timeshift restore points, disk health, and recovery readiness.",
+  alternates: { canonical: "/docs/workflows/backup-recovery" },
 };
 
 const areas = [

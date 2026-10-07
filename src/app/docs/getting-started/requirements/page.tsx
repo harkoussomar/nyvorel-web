@@ -6,6 +6,7 @@ import { PageFooter } from "@/components/docs/page-footer";
 export const metadata: Metadata = {
   title: "Requirements",
   description: "What Nyvorel v0.1.0 expects before installation.",
+  alternates: { canonical: "/docs/getting-started/requirements" },
 };
 
 export default function RequirementsPage() {

@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Repository map",
   description:
     "Map Nyvorel's public source roots to their responsibilities and installed destinations.",
+  alternates: { canonical: "/docs/reference/repository-map" },
 };
 
 const roots = [

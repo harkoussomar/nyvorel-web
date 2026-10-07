@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Project Launcher",
   description:
     "Discover Nyvorel project categories, inspect project metadata, and launch editors or terminals.",
+  alternates: { canonical: "/docs/workflows/project-launcher" },
 };
 
 const previewData = [

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Theme synchronization",
   description:
     "How Nyvorel propagates generated palette and interface-style changes to terminal, KDE, Zed, btop, Fuzzel, Zen, and VS Code.",
+  alternates: { canonical: "/docs/reference/theme-synchronization" },
 };
 
 const targets = [

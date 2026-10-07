@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Contributing",
   description:
     "Nyvorel contribution workflow, source boundaries, portability rules, and minimum validation.",
+  alternates: { canonical: "/docs/project/contributing" },
 };
 
 const workflow = [

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Recovery",
   description:
     "Uninstall Nyvorel safely, restore pre-install files, and protect user edits.",
+  alternates: { canonical: "/docs/getting-started/recovery" },
 };
 
 export default function RecoveryPage() {

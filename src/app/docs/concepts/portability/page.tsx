@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Portability",
   description:
     "How Nyvorel keeps public source independent from maintainer-local paths and runtime state.",
+  alternates: { canonical: "/docs/concepts/portability" },
 };
 
 export default function PortabilityPage() {

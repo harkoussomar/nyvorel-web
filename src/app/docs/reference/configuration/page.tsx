@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Configuration model",
   description:
     "How Nyvorel stores persistent configuration, derives XDG paths, watches changes, and reloads external writes.",
+  alternates: { canonical: "/docs/reference/configuration" },
 };
 
 const namespaces = [

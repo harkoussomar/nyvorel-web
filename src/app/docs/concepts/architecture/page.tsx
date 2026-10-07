@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Architecture",
   description:
     "How Hyprland, systemd user services, Quickshell, and Nyvorel modules divide ownership.",
+  alternates: { canonical: "/docs/concepts/architecture" },
 };
 
 const flow = [

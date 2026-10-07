@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Troubleshooting",
   description:
     "Troubleshoot Nyvorel installation, activation, Quickshell lifecycle, and recovery failures using the project's published contracts.",
+  alternates: { canonical: "/docs/troubleshooting" },
 };
 
 export default function TroubleshootingPage() {

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Runtime lifecycle",
   description:
     "How Hyprland starts Nyvorel, systemd owns the process, and Quickshell builds the runtime.",
+  alternates: { canonical: "/docs/reference/lifecycle" },
 };
 
 const startup = [

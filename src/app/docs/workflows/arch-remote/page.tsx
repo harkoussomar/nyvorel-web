@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Arch Remote",
   description:
     "Manage Nyvorel remote-access services, evidence, security, network exposure, phone access, logs, and power workflows.",
+  alternates: { canonical: "/docs/workflows/arch-remote" },
 };
 
 const pages = [

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Appearance Studio",
   description:
     "Use Nyvorel Appearance Studio to compose themes, wallpapers, interface settings, targets, and saved appearance states.",
+  alternates: { canonical: "/docs/workflows/appearance-studio" },
 };
 
 const pages = [

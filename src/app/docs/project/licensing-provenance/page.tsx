@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Licensing & provenance",
   description:
     "Understand Nyvorel's GPL-3.0 distribution, upstream derivation, third-party components, inherited assets, and trademark boundaries.",
+  alternates: { canonical: "/docs/project/licensing-provenance" },
 };
 
 const inventory = [

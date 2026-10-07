@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Operations Center",
   description:
     "Use Nyvorel Operations Center to inspect runtimes, jobs, attention items, and system health.",
+  alternates: { canonical: "/docs/workflows/operations-center" },
 };
 
 const tabs = [

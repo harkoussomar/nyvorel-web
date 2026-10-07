@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Shell surfaces",
   description:
     "Understand the Nyvorel bar, sidebars, desktop surfaces, overlays, and runtime modules.",
+  alternates: { canonical: "/docs/workflows/shell-surfaces" },
 };
 
 const surfaces = [

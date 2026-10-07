@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Documentation",
   description:
     "Navigate Nyvorel installation, user workflows, concepts, technical reference, project guidance, and troubleshooting.",
+  alternates: { canonical: "/docs" },
 };
 
 const journeys = [

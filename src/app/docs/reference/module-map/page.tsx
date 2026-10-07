@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Module map",
   description:
     "A source-level map of Nyvorel's Quickshell root, common layer, services, panel family, modules, settings, and helper backends.",
+  alternates: { canonical: "/docs/reference/module-map" },
 };
 
 const layers = [
