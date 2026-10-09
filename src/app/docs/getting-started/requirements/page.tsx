@@ -55,6 +55,25 @@ export default function RequirementsPage() {
       </section>
 
       <section className="docSection">
+        <h2>Tested compatibility limits</h2>
+        <p>
+          The clean-machine graphical check used Hyprland 0.56.2. Nyvorel
+          currently starts that version with its <code>hyprland.conf</code>;
+          Hyprland reports that <code>.conf</code> support will be removed in
+          0.57. Verify a newer Hyprland release against the Nyvorel checkout
+          before upgrading a working desktop.
+        </p>
+        <p>
+          The QEMU check used software rendering, so its high compositor CPU
+          use is not a hardware performance benchmark. Zed in the recommended
+          group needs a working Vulkan provider and may not launch with the
+          VM&apos;s llvmpipe renderer. GPU recording, display brightness, battery,
+          Bluetooth, and audio-device controls also depend on the machine&apos;s
+          hardware and installed services.
+        </p>
+      </section>
+
+      <section className="docSection">
         <h2>Release boundary</h2>
         <p>
           The minimal-Arch setup belongs to the development branch. The

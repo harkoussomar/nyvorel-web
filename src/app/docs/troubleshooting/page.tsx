@@ -103,6 +103,17 @@ journalctl --user -u nyvorel-quickshell.service -b`}</CodeBlock>
       </section>
 
       <section className="docSection">
+        <h2>A virtual machine is slow or Zed will not open</h2>
+        <p>
+          Software-rendered QEMU can keep Hyprland busy and is not a useful
+          desktop performance baseline. The recommended Zed package needs a
+          working Vulkan provider; llvmpipe in the clean test VM did not
+          provide a reliable Zed session. Check the selected driver and test
+          on the intended GPU before diagnosing Nyvorel as the cause.
+        </p>
+      </section>
+
+      <section className="docSection">
         <h2>Uninstall says there is no current installation</h2>
         <p>
           Normal recovery follows:
