@@ -15,7 +15,7 @@ const journeys = [
     number: "01",
     title: "Install Nyvorel",
     description:
-      "Check the target environment, preview the installer, activate intentionally, and understand recovery before changing your desktop.",
+      "Check minimal Arch requirements, review setup, start your first session, and understand recovery before changing your desktop.",
     href: "/docs/getting-started/requirements",
     detail: "Requirements → Install → Recovery",
   },
@@ -50,7 +50,7 @@ export default function DocumentationHome() {
 
   return (
     <article className="docHero docsOverview">
-      <p className="docEyebrow">Documentation · v0.1.0</p>
+      <p className="docEyebrow">Documentation · development branch</p>
       <h1>One map for the whole Nyvorel system.</h1>
       <p>
         Follow a user journey or go directly to the source-level reference.
@@ -65,7 +65,7 @@ export default function DocumentationHome() {
         </span>
         <span className="docStatus">Static / prerendered</span>
         <span className="docStatus">Source-grounded</span>
-        <span className="docStatus">Target: v0.1.0</span>
+        <span className="docStatus">Setup: development branch</span>
       </div>
 
       <div className="docsSearchHint">

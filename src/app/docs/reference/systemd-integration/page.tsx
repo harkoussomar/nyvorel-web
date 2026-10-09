@@ -54,9 +54,11 @@ export default function SystemdIntegrationPage() {
       <section className="docSection">
         <h2>Activation sequence</h2>
         <p>
-          A normal install does not activate services. With{" "}
-          <code>./install.sh --yes --activate</code>, the installer performs the
-          user-service activation sequence after files have been installed.
+          Minimal-Arch setup installs packages and files outside Hyprland.
+          At first graphical login, <code>nyvorel session</code> starts the
+          configured compositor and activation enables Nyvorel&apos;s user
+          services. On an already running session, use
+          <code>nyvorel activate --yes</code> to repeat activation.
         </p>
 
         <CodeBlock>{`systemctl --user daemon-reload

@@ -26,12 +26,12 @@ export const docsNavigation: readonly DocNavSection[] = [
       {
         title: "Requirements",
         href: "/docs/getting-started/requirements",
-        description: "What Nyvorel expects before installation.",
+        description: "What minimal Arch needs before Nyvorel setup.",
       },
       {
         title: "Install",
         href: "/docs/getting-started/install",
-        description: "Preview, install, and activate Nyvorel.",
+        description: "Plan packages, install Nyvorel, and start the first session.",
       },
       {
         title: "Recovery",

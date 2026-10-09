@@ -46,7 +46,7 @@ const architecture = [
 ] as const;
 
 const installCommand =
-  "git clone https://github.com/harkoussomar/nyvorel.git && cd nyvorel && ./install.sh --dry-run";
+  "git clone https://github.com/harkoussomar/nyvorel.git && cd nyvorel && ./setup.sh --plan";
 
 export default function Home() {
   return (
@@ -380,8 +380,9 @@ export default function Home() {
             <p className="eyebrow">Start safely</p>
             <h2>Preview first. Install second.</h2>
             <p>
-              Nyvorel {project.version} targets an existing Arch Linux +
-              Hyprland + Quickshell environment.
+              Development-branch setup prepares Nyvorel on an existing minimal
+              Arch installation. The immutable {project.version} release uses
+              the earlier file-only workflow.
             </p>
           </div>
 

@@ -6,7 +6,7 @@ import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
   title: "Install",
-  description: "Preview, install, and activate Nyvorel safely.",
+  description: "Plan and install Nyvorel on a minimal Arch system.",
   alternates: { canonical: "/docs/getting-started/install" },
 };
 
@@ -17,92 +17,90 @@ export default function InstallPage() {
         <p className="docEyebrow">Getting started · 02</p>
         <h1>Install Nyvorel</h1>
         <p>
-          The installer is designed around preview, backup, manifest creation,
-          and explicit activation. You can install the files without activating
-          the runtime services.
+          Start from a bootable minimal Arch installation and use the
+          development-branch checkout. Setup plans official packages, reviews
+          the pacman transaction, backs up user-file replacements, and prepares
+          the first desktop login.
         </p>
       </header>
 
       <section className="docSection">
-        <h2>1. Clone the repository</h2>
+        <h2>1. Clone and inspect</h2>
         <CodeBlock>{`git clone https://github.com/harkoussomar/nyvorel.git
-cd nyvorel`}</CodeBlock>
-      </section>
-
-      <section className="docSection">
-        <h2>2. Preview first</h2>
-        <p>The dry run changes no files.</p>
-        <CodeBlock>{`./install.sh --dry-run`}</CodeBlock>
-
-        <Callout title="Recommended first action" tone="safe">
-          Use the dry run to inspect the plan before Nyvorel touches your live
-          configuration.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>3. Install</h2>
-        <CodeBlock>{`./install.sh --yes`}</CodeBlock>
-
-        <p>The installer:</p>
-        <ul>
-          <li>
-            installs Quickshell source to{" "}
-            <code>~/.config/quickshell/nyvorel</code>;
-          </li>
-          <li>merges the published Hyprland tree into <code>~/.config/hypr</code>;</li>
-          <li>installs <code>nyvorel-*</code> helpers into <code>~/.local/bin</code>;</li>
-          <li>installs Fish and Kitty integration files;</li>
-          <li>
-            renders systemd templates into{" "}
-            <code>~/.config/systemd/user</code>;
-          </li>
-          <li>installs the Nyvorel application icon;</li>
-          <li>
-            materializes every public-source <code>@HOME@</code> token for the
-            target user;
-          </li>
-          <li>backs up each existing managed file before replacement;</li>
-          <li>
-            writes a machine-readable installation manifest beneath{" "}
-            <code>~/.local/state/nyvorel/installations/</code>.
-          </li>
-        </ul>
-
-        <Callout title="Installation does not imply activation">
-          <code>./install.sh --yes</code> installs the managed files but does
-          not activate Nyvorel services unless activation is explicitly
-          requested.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>4. Install and activate</h2>
-        <CodeBlock>{`./install.sh --yes --activate`}</CodeBlock>
+cd nyvorel
+./setup.sh --plan`}</CodeBlock>
         <p>
-          Activation reloads the systemd user manager, enables Nyvorel&apos;s
-          style-sync path units and Operations Center monitor, imports the
-          current Wayland/Hyprland session environment, and restarts{" "}
-          <code>nyvorel-quickshell.service</code>.
+          The plan changes no packages, services, or user files. Confirm that
+          <code>setup.sh</code> is present: the immutable v0.1.0 release uses
+          an earlier installation workflow.
+        </p>
+      </section>
+
+      <section className="docSection">
+        <h2>2. Select optional groups</h2>
+        <p>
+          Add <code>--with-recommended</code> for Zed, Kate, Ark, btop, and
+          desktop utilities; <code>--with-ocr-english</code> for English text
+          recognition; or <code>--with-recording</code> for GPU screen recording.
+          Run the plan with the same flags you intend to install.
+        </p>
+        <CodeBlock>{`./setup.sh --plan --with-recommended --with-ocr-english`}</CodeBlock>
+        <p>
+          Optional flags include <code>--enable-networkmanager</code>, which
+          enables and starts it, and <code>--vulkan-driver PACKAGE</code> for a
+          supported Vulkan provider when selecting the recommended group.
+          NVIDIA users must choose a compatible driver explicitly. See
+          <code>./setup.sh --help</code> for all options.
+        </p>
+      </section>
+
+      <section className="docSection">
+        <h2>3. Install from an interactive terminal</h2>
+        <CodeBlock>{`./setup.sh --install --yes`}</CodeBlock>
+        <p>
+          Setup uses a full <code>pacman -Syu</code> transaction from official
+          repositories. Review pacman&apos;s package list, download size, and
+          confirmation prompt in the terminal. <code>--yes</code> authorizes
+          Nyvorel setup; it does not bypass pacman&apos;s transaction review.
+          From SSH, allocate a PTY with <code>ssh -t</code>.
+        </p>
+        <Callout title="Existing personal configuration" tone="important">
+          Setup stops when managed destinations already exist. Review the
+          file-install preview, then rerun with <code>--replace-existing</code>
+          only when you want backed-up replacement. Use <code>--resume</code>
+          after an interrupted user-file setup.
+        </Callout>
+      </section>
+
+      <section className="docSection">
+        <h2>4. Start your first session</h2>
+        <p>
+          When setup finishes, return to a text console and start Hyprland
+          through Nyvorel. The session path activates the user services after
+          Wayland is available.
+        </p>
+        <CodeBlock>{`~/.local/bin/nyvorel session`}</CodeBlock>
+        <p>
+          A minimal Arch login shell may not include <code>~/.local/bin</code>
+          in its PATH, so use the full path on first login. Check readiness
+          outside the graphical session with
+          <code>~/.local/bin/nyvorel session --check</code> and
+          <code>~/.local/bin/nyvorel doctor --no-session</code>. You can add
+          <code>~/.local/bin</code> to your shell PATH for convenience later.
+          From a running desktop, use
+          <code>nyvorel doctor</code>. Setup does not enable a display manager,
+          VPN, remote-access service, or AUR helper.
         </p>
       </section>
 
       <section className="docSection">
         <h2>Installation state</h2>
-        <p>Each installation receives a timestamped state directory:</p>
-        <CodeBlock label="path">{`~/.local/state/nyvorel/installations/YYYYMMDD-HHMMSS/`}</CodeBlock>
-        <p>That state can contain:</p>
-        <ul>
-          <li>
-            <code>manifest.json</code> — destinations, source mapping,
-            installed checksums, pre-existing status, and lifecycle status;
-          </li>
-          <li><code>backup/</code> — original versions of replaced files;</li>
-          <li>
-            <code>uninstall-conflicts/</code> — changed files archived during
-            forced recovery, when applicable.
-          </li>
-        </ul>
+        <p>
+          The file installer records a manifest and original-file backups in
+          <code>~/.local/state/nyvorel/installations/</code>. First-run setup
+          also creates a recovery snapshot for its generated wallpaper and
+          palette. Keep these records until you have verified the desktop.
+        </p>
       </section>
 
       <PageFooter

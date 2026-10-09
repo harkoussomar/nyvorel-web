@@ -39,4 +39,6 @@ The `main` branch is connected to Vercel and automatically deploys to Production
 
 Production domain: https://nyvorel-web.vercel.app
 
-The website documents Nyvorel v0.1.0 and links to the public Nyvorel source repository and release.
+The website links to the immutable Nyvorel v0.1.0 release and documents the
+development-branch minimal-Arch setup separately. Publish the matching Nyvorel
+source before deploying updated installation guidance.

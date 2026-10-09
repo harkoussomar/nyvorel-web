@@ -18,43 +18,60 @@ export default function TroubleshootingPage() {
         <p className="docEyebrow">Project & support · 03</p>
         <h1>Troubleshooting</h1>
         <p>
-          Start from the boundary that failed: installation, activation,
-          Quickshell runtime, or recovery. Nyvorel&apos;s installer and
-          uninstaller deliberately stop before unsafe mutations when their
-          preconditions are not satisfied.
+          Start from the boundary that failed: package setup, user-file
+          installation, first login, Quickshell runtime, or recovery. Use the
+          development-branch setup on a minimal Arch installation.
         </p>
       </header>
 
       <section className="docSection">
-        <h2>Installation wants confirmation</h2>
+        <h2>Setup needs an interactive terminal</h2>
         <p>
-          If managed destinations already exist, Nyvorel requires an explicit
-          confirmation before replacing them.
+          Pacman must show its full-system-upgrade transaction and receive a
+          response. Run from a local console or use SSH with a PTY.
         </p>
-
-        <CodeBlock>{`./install.sh --dry-run
-./install.sh --yes`}</CodeBlock>
-
+        <CodeBlock>{`./setup.sh --plan
+./setup.sh --install --yes`}</CodeBlock>
         <p>
-          Review the dry-run plan first. Existing managed files are backed up
-          before replacement during the real install.
+          If an SSH connection reports no terminal, reconnect with
+          <code>ssh -t</code>. The plan itself is read-only and does not need a
+          PTY. Setup uses official pacman packages and no AUR helper.
         </p>
+      </section>
+
+      <section className="docSection">
+        <h2>Setup found existing personal files</h2>
+        <p>
+          Setup previews managed-file replacements and stops before replacing
+          them. Review the affected destinations and rerun only when you want
+          them backed up and replaced.
+        </p>
+        <CodeBlock>{`./setup.sh --install --yes --replace-existing`}</CodeBlock>
+        <Callout title="Keep the install backups" tone="important">
+          The file installer records original managed files under
+          <code>~/.local/state/nyvorel/installations/</code>.
+        </Callout>
+      </section>
+
+      <section className="docSection">
+        <h2>Packages installed, but setup stopped later</h2>
+        <p>
+          An interrupted user-file or first-run step can be resumed from the
+          same checkout. Do not rerun a completed setup as a fresh install.
+        </p>
+        <CodeBlock>{`./setup.sh --install --yes --resume
+~/.local/bin/nyvorel doctor --no-session`}</CodeBlock>
       </section>
 
       <section className="docSection">
         <h2>Files installed, but services are not active</h2>
         <p>
-          This is expected after <code>./install.sh --yes</code>. Activation is
-          separate by design.
+          Package and file setup runs outside the graphical session. Start
+          the first desktop from a text console; the session imports Wayland
+          state and activates Nyvorel&apos;s user services.
         </p>
-
-        <CodeBlock>{`./install.sh --yes --activate`}</CodeBlock>
-
-        <Callout title="Activation only applies to the current real HOME" tone="important">
-          The installer rejects <code>--activate</code> when{" "}
-          <code>--target-home</code> points at an alternate/sandbox home. Use
-          the non-activating path for sandbox installation tests.
-        </Callout>
+        <CodeBlock>{`~/.local/bin/nyvorel session --check
+~/.local/bin/nyvorel session`}</CodeBlock>
       </section>
 
       <section className="docSection">
@@ -70,25 +87,18 @@ export default function TroubleshootingPage() {
 journalctl --user -u nyvorel-quickshell.service -b`}</CodeBlock>
 
         <p>
-          If the graphical-session environment changed or Hyprland was
-          reloaded, use Nyvorel&apos;s normal shell-reload path:
+          If the graphical-session environment changed, use Nyvorel&apos;s
+          activation command inside the live Hyprland session:
         </p>
-
-        <CodeBlock>{`systemctl --user import-environment \
-  DISPLAY WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE \
-  XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
-
-hyprctl reload
-systemctl --user restart nyvorel-quickshell.service`}</CodeBlock>
+        <CodeBlock>{`nyvorel activate --yes`}</CodeBlock>
       </section>
 
       <section className="docSection">
         <h2>Activation reports no systemctl</h2>
         <p>
-          The installer treats missing <code>systemctl</code> as an activation
-          warning: files remain installed, but Nyvorel user services are not
-          activated. The supported target environment requires systemd user
-          services.
+          Nyvorel requires systemd user services for the supported desktop.
+          Confirm the account has a running systemd user manager and that the
+          graphical session was started using <code>nyvorel session</code>.
         </p>
       </section>
 
@@ -162,6 +172,8 @@ systemctl --user restart nyvorel-quickshell.service`}</CodeBlock>
         </p>
 
         <div className="docPath">
+          setup.sh
+          <br />
           INSTALL.md
           <br />
           install.sh

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 const roots = [
+  ["setup.sh", "Development-branch minimal-Arch package plan and user-file setup."],
   ["quickshell/", "Shell source: QML surfaces, services, assets, scripts, defaults, and panel families."],
   ["hypr/", "Hyprland configuration, rules, keybinds, scripts, monitors/workspaces, and session integration."],
   ["bin/", "Nyvorel command-line helpers and synchronization tools installed into the user PATH."],
@@ -108,7 +109,8 @@ export default function RepositoryMapPage() {
       <section className="docSection">
         <h2>Installer and uninstaller are part of the source contract</h2>
         <p>
-          <code>install.sh</code> maps the portable repository into a target
+          <code>setup.sh</code> selects official Arch packages and prepares
+          first-run state. <code>install.sh</code> maps the portable repository into a target
           home with backups, manifests, token rendering and optional activation.
           <code>uninstall.sh</code> consumes that recorded installation state to
           restore replaced files, remove Nyvorel-created files, and protect
@@ -116,6 +118,8 @@ export default function RepositoryMapPage() {
         </p>
 
         <div className="docPath">
+          setup.sh
+          <br />
           install.sh
           <br />
           uninstall.sh
