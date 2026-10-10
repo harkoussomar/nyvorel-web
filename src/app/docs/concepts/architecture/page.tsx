@@ -15,7 +15,11 @@ const guide: TechnicalGuide = {
   "concepts": [
     [
       "Session boundary",
-      "Hyprland is the Wayland compositor and reaches Nyvorel startup through its session configuration. It does not own the long-running Quickshell process after it delegates startup."
+      "Hyprland is the Wayland compositor. The published v0.1.0 tree starts Nyvorel from its .conf session config; the current development tree uses hyprland.lua and the nyvorel session launcher."
+    ],
+    [
+      "Configuration version boundary",
+      "The development branch uses Hyprland's native Lua API and was verified on 0.56.2. The immutable v0.1.0 release still uses .conf, and Hyprland 0.57 is not yet claimed as supported. Keep commands and files within the matching source version."
     ],
     [
       "Process boundary",
@@ -33,7 +37,7 @@ const guide: TechnicalGuide = {
   "steps": [
     [
       "Enter a Hyprland session",
-      "The published Hyprland exec-once imports the live display/session variables and starts the Quickshell user service."
+      "For v0.1.0, the installed Hyprland exec-once imports the live display/session variables and starts the Quickshell user service. In the development tree, nyvorel session starts Hyprland with hyprland.lua when available, then its Lua entry activates Nyvorel's user services."
     ],
     [
       "Start the shell process",
@@ -50,9 +54,14 @@ const guide: TechnicalGuide = {
   ],
   "contracts": [
     [
-      "Hyprland",
+      "Hyprland v0.1.0",
       "Compositor/session and initial service start",
       "hypr/hyprland/execs.conf"
+    ],
+    [
+      "Hyprland development",
+      "Native Lua entry and explicit session launcher",
+      "hypr/hyprland.lua; bin/nyvorel-session"
     ],
     [
       "systemd --user",
@@ -89,10 +98,13 @@ const guide: TechnicalGuide = {
   ],
   "cautions": [
     "Do not treat a healthy service as proof that every feature works. A service can be active while one optional integration is unavailable.",
-    "The v0.1.0 install does not bootstrap a complete Arch Linux desktop; use the Requirements and Install guides for the supported environment."
+    "The v0.1.0 install does not bootstrap a complete Arch Linux desktop; use the Requirements and Install guides for the supported environment.",
+    "The development setup.sh path targets minimal Arch, but it is not part of the immutable v0.1.0 release."
   ],
   "refs": [
     "hypr/hyprland/execs.conf",
+    "hypr/hyprland.lua",
+    "bin/nyvorel-session",
     "systemd/nyvorel-quickshell.service.in",
     "quickshell/shell.qml",
     "quickshell/panelFamilies/NyvorelFamily.qml"

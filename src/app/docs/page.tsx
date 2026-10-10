@@ -5,18 +5,18 @@ import { allDocs, docsNavigation } from "@/lib/docs-navigation";
 
 export const metadata: Metadata = {
   title: "Documentation",
-  description: "Install Nyvorel v0.1.0 safely, learn the desktop, find technical references, and recover from problems.",
+  description: "Install the current Nyvorel development desktop or stable v0.1.0, learn the shell, and recover safely.",
   alternates: { canonical: "/docs" },
 };
 
 const journeys = [
   {
     number: "01",
-    title: "Install the stable release",
+    title: "Install Nyvorel",
     description:
-      "Confirm the existing Arch, Hyprland, and Quickshell requirements; preview file changes; install deliberately; and verify the result.",
+      "Choose the current minimal-Arch development setup or the stable v0.1.0 path, review its plan, and verify the result.",
     href: "/docs/getting-started/requirements",
-    detail: "v0.1.0 · Requirements → Install → First launch",
+    detail: "Development or v0.1.0 · Requirements → Install → First launch",
   },
   {
     number: "02",
@@ -47,34 +47,44 @@ const journeys = [
 export default function DocumentationHome() {
   return (
     <article className="docHero docsOverview">
-      <p className="docEyebrow">Nyvorel documentation · Verified installation path: v0.1.0</p>
+      <p className="docEyebrow">Nyvorel documentation · Development setup + stable v0.1.0</p>
       <h1>Find your next step.</h1>
       <p>
-        Start with a goal, not a source directory. Install the stable release,
-        learn the shell one task at a time, or follow the technical references
-        when you want to understand the architecture.
+        Start with the source you intend to use. Set up the current development
+        desktop from minimal Arch, install the stable release onto an existing
+        desktop, or follow the technical references to understand the system.
       </p>
 
       <div className="docStatusRow">
         <span className="docStatus">Guides: <strong>{allDocs.length}</strong></span>
-        <span className="docStatus">Installation: tagged v0.1.0</span>
+        <span className="docStatus">Installation: development + tagged v0.1.0</span>
+        <span className="docStatus">Development: Hyprland Lua · 0.56.2</span>
         <span className="docStatus">Recovery-aware</span>
       </div>
 
       <section className="docSection">
         <h2>Which version are these instructions for?</h2>
         <p>
-          The Getting Started and Troubleshooting instructions here use the
-          published, immutable <strong>v0.1.0</strong> release. That version
-          installs onto a working Arch Linux + Hyprland + Quickshell desktop;
-          it is <em>not</em> a minimal-Arch bootstrapper. Development-branch
-          setup commands should not be mixed into this release journey.
+          Getting Started now presents two separate paths. The current
+          development checkout can provision a desktop from an already
+          installed minimal Arch system. The published, immutable
+          <strong> v0.1.0</strong> release installs onto an existing working
+          Arch Linux + Hyprland + Quickshell desktop.
         </p>
         <p>
-          Other workflow and reference articles may describe evolving source
-          behavior and are undergoing version-level editorial verification.
-          For release-specific operations, confirm the behavior against the
-          tagged <a href="https://github.com/harkoussomar/nyvorel/tree/v0.1.0" target="_blank" rel="noreferrer">v0.1.0 source</a>.
+          The current development setup is available from the public
+          <code> main</code> branch and uses Hyprland&apos;s native Lua
+          configuration on 0.56.2. Its
+          <code>nyvorel session</code> launcher prefers
+          <code>~/.config/hypr/hyprland.lua</code> when present and retains a
+          <code>.conf</code> fallback. This Lua path has been verified on
+          Hyprland 0.56.2; 0.57 is not yet claimed as supported.
+        </p>
+        <p>
+          Those development changes are not part of v0.1.0. The stable release
+          remains unchanged, so follow its installation and recovery guides
+          only with the tagged
+          <a href="https://github.com/harkoussomar/nyvorel/tree/v0.1.0" target="_blank" rel="noreferrer">v0.1.0 source</a>.
         </p>
       </section>
 
@@ -100,9 +110,15 @@ export default function DocumentationHome() {
       <section className="docSection">
         <h2>All documentation</h2>
         <p>
-          Browse by topic. The new first-launch guide is part of the stable
-          onboarding journey. Additional workflow and reference material will
-          receive the same source verification in subsequent phases.
+          Browse by topic. Getting Started labels the development and stable
+          commands separately. Troubleshooting remains release-scoped where
+          stated, and technical references identify the source they describe.
+        </p>
+        <p>
+          Workflow guides follow the current Nyvorel interface shown in their
+          screenshots. For a release-specific capability, the tagged
+          <a href="https://github.com/harkoussomar/nyvorel/tree/v0.1.0" target="_blank" rel="noreferrer">v0.1.0 source</a>
+          remains authoritative.
         </p>
         <div className="docsMap">
           {docsNavigation.map((section) => (

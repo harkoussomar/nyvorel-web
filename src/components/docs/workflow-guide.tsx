@@ -8,6 +8,7 @@ import { PageFooter } from "@/components/docs/page-footer";
 export type WorkflowGuideData = {
   order: string;
   title: string;
+  scope?: "release" | "development";
   intro: string;
   outcome: string;
   image: { src: string; alt: string; width: number; height: number } | null;
@@ -22,10 +23,12 @@ export type WorkflowGuideData = {
 };
 
 export function WorkflowGuide({ guide }: { guide: WorkflowGuideData }) {
+  const isDevelopmentGuide = guide.scope === "development";
+  const sourceRef = isDevelopmentGuide ? "main" : "v0.1.0";
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Using Nyvorel · {guide.order} · v0.1.0</p>
+        <p className="docEyebrow">Using Nyvorel · {guide.order} · {isDevelopmentGuide ? "Current development UI" : "v0.1.0"}</p>
         <h1>{guide.title}</h1>
         <p>{guide.intro}</p>
       </header>
@@ -35,11 +38,11 @@ export function WorkflowGuide({ guide }: { guide: WorkflowGuideData }) {
           <strong>What you will accomplish</strong>
           <p>{guide.outcome}</p>
         </div>
-        <Callout title="Applies to the published v0.1.0 shell">
-          Workflows below follow the published Nyvorel shell and its documented
-          user interfaces. Modules, controls and available integrations can
-          vary with configuration and hardware. This is not a minimal-Arch
-          bootstrap guide. Start with the <Link href="/docs/getting-started/requirements">requirements</Link>
+        <Callout title={isDevelopmentGuide ? "Current development interface" : "Applies to the published v0.1.0 shell"}>
+          {isDevelopmentGuide
+            ? "This guide and its screenshot follow the current development interface. Controls can change before release and may vary with configuration and hardware. The v0.1.0 install and recovery guides remain pinned to the published release. "
+            : "Workflows below follow the published Nyvorel shell and its documented user interfaces. Modules, controls and available integrations can vary with configuration and hardware. This is not a minimal-Arch bootstrap guide. "}
+          Start with the <Link href="/docs/getting-started/requirements">requirements</Link>
           or <Link href="/docs/getting-started/first-launch">first-launch guide</Link> if needed.
         </Callout>
       </section>
@@ -56,7 +59,7 @@ export function WorkflowGuide({ guide }: { guide: WorkflowGuideData }) {
               unoptimized
             />
           </a>
-          <figcaption><span>Real Nyvorel capture · Interface may vary with configuration.</span><a href={guide.image.src} target="_blank" rel="noreferrer">Open full resolution ↗</a></figcaption>
+          <figcaption><span>{isDevelopmentGuide ? "Current development UI capture · Controls may change before release." : "Published v0.1.0 capture · Interface may vary with configuration."}</span><a href={guide.image.src} target="_blank" rel="noreferrer">Open full resolution ↗</a></figcaption>
         </figure>
       )}
 
@@ -108,10 +111,10 @@ export function WorkflowGuide({ guide }: { guide: WorkflowGuideData }) {
 
       <section className="docSection">
         <h2>Source and next steps</h2>
-        <p>These are the relevant source entry points in the tagged <code>v0.1.0</code> shell. Use them for implementation detail, not as commands to run.</p>
+        <p>These are the relevant source entry points in the {isDevelopmentGuide ? "current development checkout" : "tagged v0.1.0 shell"}. Use them for implementation detail, not as commands to run.</p>
         <ul>
           {guide.source.map((path) => (
-            <li key={path}><a href={`https://github.com/harkoussomar/nyvorel/${path.endsWith("/") ? "tree" : "blob"}/v0.1.0/${path}`} target="_blank" rel="noreferrer"><code>{path}</code></a></li>
+            <li key={path}><a href={`https://github.com/harkoussomar/nyvorel/${path.endsWith("/") ? "tree" : "blob"}/${sourceRef}/${path}`} target="_blank" rel="noreferrer"><code>{path}</code></a></li>
           ))}
         </ul>
       </section>

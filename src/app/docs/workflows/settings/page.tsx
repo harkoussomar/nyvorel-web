@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Settings — Nyvorel v0.1.0",
+  title: "Settings — Current Nyvorel UI",
   description: "Find a setting, change it deliberately, and verify what happened.",
   alternates: { canonical: "/docs/workflows/settings" },
 };
 
 const guide: WorkflowGuideData = {
   "order": "01",
+  "scope": "development",
   "title": "Settings",
   "intro": "Use Nyvorel Settings when you want to change shell behavior, bar layout, background or integrations without editing QML by hand.",
   "outcome": "Locate a control in Settings, decide whether to change it, and confirm the result on the desktop.",
@@ -20,7 +21,7 @@ const guide: WorkflowGuideData = {
   "orient": [
     [
       "Quick",
-      "Frequent adjustments and appearance entry points."
+      "Fast access to wallpaper, appearance, display, and bar controls."
     ],
     [
       "General",
@@ -31,12 +32,24 @@ const guide: WorkflowGuideData = {
       "Location, display and behavior of the shell bar."
     ],
     [
-      "Background / Interface",
-      "Wallpaper and visual surface options."
+      "Background",
+      "Wallpaper and desktop background options."
     ],
     [
-      "Services / Advanced",
-      "Integrations and lower-level options; inspect before changing."
+      "Interface",
+      "Surface, motion, geometry, and interaction preferences."
+    ],
+    [
+      "Services",
+      "Desktop integrations and service behavior."
+    ],
+    [
+      "Advanced",
+      "Lower-level color-generation and system options; inspect before changing."
+    ],
+    [
+      "About",
+      "Live runtime versions, project links, and copyable diagnostics."
     ]
   ],
   "steps": [
@@ -47,7 +60,7 @@ const guide: WorkflowGuideData = {
     ],
     [
       "Find the control",
-      "Choose a section from the top tabs or compact navigation rail. When available, use the in-window search to locate a named control instead of scanning every page.",
+      "Choose Quick, General, Bar, Background, Interface, Services, Advanced, or About from the page tabs. The narrow rail opens search, favorites, recent items, and context controls; use search to jump to a named control.",
       "You reach a page that explains the control or highlights the matching setting."
     ],
     [

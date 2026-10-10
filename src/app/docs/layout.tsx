@@ -46,7 +46,7 @@ export default function DocsLayout({
           </div>
 
           <div className="docsHeaderActions">
-            <span className="docsVersion" title="Stable installation instructions use Nyvorel v0.1.0">Install guide: v0.1.0</span>
+            <span className="docsVersion" title="Separate instructions for the development candidate and stable v0.1.0">Install guide: two paths</span>
             <a
               className="docsGithubLink"
               href="https://github.com/harkoussomar/nyvorel"

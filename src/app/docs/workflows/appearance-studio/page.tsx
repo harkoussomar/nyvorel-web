@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Appearance Studio — Nyvorel v0.1.0",
+  title: "Appearance Studio — Current Nyvorel UI",
   description: "Personalize wallpaper, palette and interface—with a way back.",
   alternates: { canonical: "/docs/workflows/appearance-studio" },
 };
 
 const guide: WorkflowGuideData = {
   "order": "02",
+  "scope": "development",
   "title": "Appearance Studio",
   "intro": "Appearance Studio is a focused workflow for composing the visual identity of your desktop. Treat theme edits as a previewed change, not as a one-click irreversible transformation.",
   "outcome": "Choose a wallpaper-based theme, understand what will change, and keep or revert the result.",
@@ -20,7 +21,7 @@ const guide: WorkflowGuideData = {
   "orient": [
     [
       "Theme",
-      "Source, appearance mode and palette direction."
+      "Choose Wallpaper, Preset, Hybrid, or Custom as the source, then set a color scheme and light/dark mode."
     ],
     [
       "Wallpaper",
@@ -28,7 +29,7 @@ const guide: WorkflowGuideData = {
     ],
     [
       "Interface",
-      "Transparency, geometry, motion and surface treatment."
+      "Choose a complete interface style or refine transparency, geometry, and motion."
     ],
     [
       "Targets",
@@ -36,7 +37,7 @@ const guide: WorkflowGuideData = {
     ],
     [
       "Saved",
-      "Previously saved appearance compositions, when available."
+      "Reuse saved favorites and revisit recent appearance choices."
     ]
   ],
   "steps": [
@@ -47,13 +48,13 @@ const guide: WorkflowGuideData = {
     ],
     [
       "Choose the source",
-      "On Theme, select a wallpaper-driven palette or an available preset. Choose an appearance mode without changing multiple unrelated settings at once.",
-      "The editor shows the selected source and corresponding color direction."
+      "On Theme, choose Wallpaper, Preset, Hybrid, or Custom. Then select a light/dark mode and color scheme; for a custom palette, start with one seed color.",
+      "The editor shows the selected source and palette direction."
     ],
     [
       "Preview a controlled change",
-      "Select a different wallpaper or adjust one palette characteristic. Observe the editor preview and the affected shell surfaces.",
-      "The appearance preview changes; the rest of the desktop changes only when the applicable preview or apply behavior is used."
+      "Select a different wallpaper or adjust one palette characteristic, then use the preview action before committing the full appearance.",
+      "The candidate appearance is shown across the desktop. An unkept preview restores the previous appearance after 15 seconds; Escape also reverts it while the Studio is open."
     ],
     [
       "Review interface and targets",
@@ -62,8 +63,8 @@ const guide: WorkflowGuideData = {
     ],
     [
       "Keep or restore",
-      "Use the available Keep/Apply action when satisfied; otherwise use the revert/restore behavior provided by the current editor.",
-      "The desktop reflects the retained choice or returns to the previous known composition."
+      "Use Keep to commit the candidate when satisfied. Revert or Escape restores the previous composition; if the preview expires, it restores automatically.",
+      "The desktop reflects the retained choice or returns to the previous composition."
     ]
   ],
   "understand": [
@@ -76,8 +77,8 @@ const guide: WorkflowGuideData = {
       "Application integration depends on available apps and installed theme-sync services."
     ],
     [
-      "Preview is not the same as persist",
-      "A staged visual preview should not be assumed to be permanently saved until the UI confirms it."
+      "Preview is temporary",
+      "Keep commits a preview. If you leave it untouched, the 15-second timeout restores the saved composition."
     ]
   ],
   "issues": [

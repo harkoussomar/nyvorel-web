@@ -26,12 +26,12 @@ export const docsNavigation: readonly DocNavSection[] = [
       {
         title: "Requirements",
         href: "/docs/getting-started/requirements",
-        description: "Prerequisites for installing the stable v0.1.0 shell.",
+        description: "Compare the development minimal-Arch setup with stable v0.1.0 prerequisites.",
       },
       {
         title: "Install",
         href: "/docs/getting-started/install",
-        description: "Preview, install, and optionally activate the tagged v0.1.0 release.",
+        description: "Follow the current development setup or the separate tagged v0.1.0 path.",
       },
       {
         title: "First launch",

@@ -28,7 +28,9 @@ export default function TroubleshootingPage() {
       <Callout title="Use the matching source version" tone="important">
         These checks apply to the published v0.1.0 release. The commands
         <code>setup.sh</code>, development-only bootstrap flags, and newer
-        diagnostic subcommands are not assumed to exist in this release.
+        diagnostic subcommands are not assumed to exist in this release. For
+        the current minimal-Arch development workflow, use the
+        <Link href="/docs/getting-started/install"> development setup section</Link>.
       </Callout>
 
       <section className="docSection">

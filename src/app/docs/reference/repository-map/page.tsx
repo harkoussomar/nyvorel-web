@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const guide: TechnicalGuide = {
   "title": "Repository map",
-  "intro": "Start with the published tag, not an unreleased working tree. This page describes what v0.1.0 contains and where its installer places managed files.",
+  "intro": "Start with the published tag, not an unreleased working tree. This page maps v0.1.0 and calls out the current development differences so the two installation paths stay distinct.",
   "kind": "Technical reference",
   "number": "06",
   "concepts": [
@@ -20,6 +20,10 @@ const guide: TechnicalGuide = {
     [
       "No tagged setup.sh",
       "The published v0.1.0 release is not the later experimental minimal-Arch setup workflow. Do not instruct stable users to run ./setup.sh from this tag."
+    ],
+    [
+      "Current development tree",
+      "The development checkout includes setup.sh for a minimal-Arch system and a native hyprland.lua configuration. nyvorel session prefers that Lua entry when present, while retaining an explicit .conf fallback. The Lua setup was verified on Hyprland 0.56.2; it is not part of v0.1.0, and 0.57 is not yet claimed as supported."
     ],
     [
       "Managed vs user state",

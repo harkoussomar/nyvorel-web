@@ -6,8 +6,8 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
-  title: "First launch — Nyvorel v0.1.0",
-  description: "Confirm the shell is running and learn the primary Nyvorel surfaces after installation.",
+  title: "First launch — Nyvorel",
+  description: "Start the development desktop or verify a stable v0.1.0 service, then learn the primary Nyvorel surfaces.",
   alternates: { canonical: "/docs/getting-started/first-launch" },
 };
 
@@ -15,18 +15,34 @@ export default function FirstLaunchPage() {
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Getting started · 03 · Stable v0.1.0</p>
+        <p className="docEyebrow">Getting started · 03 · First session</p>
         <h1>Your first five minutes</h1>
         <p>
-          After installing and activating Nyvorel, confirm its service is
-          healthy, find the shell&apos;s key surfaces, and make one small change
-          you can easily reverse.
+          Start the session using the method for your installation, confirm the
+          shell is healthy, and find Nyvorel&apos;s key surfaces.
         </p>
       </header>
 
       <section className="docSection">
-        <h2>1. Check that the shell is active</h2>
-        <p>From a terminal in the running Hyprland session:</p>
+        <h2>1. Enter the desktop</h2>
+        <h3>Current development setup</h3>
+        <p>From the next local text login:</p>
+        <CodeBlock label="Text console">{`~/.local/bin/nyvorel session`}</CodeBlock>
+        <p>
+          This starts Hyprland with Nyvorel&apos;s configuration. The session then
+          activates the user services and Quickshell. If a display manager is
+          configured, you can select its installed Nyvorel session entry.
+        </p>
+        <h3>Stable v0.1.0</h3>
+        <p>
+          Start your existing Hyprland session after installing with activation,
+          or use the activation flow described in the stable install guide.
+        </p>
+      </section>
+
+      <section className="docSection">
+        <h2>2. Check that the shell is active</h2>
+        <p>From a terminal inside the running Hyprland session:</p>
         <CodeBlock label="Terminal · read-only">{`systemctl --user is-active nyvorel-quickshell.service
 systemctl --user --no-pager status nyvorel-quickshell.service`}</CodeBlock>
         <p>
@@ -38,7 +54,7 @@ systemctl --user --no-pager status nyvorel-quickshell.service`}</CodeBlock>
       </section>
 
       <section className="docSection">
-        <h2>2. Identify your shell surfaces</h2>
+        <h2>3. Identify your shell surfaces</h2>
         <p>
           Find the workspace bar and the visible system-state controls. Nyvorel
           includes sidebars, notifications, quick controls, and other Quickshell
@@ -53,7 +69,7 @@ systemctl --user --no-pager status nyvorel-quickshell.service`}</CodeBlock>
       </section>
 
       <section className="docSection">
-        <h2>3. Explore appearance without losing your current setup</h2>
+        <h2>4. Explore appearance without losing your current setup</h2>
         <p>
           Open the installed Settings or Appearance Studio surface using its
           available launcher/navigation controls. Inspect the current wallpaper
@@ -68,7 +84,7 @@ systemctl --user --no-pager status nyvorel-quickshell.service`}</CodeBlock>
       </section>
 
       <section className="docSection">
-        <h2>4. Locate help before you need it</h2>
+        <h2>5. Locate help before you need it</h2>
         <p>
           Nyvorel stores installation-state evidence under
           <code> ~/.local/state/nyvorel/installations/</code>. Keep that history

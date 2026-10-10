@@ -6,8 +6,8 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
-  title: "Requirements — v0.1.0",
-  description: "Check the supported environment and prerequisites for installing Nyvorel v0.1.0 safely.",
+  title: "Requirements — Nyvorel",
+  description: "Choose the current development setup or the stable v0.1.0 path and check its prerequisites.",
   alternates: { canonical: "/docs/getting-started/requirements" },
 };
 
@@ -15,23 +15,84 @@ export default function RequirementsPage() {
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Getting started · 01 · Stable v0.1.0</p>
+        <p className="docEyebrow">Getting started · 01 · Choose a source</p>
         <h1>Before you install</h1>
         <p>
-          Make sure your system is ready for Nyvorel. This guide applies to the
-          published <strong>v0.1.0</strong> release, which installs a desktop shell
-          onto an existing Arch Linux, Hyprland, and Quickshell environment.
+          Nyvorel has two distinct installation paths. The current development
+          setup can provision the desktop from a minimal Arch installation. The
+          immutable <strong>v0.1.0</strong> release expects Hyprland and
+          Quickshell to be working already.
         </p>
       </header>
 
-      <Callout title="This is not an Arch Linux installer" tone="important">
-        Nyvorel v0.1.0 does not install Arch Linux, Hyprland, Quickshell, or all
-        optional application packages for you. Do not follow minimal-Arch
-        development setup instructions for this tagged release.
+      <section className="docSection" aria-labelledby="setup-paths">
+        <h2 id="setup-paths">Choose your setup path</h2>
+        <Callout title="Stable release · existing desktop required" tone="safe">
+          The immutable <code>v0.1.0</code> release expects Arch Linux,
+          Hyprland, and Quickshell to be installed and working already. Continue
+          with the <Link href="/docs/getting-started/install">stable installation guide</Link>.
+        </Callout>
+        <Callout title="Current development · starts from minimal Arch" tone="important">
+          The development checkout&apos;s <code>setup.sh</code> installs
+          Hyprland, Quickshell, and Nyvorel&apos;s desktop packages. Start with
+          Arch Linux already installed, a working internet connection, and
+          configured <code>sudo</code>; run setup as your normal user, not root.
+          It does not partition disks or install Arch Linux. Continue to the
+          <Link href="/docs/getting-started/install"> development setup steps</Link>.
+        </Callout>
+      </section>
+
+      <Callout title="Arch must already be installed" tone="important">
+        Neither path partitions disks or installs Arch Linux. The development
+        setup installs the supported desktop package set. The v0.1.0 installer
+        installs only Nyvorel&apos;s managed user files and services.
       </Callout>
 
       <section className="docSection">
-        <h2>Supported starting environment</h2>
+        <h2>Current development starting environment</h2>
+        <dl className="docDefinitionGrid">
+          <dt>Distribution</dt><dd>Arch Linux</dd>
+          <dt>Starting point</dt><dd>A minimal installed system; Hyprland and Quickshell may be absent</dd>
+          <dt>Network</dt><dd>Working internet for official Arch packages and the default color environment</dd>
+          <dt>Account</dt><dd>A normal user with working <code>sudo</code>; do not run setup as root</dd>
+          <dt>Terminal</dt><dd>An interactive local terminal or SSH session with a PTY</dd>
+          <dt>Source</dt><dd>A complete current Nyvorel development checkout</dd>
+        </dl>
+        <p>
+          The default setup installs the supported core from official Arch
+          repositories, including Hyprland, Quickshell 0.3.2 or newer, portals,
+          audio, fonts, Kitty, Fish, Firefox, Dolphin, and the shell&apos;s runtime
+          tools. Editors, archive and monitoring tools, OCR, and screen
+          recording are opt-in groups. Missing optional tools affects only
+          their related features.
+        </p>
+        <Callout title="Existing network management is preserved" tone="safe">
+          NetworkManager is installed as part of the core package set, but the
+          setup does not enable or start it unless you explicitly select
+          <code> --enable-networkmanager</code>.
+        </Callout>
+        <p>
+          The native Lua session path has been verified with Hyprland 0.56.2.
+          Hyprland 0.57 is not yet claimed as supported on a released build.
+        </p>
+      </section>
+
+      <section className="docSection">
+        <h2>Check a development starting system</h2>
+        <p>Run these read-only checks as the user who will run Nyvorel:</p>
+        <CodeBlock label="Terminal · read-only">{`cat /etc/os-release
+id -u
+command -v sudo
+git --version`}</CodeBlock>
+        <p>
+          Confirm Arch Linux, a nonzero user ID, working <code>sudo</code>, and
+          Git. Hyprland, Quickshell, Python, and the remaining desktop packages
+          may be installed by <code>setup.sh</code>.
+        </p>
+      </section>
+
+      <section className="docSection">
+        <h2>Stable v0.1.0 starting environment</h2>
         <dl className="docDefinitionGrid">
           <dt>Distribution</dt><dd>Arch Linux</dd>
           <dt>Compositor</dt><dd>Hyprland (existing, working session)</dd>
@@ -39,37 +100,12 @@ export default function RequirementsPage() {
           <dt>Service manager</dt><dd>Working systemd user manager</dd>
           <dt>Runtime tools</dt><dd>Python 3 and standard GNU/Linux userland tools</dd>
           <dt>Account</dt><dd>Your normal desktop user; do not install from a root shell</dd>
-          <dt>Source</dt><dd>The immutable <code>v0.1.0</code> tag of the public Nyvorel repository</dd>
+          <dt>Source</dt><dd>The immutable <code>v0.1.0</code> tag</dd>
         </dl>
-        <p>
-          Extra integrations, including terminal, file manager, editor, media,
-          or remote-access tooling, may have additional dependencies. Missing
-          optional applications should not be confused with the core shell
-          prerequisites. Consult the module guide for the feature you plan to use.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Check your machine without changing it</h2>
-        <p>Run these checks as your intended desktop user:</p>
-        <CodeBlock label="Terminal · read-only">{`cat /etc/os-release
-command -v Hyprland
+        <CodeBlock label="Stable prerequisites · read-only">{`command -v Hyprland
 command -v qs
 command -v python3
-command -v systemctl
 systemctl --user --no-pager status`}</CodeBlock>
-        <p>
-          Expect an Arch Linux system and executable paths for the required
-          commands. The final check should contact your user systemd manager;
-          an inactive or failed service shown within that output is not by
-          itself evidence that the manager is unavailable.
-        </p>
-        <p>
-          In a running Hyprland desktop, <code>echo &quot;$XDG_SESSION_TYPE&quot;</code>
-          should normally report <code>wayland</code>. From SSH or a text console,
-          that variable may be unset even when Hyprland is installed; do not
-          mistake that for a failed prerequisite.
-        </p>
       </section>
 
       <section className="docSection">
@@ -82,26 +118,24 @@ systemctl --user --no-pager status`}</CodeBlock>
           console if the graphical session fails.
         </p>
         <Callout title="Use the dry run first" tone="safe">
-          The next guide starts with <code>./install.sh --dry-run</code>, which
-          previews managed-file changes before installation.
+          Development starts with <code>./setup.sh --plan</code>. Stable v0.1.0
+          starts with <code>./install.sh --dry-run</code>. Both show their file
+          or package plan before installation.
         </Callout>
       </section>
 
       <section className="docSection">
         <h2>Which installation guide applies to you?</h2>
         <p>
-          If you already have Arch Linux + Hyprland + Quickshell, continue to
-          the <Link href="/docs/getting-started/install">v0.1.0 installation guide</Link>.
-          If your computer has only a minimal Arch installation, this stable
-          release is not a complete setup path. Follow a development build only
-          when its specific source revision, dependencies, and commands have
-          been independently verified.
+          Continue to <Link href="/docs/getting-started/install">Install</Link>
+          and use the section matching your source. Do not run development
+          <code> setup.sh</code> commands from a v0.1.0 checkout.
         </p>
       </section>
 
       <PageFooter
         previous={{ href: "/docs", title: "Documentation" }}
-        next={{ href: "/docs/getting-started/install", title: "Install v0.1.0" }}
+        next={{ href: "/docs/getting-started/install", title: "Install" }}
       />
     </article>
   );

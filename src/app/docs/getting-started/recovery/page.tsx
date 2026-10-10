@@ -6,8 +6,8 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
-  title: "Recover or uninstall — v0.1.0",
-  description: "Preview Nyvorel recovery, restore pre-install files, and preserve later edits safely.",
+  title: "Recover or uninstall — Nyvorel",
+  description: "Preview Nyvorel recovery, restore pre-install files, and understand what development setup leaves installed.",
   alternates: { canonical: "/docs/getting-started/recovery" },
 };
 
@@ -15,10 +15,10 @@ export default function RecoveryPage() {
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Getting started · 04 · Stable v0.1.0</p>
+        <p className="docEyebrow">Getting started · 04 · Development and stable</p>
         <h1>Uninstall without losing your work</h1>
         <p>
-          The v0.1.0 uninstaller is manifest-backed. It restores managed files
+          Nyvorel&apos;s uninstaller is manifest-backed. It restores managed files
           that existed before Nyvorel and removes managed files that Nyvorel
           created. Start by inspecting the plan—especially if you edited your
           desktop after installation.
@@ -26,17 +26,20 @@ export default function RecoveryPage() {
       </header>
 
       <Callout title="Recover user files, not a whole operating system" tone="important">
-        This procedure does not revert Arch package upgrades, remove optional
-        packages, or restore unrelated data. Make a separate backup of any
-        important personal configuration before proceeding.
+        After development setup, uninstall does not reverse the
+        <code> pacman -Syu</code>, remove installed desktop packages, or undo an
+        explicitly enabled NetworkManager service. It recovers Nyvorel-managed
+        user files and services. Make a separate backup of important personal
+        configuration before proceeding.
       </Callout>
 
       <section className="docSection">
         <h2>1. Check the installation evidence</h2>
         <p>
-          Return to the <strong>same v0.1.0 source checkout</strong> used for
-          installation. Do not run an uninstaller from a different source
-          version against an unfamiliar manifest.
+          Return to the same source checkout used for installation: the matching
+          development checkout or the <strong>v0.1.0 source</strong>. Do not run
+          an uninstaller from a different source version against an unfamiliar
+          manifest.
         </p>
         <CodeBlock label="Terminal · read-only">{`cat "$HOME/.local/state/nyvorel/current-install"
 ls -ld "$HOME/.local/state/nyvorel/installations"`}</CodeBlock>
