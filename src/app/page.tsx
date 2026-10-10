@@ -1,455 +1,108 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
-import { CopyCommand } from "@/components/copy-command";
+import Link from "next/link";
+
 import { project } from "@/lib/project";
+import { AppearanceShowcase } from "@/components/landing/appearance-showcase";
+import { DesktopExplorer } from "@/components/landing/desktop-explorer";
+import { SiteHeader } from "@/components/landing/site-header";
+import "./landing.css";
+
+export const viewport: Viewport = { themeColor: "#f2efe8", colorScheme: "light" };
 
 export const metadata: Metadata = {
+  title: "Nyvorel — The Living Desktop",
+  description:
+    "Discover Nyvorel: a considered, personal Hyprland desktop shell built with Quickshell for Arch Linux. Explore authentic shell interfaces, appearance, and desktop workflows.",
   alternates: { canonical: "/" },
+  openGraph: {
+    title: "Nyvorel — The Living Desktop",
+    description: "Discover Nyvorel through authentic desktop views and a crafted, interactive product gallery.",
+    images: [{ url: "/showcase/v2/appearance-studio-theme-desktop.png", width: 1918, height: 1078, alt: "Actual Nyvorel desktop showing Appearance Studio" }],
+  },
 };
-
-const featureCards = [
-  {
-    number: "01",
-    title: "Shell that behaves like a system",
-    signal: "SHELL / SESSION",
-    copy:
-      "Workspace, session, media, notifications, utilities and desktop workflows live inside one coherent interaction model.",
-  },
-  {
-    number: "02",
-    title: "Appearance with intent",
-    signal: "PALETTE / SYNC",
-    copy:
-      "Wallpaper-aware palettes, theme modes and application synchronization keep the desktop visually connected instead of merely themed.",
-  },
-  {
-    number: "03",
-    title: "Operations within reach",
-    signal: "OPS / REMOTE",
-    copy:
-      "Nyvorel brings operational workflows such as recovery, remote access and system visibility into the shell itself.",
-  },
-  {
-    number: "04",
-    title: "Recovery is part of the design",
-    signal: "BACKUP / MANIFEST",
-    copy:
-      "The install model is backup-first, manifest-backed and built to preserve user edits rather than assuming configuration is disposable.",
-  },
-] as const;
-
-const architecture = [
-  ["01", "SESSION", "Hyprland", "Compositor & session"],
-  ["02", "LIFECYCLE", "systemd --user", "Lifecycle ownership"],
-  ["03", "RUNTIME", "Quickshell", "Nyvorel runtime"],
-  ["04", "EXPERIENCE", "Modules", "UI & workflows"],
-] as const;
-
-const installCommand =
-  "git clone https://github.com/harkoussomar/nyvorel.git && cd nyvorel && ./setup.sh --plan";
 
 export default function Home() {
   return (
-    <main>
-      <header className="siteHeader">
-        <div className="headerInner">
-          <a className="brand" href="#top" aria-label="Nyvorel home">
-            <Image
-              src="/brand/nyvorel.svg"
-              alt=""
-              width={34}
-              height={34}
-              priority
-            />
-            <span>Nyvorel</span>
-          </a>
-
-          <nav className="navLinks" aria-label="Primary navigation">
-            <a href="#experience">Experience</a>
-            <a href="#showcase">Showcase</a>
-            <a href="#architecture">Architecture</a>
-            <a href="#install">Install</a>
-          </nav>
-
-          <div className="headerActions">
-            <a className="headerDocs" href="/docs">
-              Docs
-            </a>
-            <a
-              className="headerCta"
-              href={project.repository}
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-      </header>
-
-      <section className="hero sectionShell" id="top">
-        <div className="heroGlow heroGlowA" />
-        <div className="heroGlow heroGlowB" />
-
-        <div className="heroCopy">
-          <a
-            className="releasePill"
-            href={project.release}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span className="releaseDot" />
-            {project.version} is live
-            <span aria-hidden="true">↗</span>
-          </a>
-
-          <p className="eyebrow">Hyprland · Quickshell · Arch Linux</p>
-
-          <h1>
-            Your desktop,
-            <span> shaped into a system.</span>
-          </h1>
-
-          <p className="heroLead">
-            Nyvorel is a cohesive desktop shell that brings appearance,
-            operations, recovery and session lifecycle into one deliberate
-            Hyprland experience.
-          </p>
-
-          <div className="heroActions">
-            <a className="button buttonPrimary" href="#showcase">
-              Explore Nyvorel
-              <span aria-hidden="true">↓</span>
-            </a>
-            <a
-              className="button buttonSecondary"
-              href={project.repository}
-              target="_blank"
-              rel="noreferrer"
-            >
-              View source
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-
-        <div className="heroStage" aria-label="Nyvorel desktop preview">
-          <div className="stageAura" />
-          <div className="screenFrame">
-            <div className="screenRail">
-              <span />
-              <span />
-              <span />
-              <div className="screenLabel">Nyvorel / desktop</div>
-            </div>
-            <Image
-              className="heroImage"
-              src="/showcase/hero-desktop.webp"
-              alt="Nyvorel desktop running on Hyprland"
-              width={1600}
-              height={899}
-              priority
-              sizes="(max-width: 900px) 96vw, 1200px"
-            />
-          </div>
-
-          <div className="stageSignals" aria-hidden="true">
-            <span>01 / shell</span>
-            <span>02 / workflows</span>
-            <span>03 / recovery</span>
-          </div>
-        </div>
-
-        <div className="platformStrip" aria-label="Nyvorel platform">
-          <span>Arch Linux</span>
-          <i />
-          <span>Hyprland</span>
-          <i />
-          <span>Quickshell</span>
-          <i />
-          <span>systemd --user</span>
-          <i />
-          <span>GPL-3.0</span>
-        </div>
-      </section>
-
-      <section className="sectionShell sectionBlock" id="experience">
-        <div className="sectionHeading">
-          <div>
-            <p className="eyebrow">One environment</p>
-            <h2>More than a theme. More than a dotfiles bundle.</h2>
-          </div>
-          <p>
-            Nyvorel treats the desktop as a connected product: shell surfaces,
-            services, appearance and recovery all share the same system
-            boundary.
-          </p>
-        </div>
-
-        <div className="featureGrid">
-          {featureCards.map((feature) => (
-            <article className="featureCard" key={feature.number}>
-              <div className="featureMeta">
-                <span className="featureNumber">{feature.number}</span>
-                <span className="featureSignal">{feature.signal}</span>
+    <div className="nv-root">
+      <a className="nv-a11y-skip" href="#nv-main">Skip to content</a>
+      <div className="grain" aria-hidden="true" />
+      <SiteHeader />
+      <main id="nv-main">
+        <section className="hero container" id="top" aria-labelledby="nv-hero-title">
+          <div className="hero-kicker thin"><span className="tiny-symbol" aria-hidden="true">✳</span> The living desktop <span className="muted">/ Nyvorel {project.version}</span></div>
+          <div className="hero-grid">
+            <div><h1 id="nv-hero-title">Make space<br />for <em>your</em><br />kind of work.</h1></div>
+            <div className="hero-right">
+              <p>Not another arrangement of windows. <strong>A desktop that feels considered</strong>—from the way it looks to the way everything comes together.</p>
+              <div className="hero-actions">
+                <a className="button button-dark" href="#explore">Explore the desktop <span className="arrow" aria-hidden="true">↗</span></a>
+                <a className="button button-ghost" href="#appearance">Make it yours <span className="arrow" aria-hidden="true">↗</span></a>
               </div>
-              <h3>{feature.title}</h3>
-              <p>{feature.copy}</p>
-              <div className="featureTrace" />
+            </div>
+          </div>
+          <div className="hero-footnote">
+            <div className="stack"><span>BUILT WITH INTENT</span><i /><span>ROOTED IN OPEN SOURCE</span><i /><span>MADE TO BE PERSONAL</span></div>
+            <div className="sound">SCROLL TO ENTER THE EXPERIENCE ↓</div>
+          </div>
+        </section>
+
+        <DesktopExplorer />
+
+        <section className="section container" id="appearance" aria-labelledby="nv-appearance-title">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span className="hairline" />02 / A little more you</div><h2 className="display-title" id="nv-appearance-title">The way it feels<br /><em>is yours to choose.</em></h2></div>
+            <p>Nyvorel&apos;s Appearance Studio brings wallpaper-driven palettes and interface choices together. A desktop can have its own character without giving up control.</p>
+          </div>
+          <AppearanceShowcase />
+        </section>
+
+        <div className="container"><div className="manifesto"><div className="smallside">03 / IN PRACTICE</div><blockquote>Beautiful enough to make you look.<br /><em>Considered enough to make you stay.</em></blockquote></div></div>
+
+        <section className="section container" id="features" aria-labelledby="nv-features-title">
+          <div className="section-heading">
+            <div><div className="eyebrow"><span className="hairline" />04 / Beyond a beautiful desktop</div><h2 className="display-title" id="nv-features-title">Made for the<br /><em>way you live in it.</em></h2></div>
+            <p>Behind the surface: actual settings, appearance controls, and operational workflows that belong to the same environment. No invented interface imagery.</p>
+          </div>
+          <div className="feature-list">
+            <article className="feature">
+              <div className="feature-img"><Image className="nv-feature-closeup" src="/showcase/v2/settings-appearance-overview.png" alt="Actual Nyvorel Settings interface showing appearance controls" width={1100} height={750} sizes="(max-width: 700px) 94vw, 48vw" unoptimized /></div>
+              <div className="feature-details"><div><h3>A place for the details.</h3><p>Refine how your environment looks and works without leaving the shell.</p><Link className="outline-link" href="/docs/workflows/settings">Explore the settings guide ↗</Link></div><span className="glyph" aria-hidden="true">↗</span></div>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="sectionShell sectionBlock showcase" id="showcase">
-        <div className="sectionHeading compactHeading">
-          <div>
-            <p className="eyebrow">Real surfaces</p>
-            <h2>The shell in motion.</h2>
+            <article className="feature">
+              <div className="feature-img"><Image className="nv-feature-closeup" src="/showcase/v2/appearance-studio-theme-editor.png" alt="Actual Nyvorel Appearance Studio theme editing controls" width={1128} height={728} sizes="(max-width: 700px) 94vw, 48vw" unoptimized /></div>
+              <div className="feature-details"><div><h3>Make the whole space yours.</h3><p>Choose an appearance source, adjust the tone, and shape your desktop character.</p><Link className="outline-link" href="/docs/workflows/appearance-studio">Explore Appearance Studio ↗</Link></div><span className="glyph" aria-hidden="true">↗</span></div>
+            </article>
           </div>
-          <p>
-            Every frame below is a real Nyvorel surface running on the desktop
-            — no product mockups.
-          </p>
-        </div>
+        </section>
 
-        <div className="showcaseGrid">
-          <a
-            className="shot shotLarge"
-            href="/docs/workflows/settings"
-            aria-label="Open Nyvorel Settings guide"
-          >
-            <div className="shotTopline">
-              <div>
-                <span>01</span>
-                <h3>Nyvorel Settings</h3>
-              </div>
-              <div className="shotMeta">
-                <p>Shell configuration without leaving the shell.</p>
-                <span className="shotGuide">Open guide →</span>
-              </div>
+        <section className="install" id="get" aria-labelledby="nv-get-title">
+          <div className="container">
+            <div className="section-heading">
+              <div><div className="eyebrow"><span className="hairline" />05 / Start with confidence</div><h2 className="display-title" id="nv-get-title">Your desktop.<br /><em>Your next chapter.</em></h2></div>
+              <p>Nyvorel {project.version} targets an existing Arch Linux, Hyprland, and Quickshell environment. Installation starts with understanding the requirements—not skipping them.</p>
             </div>
-            <Image
-              src="/showcase/settings-overview.webp"
-              alt="Nyvorel Settings"
-              width={1600}
-              height={899}
-              sizes="(max-width: 900px) 96vw, 760px"
-            />
-          </a>
-
-          <a
-            className="shot shotTall"
-            href="/docs/workflows/appearance-studio"
-            aria-label="Open Appearance Studio guide"
-          >
-            <div className="shotTopline">
-              <div>
-                <span>02</span>
-                <h3>Appearance Studio</h3>
-              </div>
-              <div className="shotMeta">
-                <p>Theme source, palette character and visual treatment.</p>
-                <span className="shotGuide">Open guide →</span>
-              </div>
+            <div className="steps">
+              <div className="step"><span className="step-num">01 / PREPARE</span><h3>Know your<br />starting point.</h3><p>Confirm the target environment and understand what is required before installation.</p></div>
+              <div className="step"><span className="step-num">02 / PREVIEW</span><h3>See before<br />you change.</h3><p>Use the documented dry run to inspect the installation plan before changing any managed files.</p></div>
+              <div className="step"><span className="step-num">03 / ACTIVATE</span><h3>Make it<br />your own.</h3><p>Follow the documented installation and explicit activation process, with recovery guidance close at hand.</p></div>
             </div>
-            <Image
-              src="/showcase/appearance-studio.webp"
-              alt="Nyvorel Appearance Studio"
-              width={1600}
-              height={898}
-              sizes="(max-width: 900px) 96vw, 760px"
-            />
-          </a>
-
-          <a
-            className="shot shotWide"
-            href="/docs/workflows/backup-recovery"
-            aria-label="Open Backup and Recovery guide"
-          >
-            <div className="shotTopline">
-              <div>
-                <span>03</span>
-                <h3>Backup &amp; Recovery</h3>
+            <div className="install-links">
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+                <Link className="button" href="/docs/getting-started/requirements">Read the installation guide <span className="arrow" aria-hidden="true">↗</span></Link>
+                <a className="other" href={project.release} target="_blank" rel="noopener noreferrer">View {project.version} on GitHub ↗</a>
               </div>
-              <div className="shotMeta">
-                <p>Protection state and recovery evidence as a desktop workflow.</p>
-                <span className="shotGuide">Open guide →</span>
-              </div>
-            </div>
-            <Image
-              src="/showcase/backup-recovery.webp"
-              alt="Nyvorel Backup and Recovery"
-              width={1600}
-              height={897}
-              sizes="(max-width: 900px) 96vw, 1200px"
-            />
-          </a>
-        </div>
-      </section>
-
-      <section className="sectionShell sectionBlock">
-        <div className="reliabilityPanel">
-          <div className="reliabilityCopy">
-            <p className="eyebrow">Reliability by design</p>
-            <h2>Install with a way back.</h2>
-            <p>
-              Nyvorel&apos;s public release model is intentionally recovery
-              oriented. Existing managed files are backed up, installed state is
-              recorded, and user changes are protected during uninstall.
-            </p>
-
-            <a className="textLink" href="/docs/getting-started/recovery">
-              Read the recovery guide
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <ol className="reliabilitySteps">
-            <li>
-              <span>01</span>
-              <div>
-                <strong>Preview</strong>
-                <p>Inspect the installation plan before changing anything.</p>
-              </div>
-            </li>
-            <li>
-              <span>02</span>
-              <div>
-                <strong>Back up</strong>
-                <p>Pre-existing managed files are preserved before replacement.</p>
-              </div>
-            </li>
-            <li>
-              <span>03</span>
-              <div>
-                <strong>Record</strong>
-                <p>A timestamped manifest tracks the installed state.</p>
-              </div>
-            </li>
-            <li>
-              <span>04</span>
-              <div>
-                <strong>Recover</strong>
-                <p>User-edited files are protected instead of overwritten.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <section
-        className="sectionShell sectionBlock architectureSection"
-        id="architecture"
-      >
-        <div className="sectionHeading">
-          <div>
-            <p className="eyebrow">Architecture</p>
-            <h2>Clear ownership from session to surface.</h2>
-          </div>
-          <p>
-            Hyprland starts the session. systemd owns the lifecycle. Quickshell
-            owns the runtime. Nyvorel modules own the experience.
-          </p>
-        </div>
-
-        <div className="architectureFlow">
-          {architecture.map(([number, stage, title, subtitle], index) => (
-            <div className="architectureNodeWrap" key={number}>
-              <article className="architectureNode">
-                <span>
-                  {number} / {stage}
-                </span>
-                <strong>{title}</strong>
-                <p>{subtitle}</p>
-              </article>
-              {index < architecture.length - 1 ? (
-                <div className="architectureConnector" aria-hidden="true">
-                  <i />
-                  <b>→</b>
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="sectionShell sectionBlock" id="install">
-        <div className="installPanel">
-          <div className="installCopy">
-            <p className="eyebrow">Start safely</p>
-            <h2>Preview first. Install second.</h2>
-            <p>
-              Development-branch setup prepares Nyvorel on an existing minimal
-              Arch installation. The immutable {project.version} release uses
-              the earlier file-only workflow.
-            </p>
-          </div>
-
-          <div className="terminal">
-            <div className="terminalBar">
-              <div className="terminalDots" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <p>terminal / bash</p>
-            </div>
-            <div className="terminalBody">
-              <span className="prompt">$</span>
-              <code>{installCommand}</code>
-              <CopyCommand command={installCommand} />
+              <div className="install-note">Nyvorel currently installs on a pre-existing supported desktop; this site does not install or configure your machine.</div>
             </div>
           </div>
-
-          <div className="installLinks">
-            <a href="/docs/getting-started/install">
-              Installation guide <span aria-hidden="true">→</span>
-            </a>
-            <a href="/docs/getting-started/requirements">
-              Requirements <span aria-hidden="true">→</span>
-            </a>
-            <a href={project.release} target="_blank" rel="noreferrer">
-              Release {project.version} <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <footer className="siteFooter">
-        <div className="footerInner sectionShell">
-          <div className="footerBrand">
-            <Image
-              src="/brand/nyvorel.svg"
-              alt=""
-              width={40}
-              height={40}
-            />
-            <div>
-              <strong>Nyvorel</strong>
-              <p>Built around Hyprland. Shaped into its own system.</p>
-            </div>
-          </div>
-
-          <div className="footerLinks">
-            <a href="/docs">Docs</a>
-            <a href={project.repository} target="_blank" rel="noreferrer">
-              GitHub
-            </a>
-            <a href={project.release} target="_blank" rel="noreferrer">
-              Release
-            </a>
-            <a href={project.upstream} target="_blank" rel="noreferrer">
-              Upstream
-            </a>
-          </div>
-
-          <p className="footerLegal">
-            GPL-3.0 · Independent community project · Derived from
-            end-4/dots-hyprland with upstream attribution preserved.
-          </p>
+        </section>
+      </main>
+      <footer>
+        <div className="container footer-row">
+          <div><a className="wordmark" href="#top">Nyvorel<span className="logo-star" aria-hidden="true">✳</span></a><p>THE LIVING DESKTOP<br />DESIGNED TO BE YOURS</p></div>
+          <div className="footer-links"><a href="#top">Back to top ↑</a><Link href="/docs">Documentation ↗</Link><a href={project.repository} target="_blank" rel="noopener noreferrer">Source ↗</a></div>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }

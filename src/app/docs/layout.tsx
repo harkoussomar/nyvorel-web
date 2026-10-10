@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -8,8 +7,11 @@ import {
   DocsSidebarNavigation,
 } from "@/components/docs/docs-navigation";
 import { DocsSearch } from "@/components/docs/docs-search";
+import { DocsBreadcrumbs } from "@/components/docs/docs-breadcrumbs";
+import { DocsOnThisPage } from "@/components/docs/docs-on-this-page";
 
 import "./docs.css";
+import "./atelier.css";
 
 export const metadata: Metadata = {
   title: {
@@ -34,15 +36,8 @@ export default function DocsLayout({
       <header className="docsHeader">
         <div className="docsHeaderInner">
           <Link className="docsBrand" href="/">
-            <Image
-              src="/brand/nyvorel.svg"
-              alt=""
-              width={30}
-              height={30}
-              priority
-            />
             <span>Nyvorel</span>
-            <i />
+            <i aria-hidden="true" />
             <strong>Docs</strong>
           </Link>
 
@@ -51,7 +46,7 @@ export default function DocsLayout({
           </div>
 
           <div className="docsHeaderActions">
-            <span className="docsVersion">v0.1.0</span>
+            <span className="docsVersion" title="Stable installation instructions use Nyvorel v0.1.0">Install guide: v0.1.0</span>
             <a
               className="docsGithubLink"
               href="https://github.com/harkoussomar/nyvorel"
@@ -69,6 +64,7 @@ export default function DocsLayout({
       <div className="docsFrame">
         <aside className="docsSidebar">
           <div className="docsSidebarSticky">
+            <p className="docsSidebarLabel">YOUR READING MAP <span>01 — 06</span></p>
             <DocsSidebarNavigation />
 
             <div className="docsSidebarFoot">
@@ -84,9 +80,17 @@ export default function DocsLayout({
           </div>
         </aside>
 
-        <main className="docsContent" id="docs-main" tabIndex={-1}>
-          {children}
-        </main>
+        <div className="docsReadingColumn">
+          <DocsBreadcrumbs />
+          <main className="docsContent" id="docs-main" tabIndex={-1}>
+            {children}
+            <footer className="docsReadingEnd">
+              <span>NYVOREL / DOCUMENTATION</span>
+              <span>Built for curious minds and careful hands.</span>
+            </footer>
+          </main>
+        </div>
+        <DocsOnThisPage />
       </div>
     </div>
   );

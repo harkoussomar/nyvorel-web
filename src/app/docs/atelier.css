@@ -1,0 +1,644 @@
+/* NYVOREL DOCS / ATELIER — PHASE 4F-A
+   Warm editorial reading surface. Original docs.css retained for class contracts.
+   Scopes every visual rule to the docs application. */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap");
+
+.docsApp {
+  --d-paper: #f3f0e9;
+  --d-paper-light: #faf8f3;
+  --d-paper-deep: #eae5dc;
+  --d-ink: #292c29;
+  --d-text: #4a4d46;
+  --d-muted: #6e726b;
+  --d-faint: #88887e;
+  --d-copper: #9d6248;
+  --d-copper-light: #e9d2c2;
+  --d-line: #d9d4c9;
+  --d-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --d-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  background: var(--d-paper);
+  color: var(--d-ink);
+  font: 400 15px / 1.65 var(--d-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  color-scheme: light;
+}
+.docsApp *, .docsApp *::before, .docsApp *::after { box-sizing: border-box; }
+.docsApp a { color: inherit; text-decoration: none; }
+.docsApp ::selection { background: #d9b6a0; color: #282c29; }
+.docsApp :is(a,button,summary,input):focus-visible {
+  outline: 2px solid var(--d-copper);
+  outline-offset: 3px;
+}
+.docsApp .docsSkipLink { border-color: var(--d-copper); background: var(--d-ink); color: #fffaf1; font-size: 12px; }
+
+/* Navigation frame — wide reading chamber, restrained editorial lines */
+.docsApp .docsHeader {
+  z-index: 60;
+  border-bottom: 1px solid var(--d-line);
+  background: rgba(248, 246, 241, .94);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+.docsApp .docsHeaderInner {
+  width: min(100% - 64px, 1720px);
+  min-height: 78px;
+  grid-template-columns: minmax(200px, 1fr) minmax(280px, 450px) minmax(200px, 1fr);
+  gap: 30px;
+}
+.docsApp .docsBrand { color: var(--d-ink); gap: 11px; font: 400 30px/1 var(--d-display); letter-spacing: -.045em; }
+.docsApp .docsBrand img { width: 30px; height: 30px; }
+.docsApp .docsBrand i { height: 22px; background: var(--d-line); margin-inline: 7px; }
+.docsApp .docsBrand strong { font: 500 11px var(--d-sans); color: #876a56; letter-spacing: .12em; text-transform: uppercase; }
+.docsApp .docsVersion { border-color: var(--d-line); color: #76685b; background: #eeeae2; padding: 7px 10px; font: 600 10px var(--d-sans); }
+.docsApp .docsGithubLink { font-size: 12px; font-weight: 600; color: var(--d-text); }
+.docsApp .docsGithubLink:hover { color: var(--d-copper); }
+.docsApp .docsSearchTrigger {
+  min-height: 42px; padding-inline: 15px; border-radius: 8px;
+  border: 1px solid #d8d2c7; background: #f9f7f2; color: #75766f;
+  box-shadow: inset 0 1px 1px #fff8; font-size: 12px;
+}
+.docsApp .docsSearchTrigger:hover { border-color: #b49b86; color: var(--d-ink); background: #fffdfa; }
+.docsApp .docsSearchTrigger kbd {
+  min-width: 25px; height: 24px; border-color: #ddd5ca; background: #efebe4;
+  color: #777168; font-size: 11px;
+}
+.docsApp .docsFrame {
+  max-width: 1720px; width: 100%;
+  display: grid; grid-template-columns: minmax(244px, 280px) minmax(0, 1fr) minmax(0, 235px);
+}
+.docsApp .docsSidebar { border-right: 1px solid var(--d-line); min-width: 0; }
+.docsApp .docsSidebarSticky {
+  top: 78px; height: calc(100vh - 78px); padding: 37px 23px 28px 28px;
+  scrollbar-color: #c9c1b5 transparent; scrollbar-width: thin;
+}
+.docsApp .docsSidebarLabel { margin: 0 0 30px 10px; display: flex; justify-content: space-between; gap: 10px; color: #a26d51; font-size: 9px; font-weight: 700; letter-spacing: .17em; }
+.docsApp .docsSidebarLabel span { color: #a6a095; font-weight: 500; letter-spacing: .08em; }
+.docsApp .docsNavSection + .docsNavSection { margin-top: 27px; }
+.docsApp .docsNavSection h2 { margin: 0 0 8px 10px; font-size: 10px; letter-spacing: .09em; color: #7a756c; font-weight: 700; }
+.docsApp .docsNavSection nav { gap: 2px; }
+.docsApp .docsNavSection a { border-radius: 6px; padding: 9px 11px 10px; transition: background .2s, color .2s; }
+.docsApp .docsNavSection a:hover { background: #e9e4db; }
+.docsApp .docsNavSection a span { color: #464b46; font-size: 12.5px; line-height: 1.4; font-weight: 600; }
+.docsApp .docsNavSection a small { color: #888780; font-size: 10.5px; line-height: 1.55; margin-top: 2px; }
+.docsApp .docsNavSection a[aria-current="page"] { background: #e8ded3; box-shadow: inset 2px 0 0 var(--d-copper); }
+.docsApp .docsNavSection a[aria-current="page"] span { color: #6b4231; }
+.docsApp .docsNavSection a[aria-current="page"] small { color: #746c64; }
+.docsApp .docsSidebarFoot { border-color: var(--d-line); margin-top: 36px; padding: 20px 10px 0; }
+.docsApp .docsSidebarFoot span { color: #8e877c; font-size: 10px; }
+.docsApp .docsSidebarFoot a { color: #685d53; font-size: 11px; overflow-wrap: anywhere; }
+.docsApp .docsReadingColumn { min-width: 0; padding: 0 16px; }
+.docsApp .docsBreadcrumbs {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  min-height: 68px; max-width: 850px; margin: 0 auto;
+  color: #868177; font-size: 11px; border-bottom: 1px solid var(--d-line);
+}
+.docsApp .docsBreadcrumbs a { color: #85614c; font-weight: 700; }
+.docsApp .docsBreadcrumbs strong { color: #4d4f48; font-weight: 600; }
+.docsApp .docsBreadcrumbDivider { color: #c5bcae; }
+.docsApp .docsContent { width: min(100%, 850px); margin-inline: auto; padding: 74px 0 110px; }
+.docsApp .docsReadingEnd { margin-top: 100px; padding-top: 20px; border-top: 1px solid var(--d-line); display: flex; justify-content: space-between; gap: 12px; color: #999188; font-size: 10px; letter-spacing: .08em; }
+.docsApp .docsReadingEnd span:first-child { color: #9c674d; font-weight: 700; }
+
+/* Reading companion */
+.docsApp .docsOnThisPage { min-width: 0; border-left: 1px solid var(--d-line); }
+.docsApp .docsOnThisPageSticky { top: 78px; position: sticky; padding: 45px 23px 25px; max-height: calc(100vh - 80px); overflow-y: auto; scrollbar-width: thin; }
+.docsApp .docsOnThisPageTop { color: #a5694d; letter-spacing: .14em; font: 700 10px var(--d-sans); display: flex; justify-content: space-between; gap: 10px; padding-bottom: 24px; }
+.docsApp .docsOnThisPageTop span { font-size: 19px; font-weight: 400; line-height: 10px; }
+.docsApp .docsOnThisPage nav { display: grid; gap: 3px; }
+.docsApp .docsOnThisPage nav a { padding: 8px 5px 8px 11px; border-left: 1px solid #d4cec3; color: #777a72; font-size: 11.5px; line-height: 1.5; }
+.docsApp .docsOnThisPage nav a:hover { color: var(--d-ink); }
+.docsApp .docsOnThisPage nav a[aria-current="location"] { color: #89573d; border-left: 2px solid var(--d-copper); background: linear-gradient(90deg,#eaded2, transparent); font-weight: 700; }
+.docsApp .docsOnThisPage p { color: #969089; font-size: 11px; }
+.docsApp .docsOnThisPageFoot { margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--d-line); color: #9c9387; font: italic 19px/1.3 var(--d-display); }
+.docsApp [id] { scroll-margin-top: 165px; }
+
+/* Editorial hierarchy */
+.docsApp .docEyebrow { color: #a56748; font-size: 11px; letter-spacing: .13em; font-weight: 700; margin-bottom: 20px; }
+.docsApp .docHero h1, .docsApp .docArticle h1 {
+  max-width: 830px; color: #2d2f2b; font: 400 clamp(54px, 5.3vw, 81px)/.96 var(--d-display);
+  letter-spacing: -.043em;
+}
+.docsApp .docHero > p, .docsApp .docArticleHeader > p { color: #5e635d; max-width: 690px; font-size: 16px; line-height: 1.8; margin-top: 25px; }
+.docsApp .docStatusRow { margin-top: 35px; }
+.docsApp .docStatus { color: #726c63; background: #ede8df; border-color: #dcd6cc; font-size: 11px; padding: 8px 12px; }
+.docsApp .docStatus strong { color: #79472e; }
+.docsApp .docSection { margin-top: 66px; }
+.docsApp .docSection h2 { color: var(--d-ink); font: 400 clamp(34px, 3.4vw, 43px)/1.09 var(--d-display); letter-spacing: -.027em; margin-bottom: 18px; }
+.docsApp .docSection h3 { color: #343a34; font-size: 18px; font-weight: 600; margin: 31px 0 12px; }
+.docsApp .docSection p, .docsApp .docSection li { color: var(--d-text); font-size: 14px; line-height: 1.85; }
+.docsApp .docSection li + li { margin-top: 10px; }
+.docsApp .docSection ul, .docsApp .docSection ol { padding-left: 23px; }
+.docsApp .docSection ol > li { padding-left: 6px; }
+.docsApp .docSection :is(strong,b) { color: #313630; }
+.docsApp .docSection a:not(.docsJourneyCard):not(.docPageFooterItem):not(.docCodeCopy) { color: #955a3d; text-decoration: underline; text-decoration-color: #c8ab98; text-underline-offset: 3px; }
+.docsApp .docSection a:not(.docsJourneyCard):hover { text-decoration-color: currentColor; }
+.docsApp .docSection code:not(pre code), .docsApp .docSurfaceCard code { background: #e9e2d7; border: 1px solid #d9cfc1; color: #79452f; border-radius: 5px; padding: 2px 5px; font-size: .86em; }
+.docsApp .docDivider { background: var(--d-line); }
+.docsApp .docsSearchHint { border-color: var(--d-line); background: #eee8df; color: #666961; padding: 11px 14px; font-size: 11px; }
+.docsApp .docsSearchHint strong { color: #986249; }
+
+/* Cards have a paper quality, not an application-panel quality */
+.docsApp .docsJourneyGrid { gap: 12px; }
+.docsApp .docsJourneyCard {
+  min-height: 259px; padding: 26px; border: 1px solid #d5cfc3;
+  background: #ebe6dd; border-radius: 3px; box-shadow: inset 0 1px #fff8;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1),background .2s,border-color .2s;
+}
+.docsApp .docsJourneyCard:nth-child(even) { background: #efeae2; }
+.docsApp .docsJourneyCard:hover { transform: translateY(-4px); background: #f8f4ec; border-color: #b59984; }
+.docsApp .docsJourneyCard > span { color: #a0674b; font: 700 11px var(--d-sans); letter-spacing: .12em; }
+.docsApp .docsJourneyCard h3 { color: #30342f; font: 400 clamp(30px, 3vw, 40px)/1.05 var(--d-display); letter-spacing: -.024em; margin: 50px 0 13px; }
+.docsApp .docsJourneyCard p { color: #626761; font-size: 12px; line-height: 1.75; }
+.docsApp .docsJourneyCard small { color: #956b54; font-size: 10px; }
+.docsApp .docsMap, .docsApp .docsMapSection { border-color: var(--d-line); }
+.docsApp .docsMapSection > header h3 { color: #4d504a; font-size: 13px; }
+.docsApp .docsMapSection > header span { color: #a07960; font-size: 10px; }
+.docsApp .docsMapSection a { border-radius: 4px; padding: 12px; }
+.docsApp .docsMapSection a:hover { background: #e9e3da; }
+.docsApp .docsMapSection a strong { color: #363a34; font-size: 13px; }
+.docsApp .docsMapSection a small { color: #81817a; font-size: 11px; }
+.docsApp .docSurfaceGrid { gap: 12px; }
+.docsApp .docSurfaceCard { background: #eee9e0; border: 1px solid #d9d2c7; border-radius: 5px; padding: 23px; min-height: 176px; }
+.docsApp .docSurfaceCard > span { color: #a46c50; font-size: 10px; }
+.docsApp .docSurfaceCard h3 { color: #3c403b; font: 400 25px/1.11 var(--d-display); margin: 30px 0 10px; }
+.docsApp .docSurfaceCard p { color: #656961; font-size: 12px; line-height: 1.7; }
+.docsApp .docDefinitionGrid { border-top-color: var(--d-line); grid-template-columns: minmax(130px, 205px) minmax(0,1fr); }
+.docsApp .docDefinitionGrid dt, .docsApp .docDefinitionGrid dd { border-bottom-color: var(--d-line); padding-block: 15px; }
+.docsApp .docDefinitionGrid dt { color: #373c36; font-size: 12px; }
+.docsApp .docDefinitionGrid dd { color: #676b65; font-size: 12px; }
+.docsApp .docFlowNode { background: #ebe6de; border-color: var(--d-line); border-radius: 5px; }
+.docsApp .docFlowNode > span { color: #9b654b; font-size: 10px; }
+.docsApp .docFlowNode strong { color: #363b36; font-size: 13px; }
+.docsApp .docFlowNode p { color: #75766d; font-size: 11px; }
+.docsApp .docFlowArrow { border-left-color: #b88567; }
+.docsApp .docCallout { background: #ece7dd; border-color: #d8cfc3; border-left-color: #8d7767; border-radius: 5px; padding: 20px 22px; }
+.docsApp .docCallout > strong { color: #464139; font-size: 13px; }
+.docsApp .docCallout > div, .docsApp .docCallout p { color: #615e58; font-size: 12px; line-height: 1.8; }
+.docsApp .docCallout-note { border-left-color: #7b9294; }
+.docsApp .docCallout-important { border-left-color: #b97e57; background: #efe4d7; }
+.docsApp .docCallout-safe { border-left-color: #657d6e; background: #e7e9df; }
+.docsApp .docPath { color: #7c5845; border-color: #d9cec1; background: #eee8de; font-size: 11px; }
+.docsApp .docVisual { border: 1px solid #d0c9bf; border-radius: 5px; background: #2a2b2a; box-shadow: 0 28px 70px #302c2418; }
+.docsApp .docVisual figcaption { background: #ece7de; border-color: #d5cec2; color: #676760; font-size: 11px; padding: 13px 16px; }
+.docsApp .docPageFooter { border-color: var(--d-line); gap: 12px; }
+.docsApp .docPageFooterItem { border: 1px solid var(--d-line); border-radius: 5px; background: #ede8e0; min-height: 112px; padding: 19px; }
+.docsApp .docPageFooterItem:hover { background: #e6ddcf; border-color: #bcaa98; }
+.docsApp .docPageFooterItem span { color: #94664e; font-size: 10px; }
+.docsApp .docPageFooterItem strong { color: #3d433d; font-size: 13px; }
+
+/* The command line is intentionally a deep, high-contrast surface */
+.docsApp .docCode { background: #242927; border-color: #353a36; border-radius: 6px; box-shadow: 0 15px 38px #292a2514; }
+.docsApp .docCodeBar { min-height: 43px; height: auto; padding: 5px 14px; border-color: #404841; display: flex; justify-content: space-between; gap: 15px; }
+.docsApp .docCodeLanguage { display: inline-flex; align-items: center; gap: 9px; color: #c6c9c1; font-size: 10px; font-family: var(--d-sans); font-weight: 600; letter-spacing: .11em; }
+.docsApp .docCodeLed { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: #d6a485; }
+.docsApp .docCodeCopy { border: 1px solid #565e55; border-radius: 4px; background: transparent; color: #dddcd2; padding: 5px 10px; font: 600 11px var(--d-sans); cursor: pointer; }
+.docsApp .docCodeCopy:hover { background: #373e39; }
+.docsApp .docCodeCopy span { margin-right: 6px; color: #dba786; }
+.docsApp .docCode pre { padding: 22px; scrollbar-color: #626962 transparent; }
+.docsApp .docCode code { color: #e5e7de; font-size: 12px; line-height: 1.85; white-space: pre; }
+
+/* Search remains on the established keyboard interaction contract */
+.docsApp .docsSearchBackdrop { background: rgba(33,35,32,.55); z-index: 90; }
+.docsApp .docsSearchDialog { background: #f8f6f0; border: 1px solid #d8cdbd; border-radius: 10px; box-shadow: 0 35px 115px #24292366; }
+.docsApp .docsSearchInputRow { border-bottom-color: var(--d-line); }
+.docsApp .docsSearchInputRow > span { color: #a46d50; }
+.docsApp .docsSearchInputRow input { color: var(--d-ink); font-size: 15px; }
+.docsApp .docsSearchInputRow input::placeholder { color: #918e85; }
+.docsApp .docsSearchClose { background: #ece7df; border-color: var(--d-line); color: #605b53; font-size: 10px; }
+.docsApp .docsSearchResult:hover, .docsApp .docsSearchResultActive { background: #ece5dc; }
+.docsApp .docsSearchResult strong { color: #30362f; font-size: 13px; }
+.docsApp .docsSearchResult small { color: #696c65; font-size: 11px; }
+.docsApp .docsSearchResultSection { color: #a0684d; font-size: 9px; }
+.docsApp .docsSearchEmpty { color: #6f6f66; }
+.docsApp .docsSearchFooter { border-color: var(--d-line); color: #79786f; font-size: 10px; }
+
+@media (max-width: 1360px) {
+  .docsApp .docsFrame { grid-template-columns: 268px minmax(0,1fr); }
+  .docsApp .docsOnThisPage { display: none; }
+  .docsApp .docsReadingColumn { padding-inline: clamp(18px,3.2vw,46px); }
+  .docsApp .docsBreadcrumbs { max-width: 900px; }
+  .docsApp .docsContent { max-width: 900px; }
+}
+@media (max-width: 920px) {
+  .docsApp .docsHeaderInner { width: min(100% - 36px, 900px); grid-template-columns: auto minmax(200px,1fr) auto; min-height: 70px; gap: 22px; }
+  .docsApp .docsHeaderActions { display: none; }
+  .docsApp .docsBrand { font-size: 27px; }
+  .docsApp .docsFrame { display: block; }
+  .docsApp .docsSidebar { display: none; }
+  .docsApp .docsMobileNav { display: block; top: 70px; background: rgba(244,240,233,.97); border-color: var(--d-line); box-shadow: 0 8px 22px #453b2c0a; }
+  .docsApp .docsMobileNav > details { width: min(100% - 36px, 900px); }
+  .docsApp .docsMobileNav summary { display: flex; justify-content: space-between; gap: 15px; min-height: 48px; padding: 11px 0; align-items: center; color: #444841; font-size: 12px; font-weight: 700; list-style: none; }
+  .docsApp .docsMobileNav summary::-webkit-details-marker { display: none; }
+  .docsApp .docsMobileNavIndicator { display: inline-flex; align-items: center; gap: 12px; font-size: 10px; color: #8c6650; font-weight: 600; }
+  .docsApp .docsMobileNavIndicator b { font-size: 15px; transition: transform .2s; }
+  .docsApp .docsMobileNav details[open] .docsMobileNavIndicator b { transform: rotate(180deg); }
+  .docsApp .docsMobileNav details > div { max-height: min(65vh,630px); overflow-y: auto; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; border-top: 1px solid var(--d-line); padding: 19px 0 27px; }
+  .docsApp .docsMobileNav .docsNavSection + .docsNavSection { margin-top: 0; }
+  .docsApp .docsMobileNav .docsNavSection h2 { font-size: 10px; }
+  .docsApp .docsMobileNav .docsNavSection a { min-height: 42px; }
+  .docsApp .docsReadingColumn { padding-inline: 24px; }
+  .docsApp .docsBreadcrumbs { min-height: 58px; }
+  .docsApp .docsContent { width: min(100%,850px); padding: 53px 0 95px; }
+}
+@media (max-width: 620px) {
+  .docsApp .docsHeaderInner { width: calc(100% - 28px); grid-template-columns: auto minmax(0,1fr); gap: 16px; min-height: 64px; }
+  .docsApp .docsBrand { font-size: 25px; }
+  .docsApp .docsBrand strong, .docsApp .docsBrand i { display: none; }
+  .docsApp .docsBrand img { width: 27px; height: 27px; }
+  .docsApp .docsSearchTrigger { min-height: 39px; }
+  .docsApp .docsMobileNav { top: 64px; }
+  .docsApp .docsMobileNav > details { width: calc(100% - 28px); }
+  .docsApp .docsMobileNav details > div { grid-template-columns: 1fr; }
+  .docsApp .docsReadingColumn { padding-inline: 18px; }
+  .docsApp .docsBreadcrumbs { font-size: 10px; min-height: 56px; gap: 8px; }
+  .docsApp .docsContent { padding: 42px 0 72px; }
+  .docsApp .docHero h1, .docsApp .docArticle h1 { font-size: clamp(48px,13vw,64px); }
+  .docsApp .docSection h2 { font-size: 34px; }
+  .docsApp .docSection { margin-top: 51px; }
+  .docsApp .docStatusRow { gap: 7px; }
+  .docsApp .docStatus { font-size: 10px; }
+  .docsApp .docsJourneyGrid, .docsApp .docSurfaceGrid { grid-template-columns: 1fr; }
+  .docsApp .docsJourneyCard { min-height: 220px; padding: 22px; }
+  .docsApp .docsJourneyCard h3 { margin-top: 35px; }
+  .docsApp .docDefinitionGrid { grid-template-columns: 1fr; }
+  .docsApp .docDefinitionGrid dt { border: 0; padding-bottom: 4px; }
+  .docsApp .docDefinitionGrid dd { padding-top: 3px; }
+  .docsApp .docsMapSection { grid-template-columns: 1fr; }
+  .docsApp .docsReadingEnd { flex-direction: column; }
+  .docsApp .docPageFooter { grid-template-columns: 1fr; }
+  .docsApp .docPageFooterNext { text-align: left; }
+  .docsApp .docsSearchBackdrop { padding: 75px 10px 10px; }
+  .docsApp .docsSearchResultSection { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .docsApp *, .docsApp *::before, .docsApp *::after { scroll-behavior: auto !important; transition-duration: 0s !important; animation-duration: 0s !important; }
+}
+
+
+/* NYVOREL DOCS — PHASE 4F-B · FIND & VIEW
+   Search is portalled to document.body to avoid backdrop-filter / sticky header
+   containing-block clipping. Exactly one overlay surface at viewport level. */
+.docsApp .docsBrand { font-size: 29px; letter-spacing: -.035em; }
+.docsApp .docsBrand > span { font-family: var(--d-display); }
+.docsApp.docsSearchPortal {
+  position: fixed !important; inset: 0 !important;
+  z-index: 10000 !important; width: 100% !important; height: 100dvh !important;
+  min-height: 0 !important; max-width: none !important;
+  background: transparent !important; pointer-events: none;
+}
+.docsApp.docsSearchPortal .docsSearchBackdrop {
+  position: fixed; inset: 0; z-index: 1; width: 100%; height: 100%;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: clamp(65px, 12vh, 116px) 16px 24px;
+  background: rgba(37, 36, 33, .36);
+  backdrop-filter: blur(9px) saturate(88%);
+  -webkit-backdrop-filter: blur(9px) saturate(88%);
+  pointer-events: auto;
+}
+.docsApp.docsSearchPortal .docsSearchDialog {
+  width: min(700px, 100%); max-height: min(78dvh, 790px);
+  display: flex; flex-direction: column; min-height: 180px;
+  border: 1px solid #d8cdbf; background: #faf8f3;
+  box-shadow: 0 30px 85px #1e1f1e55; border-radius: 12px;
+  overflow: hidden;
+}
+.docsApp.docsSearchPortal .docsSearchInputRow { flex-shrink: 0; }
+.docsApp.docsSearchPortal .docsSearchResults {
+  flex: 1; min-height: 0; max-height: min(60dvh, 575px);
+  padding: 8px; overflow-y: auto; overscroll-behavior: contain;
+}
+.docsApp.docsSearchPortal .docsSearchFooter { flex-shrink: 0; }
+.docsApp .docsSearchResult { min-height: 71px; padding: 12px 15px; grid-template-columns: minmax(0,1fr); grid-auto-rows: auto; gap:4px; }
+.docsApp .docsSearchResult > :is(span,strong,small) { grid-column:1; grid-row:auto; }
+.docsApp .docsSearchResult strong { font-size: 13px; }
+.docsApp .docsSearchResult small { line-height: 1.48; font-size: 11px; color: #6d6b61; }
+.docsApp .docsSearchResultSection { font-size: 10px; font-weight: 650; }
+.docsApp .docsSearchResultPage { display: block; margin: 0 0 3px; color: #99694f; font: 700 9px/1.5 var(--d-sans); letter-spacing: .065em; text-transform: uppercase; }
+.docsApp .docsSearchResults mark { color: #693b27; background: #efcbb1; border-radius: 2px; padding: 0 1px; }
+.docsApp .docsSearchHintCount { margin-left: auto; color: #827b70; font: 500 10px var(--d-sans); }
+.docsApp .docsSearchResult[aria-selected="true"] { outline: 1px solid #c3a992; outline-offset: -1px; }
+.docsApp .docsSearchResult:focus-visible { outline: 2px solid var(--d-copper); outline-offset: -2px; }
+.docsApp .docVisualHighFidelity { overflow: hidden; border: 1px solid #d6d0c6; border-radius: 10px; background: #e9e3da; margin-top: 42px; }
+.docsApp .docVisualHighFidelity .docVisualFullSize { display: block; line-height: 0; }
+.docsApp .docVisualHighFidelity img { display: block; width: 100%; height: auto; object-fit: contain; max-height: none; filter: none; image-rendering: auto; }
+.docsApp .docVisualHighFidelity figcaption { display:flex; justify-content:space-between; flex-wrap:wrap; gap: 12px; align-items:center; padding: 14px 17px; background:#efe9e0; color:#69645d; border-top:1px solid #d8d1c5; font: 500 11px/1.6 var(--d-sans); }
+.docsApp .docVisualHighFidelity figcaption a { color:#915d43; font-weight:700; text-decoration:none; white-space:nowrap; }
+.docsApp .docVisualHighFidelity figcaption a:hover { text-decoration:underline; }
+@media (max-width: 620px) {
+  .docsApp.docsSearchPortal .docsSearchBackdrop { padding: 75px 10px 10px; align-items: flex-start; }
+  .docsApp.docsSearchPortal .docsSearchDialog { max-height: calc(100dvh - 85px); }
+  .docsApp .docsSearchResultSection { display: none; }
+  .docsApp .docsSearchFooter { gap:8px; }
+  .docsApp .docVisualHighFidelity figcaption { font-size:10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .docsApp.docsSearchPortal .docsSearchBackdrop { scroll-behavior: auto; }
+}
+
+/* NYVOREL DOCS — PHASE 4F-C / QUIET SEARCH
+   This override is deliberately scoped to the portalled search surface.
+   No changes to search ranking, documentation navigation, or page styling. */
+.docsApp.docsSearchPortal .docsSearchBackdrop {
+  background: rgba(38, 36, 32, .18);
+  -webkit-backdrop-filter: blur(2px) saturate(96%);
+  backdrop-filter: blur(2px) saturate(96%);
+  padding: clamp(70px, 12vh, 120px) 18px 22px;
+}
+.docsApp.docsSearchPortal .docsSearchDialog {
+  width: min(654px, 100%);
+  min-height: 0;
+  max-height: min(76dvh, 704px);
+  background: #fbf9f5;
+  border: 1px solid #ded7cb;
+  border-radius: 16px;
+  box-shadow: 0 34px 90px rgba(31, 30, 27, .19), 0 8px 22px rgba(31, 30, 27, .06);
+}
+.docsApp.docsSearchPortal .docsSearchMasthead {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  min-height: 48px;
+}
+.docsApp.docsSearchPortal .docsSearchIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  color: #5d5b54;
+  font: 700 9px/1.2 var(--d-sans);
+  letter-spacing: .14em;
+  white-space: nowrap;
+}
+.docsApp.docsSearchPortal .docsSearchIdentityMark {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a16d52;
+}
+.docsApp.docsSearchPortal .docsSearchIdentityDivider { color: #c9bfb2; font-weight: 400; }
+.docsApp.docsSearchPortal .docsSearchIdentitySection { color: #8c8277; font-weight: 600; letter-spacing: .11em; }
+.docsApp.docsSearchPortal .docsSearchClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #938b7f;
+  transition: color .15s ease, background .15s ease, border-color .15s ease;
+}
+.docsApp.docsSearchPortal .docsSearchClose:hover {
+  background: #efeae1;
+  border-color: #e3dace;
+  color: #534e47;
+}
+.docsApp.docsSearchPortal .docsSearchInputRow {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+  min-height: 54px;
+  margin: 0 18px 15px;
+  padding: 0 16px;
+  border: 1px solid #ddd5ca;
+  border-radius: 9px;
+  background: #f4f1eb;
+  box-shadow: inset 0 1px 1px rgba(83, 71, 56, .025);
+  transition: border-color .16s ease, background .16s ease;
+}
+.docsApp.docsSearchPortal .docsSearchInputRow:focus-within {
+  border-color: #baa38e;
+  background: #f8f5ef;
+  box-shadow: inset 0 1px 1px rgba(83, 71, 56, .025);
+}
+.docsApp.docsSearchPortal .docsSearchMagnifier {
+  flex-shrink: 0;
+  color: #a16d52;
+}
+.docsApp.docsSearchPortal .docsSearchInputRow input,
+.docsApp.docsSearchPortal .docsSearchInputRow input:focus,
+.docsApp.docsSearchPortal .docsSearchInputRow input:focus-visible {
+  flex: 1;
+  min-width: 0;
+  min-height: 49px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  outline-offset: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #32342f;
+  font: 500 15px/1.4 var(--d-sans);
+  letter-spacing: -.013em;
+  caret-color: #9d6248;
+}
+.docsApp.docsSearchPortal .docsSearchInputRow input::placeholder { color: #9a968c; opacity: 1; }
+.docsApp.docsSearchPortal .docsSearchClear {
+  flex-shrink: 0;
+  border: 0;
+  padding: 6px 4px;
+  background: transparent;
+  color: #8c796a;
+  cursor: pointer;
+  font: 600 11px/1 var(--d-sans);
+}
+.docsApp.docsSearchPortal .docsSearchClear:hover { color: #6b4231; }
+.docsApp.docsSearchPortal .docsSearchSectionBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 24px;
+  border-top: 1px solid #e7e1d8;
+  background: #f8f5f0;
+  color: #988a7c;
+  font: 700 9px/1.3 var(--d-sans);
+  letter-spacing: .115em;
+}
+.docsApp.docsSearchPortal .docsSearchSectionBar span:last-child {
+  color: #a89d92;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+.docsApp.docsSearchPortal .docsSearchResults {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 7px 9px 9px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: #fbf9f5;
+}
+.docsApp.docsSearchPortal .docsSearchResults::-webkit-scrollbar { display: none; width: 0; }
+.docsApp.docsSearchPortal .docsSearchResult {
+  display: grid;
+  grid-template-columns: 28px minmax(0,1fr) 20px;
+  grid-template-rows: auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 71px;
+  padding: 11px 13px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  transition: background .14s ease, border-color .14s ease;
+}
+.docsApp.docsSearchPortal .docsSearchResult > * { grid-row: 1; grid-column: auto; }
+.docsApp.docsSearchPortal .docsSearchResult:hover,
+.docsApp.docsSearchPortal .docsSearchResultActive {
+  background: #f0ebe3;
+  border-color: #e5d9cc;
+}
+.docsApp.docsSearchPortal .docsSearchResult[aria-selected="true"] {
+  outline: none;
+  box-shadow: inset 2px 0 0 #ab785c;
+}
+.docsApp.docsSearchPortal .docsSearchResult:focus-visible {
+  outline: 2px solid #a27056;
+  outline-offset: -2px;
+}
+.docsApp.docsSearchPortal .docsSearchResultNumber {
+  align-self: start;
+  padding-top: 5px;
+  text-align: center;
+  color: #b6ada1;
+  font: 600 10px/1.6 var(--d-sans);
+  font-variant-numeric: tabular-nums;
+}
+.docsApp.docsSearchPortal .docsSearchResultActive .docsSearchResultNumber { color: #9b7058; }
+.docsApp.docsSearchPortal .docsSearchResultBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+.docsApp.docsSearchPortal .docsSearchResultPage {
+  display: block;
+  margin: 0 0 3px;
+  font: 700 9px/1.3 var(--d-sans);
+  letter-spacing: .085em;
+  text-transform: uppercase;
+  color: #9e7055;
+}
+.docsApp.docsSearchPortal .docsSearchResultBody strong {
+  color: #30342f;
+  font: 700 13px/1.45 var(--d-sans);
+}
+.docsApp.docsSearchPortal .docsSearchResultBody small {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: #77756c;
+  font: 400 11px/1.55 var(--d-sans);
+}
+.docsApp.docsSearchPortal .docsSearchResultArrow {
+  flex-shrink: 0;
+  color: #b1a397;
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity .14s ease, transform .14s ease;
+}
+.docsApp.docsSearchPortal .docsSearchResult:hover .docsSearchResultArrow,
+.docsApp.docsSearchPortal .docsSearchResultActive .docsSearchResultArrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: #a06e52;
+}
+.docsApp.docsSearchPortal .docsSearchResults mark { background: #ead7c8; color: #74462d; padding: 0 2px; border-radius: 2px; }
+.docsApp.docsSearchPortal .docsSearchEmpty {
+  min-height: 180px;
+  padding: 24px;
+  color: #777369;
+  font: 500 12px/1.7 var(--d-sans);
+}
+.docsApp.docsSearchPortal .docsSearchFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 47px;
+  gap: 14px;
+  flex-shrink: 0;
+  padding: 0 21px;
+  border-top: 1px solid #e4ded5;
+  background: #f7f4ee;
+  color: #8b857b;
+  font: 500 10px/1.5 var(--d-sans);
+}
+.docsApp.docsSearchPortal .docsSearchKeyboardHints {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+.docsApp.docsSearchPortal .docsSearchKeyboardHints > span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.docsApp.docsSearchPortal .docsSearchKeyboardHints kbd {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  background: #ede8df;
+  border: 1px solid #dfd6cb;
+  border-radius: 5px;
+  color: #70685f;
+  font: 600 10px/1 var(--d-sans);
+  text-transform: none;
+}
+.docsApp.docsSearchPortal .docsSearchFooterNote {
+  white-space: nowrap;
+  color: #aa9e91;
+  letter-spacing: .035em;
+}
+@media (max-width: 620px) {
+  .docsApp.docsSearchPortal .docsSearchBackdrop { padding: 64px 10px 12px; }
+  .docsApp.docsSearchPortal .docsSearchDialog { max-height: calc(100dvh - 78px); border-radius: 13px; }
+  .docsApp.docsSearchPortal .docsSearchMasthead { padding-inline: 15px; }
+  .docsApp.docsSearchPortal .docsSearchIdentity { font-size: 8px; gap: 7px; }
+  .docsApp.docsSearchPortal .docsSearchInputRow { margin: 0 12px 12px; padding-inline: 13px; gap: 10px; min-height: 50px; }
+  .docsApp.docsSearchPortal .docsSearchInputRow input { font-size: 14px; min-height: 46px; }
+  .docsApp.docsSearchPortal .docsSearchSectionBar { padding-inline: 17px; }
+  .docsApp.docsSearchPortal .docsSearchResult { padding: 11px 8px; min-height: 69px; grid-template-columns: 22px minmax(0,1fr) 15px; gap: 7px; }
+  .docsApp.docsSearchPortal .docsSearchResultBody small { font-size: 10.5px; }
+  .docsApp.docsSearchPortal .docsSearchFooter { min-height: 44px; padding-inline: 12px; }
+  .docsApp.docsSearchPortal .docsSearchKeyboardHints { gap: 10px; }
+  .docsApp.docsSearchPortal .docsSearchFooterNote { display: none; }
+}
+@media (max-width: 360px) {
+  .docsApp.docsSearchPortal .docsSearchIdentitySection { display: none; }
+  .docsApp.docsSearchPortal .docsSearchKeyboardHints > span { font-size: 9px; gap: 3px; }
+  .docsApp.docsSearchPortal .docsSearchKeyboardHints { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .docsApp.docsSearchPortal .docsSearchResult,
+  .docsApp.docsSearchPortal .docsSearchResultArrow,
+  .docsApp.docsSearchPortal .docsSearchClose,
+  .docsApp.docsSearchPortal .docsSearchInputRow { transition: none !important; }
+}
+
+/* NYVOREL / PHASE 4G — keep long technical source paths inside mobile articles.
+   Targets inline paths only; preformatted terminal blocks remain horizontally scrollable. */
+.docsApp .docArticle .docSection :is(p, li, dd),
+.docsApp .docArticle .docSection li a,
+.docsApp .docArticle .docSection code:not(pre code) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.docsApp .docArticle .docSection li a > code,
+.docsApp .docArticle .docSection li > code {
+  white-space: normal;
+  word-break: break-word;
+}

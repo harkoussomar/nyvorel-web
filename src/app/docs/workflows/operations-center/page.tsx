@@ -1,110 +1,115 @@
 import type { Metadata } from "next";
-
-import { Callout } from "@/components/docs/callout";
-import { PageFooter } from "@/components/docs/page-footer";
+import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Operations Center",
-  description:
-    "Use Nyvorel Operations Center to inspect runtimes, jobs, attention items, and system health.",
+  title: "Operations Center — Nyvorel v0.1.0",
+  description: "Understand what is running before deciding to stop it.",
   alternates: { canonical: "/docs/workflows/operations-center" },
 };
 
-const tabs = [
-  ["Overview", "Summarizes active runtimes, operations, attention items, maintenance, and updates."],
-  ["Runtime", "Lists listening application/service runtimes with scope, endpoint, resource use, and actions."],
-  ["Jobs", "Tracks active operations and bounded recent history for detected work."],
-  ["System", "Surfaces updates, failed units, disk, memory, load, and host information."],
-] as const;
+const guide: WorkflowGuideData = {
+  "order": "04",
+  "title": "Operations Center",
+  "intro": "Operations Center brings listening runtimes, grouped jobs, and system attention into one operational view. It is primarily an inspection tool; action availability depends on ownership and capability.",
+  "outcome": "Identify a runtime or job, interpret its status, and choose a safe next action.",
+  "prerequisites": [
+    "The Operations Center surface is available in your current panel family.",
+    "Runtime and job observations depend on the permissions and processes of your machine.",
+    "Do not stop an unfamiliar process just because a Stop action exists."
+  ],
+  "orient": [
+    [
+      "Overview",
+      "Current operational summary and attention items."
+    ],
+    [
+      "Runtime",
+      "Detected listening applications or services, with bind address and port."
+    ],
+    [
+      "Jobs",
+      "Grouped detected build, test, transfer and other active work."
+    ],
+    [
+      "System",
+      "Updates, units, memory, load and disk signals."
+    ]
+  ],
+  "steps": [
+    [
+      "Read the overview",
+      "Open Operations Center and scan the attention area before selecting a specific runtime or job.",
+      "You can distinguish a detected issue from ordinary background activity."
+    ],
+    [
+      "Inspect a runtime",
+      "Open Runtime and select a recognized application or development server. Check its name, listening address, port, memory and scope.",
+      "You can tell which process is listening and whether its address is local-only or potentially exposed."
+    ],
+    [
+      "Inspect the job view",
+      "Go to Jobs and identify active work by category, process count and resource use.",
+      "Related processes may appear as one operation rather than separate jobs."
+    ],
+    [
+      "Choose a non-destructive action first",
+      "Use Details, Copy endpoint, Open or an equivalent inspection action when available. Only consider Stop after verifying ownership and the confirmation dialog.",
+      "You can inspect the relevant work without unintentionally terminating unrelated processes."
+    ],
+    [
+      "Review system signals",
+      "Check the System view for host-level attention such as failed units, pending updates or disk pressure.",
+      "A reported warning has enough context to investigate with the appropriate system tool."
+    ]
+  ],
+  "understand": [
+    [
+      "Running does not mean healthy",
+      "CPU and uptime describe activity, not application correctness."
+    ],
+    [
+      "Local is not necessarily harmless",
+      "An endpoint bound to 0.0.0.0 or another non-loopback address may be reachable beyond your own machine."
+    ],
+    [
+      "Remote-owned services have boundaries",
+      "Services managed by Arch Remote should be handled in that module rather than using generic process-stop actions."
+    ]
+  ],
+  "issues": [
+    [
+      "A runtime does not appear",
+      "It may not be listening, may have ended, or may fall outside the detector’s discovery scope."
+    ],
+    [
+      "The endpoint will not open",
+      "Check the reported address, whether the service is still active, and whether the app provides an HTTP endpoint."
+    ],
+    [
+      "An action is disabled",
+      "Verify the ownership, permissions and feature capability; do not bypass the UI boundary with arbitrary signals."
+    ]
+  ],
+  "source": [
+    "quickshell/modules/nyvorel/sidebarLeft/SidebarLeftContent.qml",
+    "quickshell/scripts/operations-center/operations.py"
+  ],
+  "image": {
+    "src": "/showcase/docs/operations-center-left-sidebar-desktop.png",
+    "alt": "Nyvorel Operations Center left sidebar on desktop",
+    "width": 1918,
+    "height": 1078
+  },
+  "previous": {
+    "title": "Shell surfaces",
+    "href": "/docs/workflows/shell-surfaces"
+  },
+  "next": {
+    "title": "Backup & Recovery",
+    "href": "/docs/workflows/backup-recovery"
+  }
+};
 
-export default function OperationsCenterPage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Using Nyvorel · 04</p>
-        <h1>Operations Center</h1>
-        <p>
-          Operations Center turns the left-side operational surface into a
-          compact view of what the machine is running, what work is active,
-          what needs attention, and what the system is reporting.
-        </p>
-      </header>
-
-      <section className="docSection">
-        <h2>Four operational views</h2>
-
-        <div className="docSurfaceGrid">
-          {tabs.map(([title, description], index) => (
-            <div className="docSurfaceCard" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="docSection">
-        <h2>Runtime view</h2>
-        <p>
-          Runtime cards expose a detected runtime&apos;s name, kind, scope,
-          bind/port, CPU, memory and uptime. The view supports searching and
-          filtering, including local, exposed, and pinned runtime states.
-        </p>
-        <p>
-          Depending on ownership and capability, actions include opening the
-          runtime, opening a terminal, pinning it, copying its URL or endpoint,
-          opening its files, opening its editor, viewing details, and stopping
-          it with confirmation.
-        </p>
-
-        <Callout title="Arch Remote owns its own managed services" tone="safe">
-          Runtimes marked as managed by Arch Remote are routed back to Arch
-          Remote instead of exposing Operations Center stop/file/editor actions.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Jobs and operation history</h2>
-        <p>
-          The backend groups detected work into operational categories rather
-          than treating every child process as an unrelated job. Its
-          classification includes build, test, package, media, transfer and
-          agent-oriented work when those commands are detected.
-        </p>
-        <p>
-          Active job groups expose process count and resource use. Recent ended
-          jobs are retained as bounded history, and active groups can expose a
-          confirmation-based stop action when a valid operation root exists.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>System and attention</h2>
-        <p>
-          System refreshes collect update counts, failed service units, disk
-          usage, memory usage, load and hostname. The overview also consumes
-          attention items so operational problems can be surfaced without
-          forcing the user to inspect each subsystem separately.
-        </p>
-
-        <div className="docPath">
-          quickshell/modules/nyvorel/sidebarLeft/SidebarLeftContent.qml
-          <br />
-          quickshell/scripts/operations-center/operations.py
-        </div>
-      </section>
-
-      <PageFooter
-        previous={{
-          href: "/docs/workflows/shell-surfaces",
-          title: "Shell surfaces",
-        }}
-        next={{
-          href: "/docs/workflows/backup-recovery",
-          title: "Backup & Recovery",
-        }}
-      />
-    </article>
-  );
+export default function Page() {
+  return <WorkflowGuide guide={guide} />;
 }

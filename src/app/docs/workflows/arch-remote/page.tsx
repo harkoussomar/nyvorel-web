@@ -1,139 +1,123 @@
 import type { Metadata } from "next";
-
-import { Callout } from "@/components/docs/callout";
-import { PageFooter } from "@/components/docs/page-footer";
+import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Arch Remote",
-  description:
-    "Manage Nyvorel remote-access services, evidence, security, network exposure, phone access, logs, and power workflows.",
+  title: "Arch Remote — Nyvorel v0.1.0",
+  description: "Verify private access before enabling remote services.",
   alternates: { canonical: "/docs/workflows/arch-remote" },
 };
 
-const pages = [
-  ["Overview", "Summarizes remote-access health and readiness."],
-  ["Services", "Inspects and controls the remote-access service set."],
-  ["Security", "Surfaces verification results and security-policy evidence."],
-  ["Network", "Shows listeners, exposure, Tailscale state, and private serving state."],
-  ["Phone", "Provides phone-oriented connection guidance and private-share pairing state."],
-  ["Logs", "Inspects recent service logs and supports export-oriented workflows."],
-  ["Power", "Surfaces wake/power-related readiness and machine power behavior."],
-] as const;
+const guide: WorkflowGuideData = {
+  "order": "06",
+  "title": "Arch Remote",
+  "intro": "Arch Remote combines service state, private network evidence, authentication readiness and phone guidance. A service being started is never enough evidence that access is secure.",
+  "outcome": "Audit remote-access readiness, identify exposure and decide whether a service should remain disabled.",
+  "prerequisites": [
+    "Use a trusted network and have local access to the machine before changing a remote service.",
+    "If using Tailscale or another private path, establish that private identity separately.",
+    "Do not share pairing QR codes, temporary credentials or private connection details publicly."
+  ],
+  "orient": [
+    [
+      "Overview / Services",
+      "Status and state of SSH, Tailscale, LAN Share and WayVNC."
+    ],
+    [
+      "Security",
+      "Effective-policy and authentication checks."
+    ],
+    [
+      "Network",
+      "Listener, private exposure and tailnet evidence."
+    ],
+    [
+      "Phone",
+      "Supported pairing/connection guidance for another device."
+    ],
+    [
+      "Logs / Power",
+      "Service evidence and wake/power readiness."
+    ]
+  ],
+  "steps": [
+    [
+      "Start with the overview",
+      "Open Arch Remote and identify which services are running, configured and marked ready.",
+      "You can distinguish Running, Ready, Unverified and Off instead of treating them as synonyms."
+    ],
+    [
+      "Check the security evidence",
+      "Inspect the Security view for effective SSH policy and the authentication state of any remote-desktop or file-sharing service.",
+      "The policy is supported by verifiable evidence, or the UI flags unknown/missing proof."
+    ],
+    [
+      "Review network exposure",
+      "On Network, inspect the actual listeners and private-network identity before considering enablement.",
+      "You understand which interface or address a service is using and whether access is intended to be private."
+    ],
+    [
+      "Only enable a needed service",
+      "Select a service only after its authentication, listener and private-exposure prerequisites are satisfied. Follow the UI’s confirmation and verify the resulting state.",
+      "The service reports a usable ready state with corresponding security/network evidence; otherwise leave it off."
+    ],
+    [
+      "Connect and then shut down safely",
+      "If pairing from a phone, follow the Phone guidance, keep temporary credentials private, test access and disable unneeded services when finished.",
+      "You can connect only through the intended authorized route, or you have a clear reason not to continue."
+    ]
+  ],
+  "understand": [
+    [
+      "Started ≠ secure",
+      "A running SSH or WayVNC process may still have unsuitable effective policy or authentication."
+    ],
+    [
+      "Private proof matters",
+      "Private-network intent needs corroboration from actual listeners and reachability, not just the presence of Tailscale."
+    ],
+    [
+      "Pairing is sensitive",
+      "Temporary QR codes and URLs may function as credentials. Do not copy them into screenshots, tickets or public logs."
+    ]
+  ],
+  "issues": [
+    [
+      "The service is active but not ready",
+      "Read Security and Network evidence; common blockers include listener binding, authentication or missing graphical session."
+    ],
+    [
+      "The phone cannot connect",
+      "Verify the intended private network and target address on both devices before changing security settings."
+    ],
+    [
+      "Remote desktop lacks a session",
+      "Confirm there is a valid graphical Wayland session and that the service is bound to it."
+    ],
+    [
+      "You see public exposure you did not intend",
+      "Disable the affected service and inspect its listeners/policy locally before re-enabling."
+    ]
+  ],
+  "source": [
+    "quickshell/modules/nyvorel/archRemote/ArchRemoteContent.qml",
+    "quickshell/scripts/arch-remote/control_center.py"
+  ],
+  "image": {
+    "src": "/showcase/docs/arch-remote-access-overview.png",
+    "alt": "Arch Remote status, access and security overview",
+    "width": 1168,
+    "height": 748
+  },
+  "previous": {
+    "title": "Backup & Recovery",
+    "href": "/docs/workflows/backup-recovery"
+  },
+  "next": {
+    "title": "Project Launcher",
+    "href": "/docs/workflows/project-launcher"
+  }
+};
 
-export default function ArchRemotePage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Using Nyvorel · 06</p>
-        <h1>Arch Remote</h1>
-        <p>
-          Arch Remote is Nyvorel&apos;s remote-access control surface. It
-          brings service readiness, network exposure, security verification,
-          phone access and remote-desktop state into one evidence-driven view.
-        </p>
-      </header>
-
-      <section className="docSection">
-        <h2>Seven remote-access views</h2>
-
-        <div className="docSurfaceGrid">
-          {pages.map(([title, description], index) => (
-            <div className="docSurfaceCard" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="docSection">
-        <h2>Service model</h2>
-        <p>
-          The current state model tracks SSH, Tailscale, LAN Share and WayVNC
-          as explicit services. For each service, Arch Remote distinguishes
-          loaded/running state from actual readiness and health.
-        </p>
-
-        <dl className="docDefinitionGrid">
-          <dt>SSH</dt>
-          <dd>
-            Service/listener state plus configured and effective SSH security
-            policy, including key-only and root-login evidence.
-          </dd>
-          <dt>Tailscale</dt>
-          <dd>
-            Tailnet connectivity and private network identity used by other
-            remote workflows.
-          </dd>
-          <dt>LAN Share</dt>
-          <dd>
-            Private share readiness, HTTPS serving state and pairing capability.
-          </dd>
-          <dt>WayVNC</dt>
-          <dd>
-            Remote-desktop service, transport readiness, authentication
-            readiness and graphical-session evidence.
-          </dd>
-        </dl>
-      </section>
-
-      <section className="docSection">
-        <h2>Evidence before “ready”</h2>
-        <p>
-          Arch Remote does not equate “process is running” with “remote access
-          is ready.” The state model separately tracks listeners, reachability,
-          configured/effective policy, service readiness, authentication,
-          graphical-session state and private exposure evidence.
-        </p>
-
-        <Callout title="SSH verification uses effective configuration" tone="safe">
-          The backend can verify effective SSH policy with <code>sshd -T</code>
-          and caches that proof against configuration/executable/service
-          generation rather than relying only on parsing a config file.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Private Share pairing</h2>
-        <p>
-          Pairing is handled as temporary credential-equivalent data. The UI
-          keeps the QR state in memory only, tracks expiry and single-use state,
-          and clears it when the Arch Remote panel closes.
-        </p>
-        <p>
-          The backend validates that pairing uses HTTPS, the expected private
-          Tailscale host and the expected pairing path/credential shape. It
-          also redacts pairing credentials from UI/log/export-oriented text.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Phone, logs and power</h2>
-        <p>
-          The Phone view collects readiness for Tailscale, SSH, SFTP,
-          remote-desktop access and private sharing. Logs can be inspected per
-          remote service. The Power view carries wake-related state such as
-          interface capability and test status.
-        </p>
-
-        <div className="docPath">
-          quickshell/modules/nyvorel/archRemote/ArchRemoteContent.qml
-          <br />
-          quickshell/scripts/arch-remote/control_center.py
-        </div>
-      </section>
-
-      <PageFooter
-        previous={{
-          href: "/docs/workflows/backup-recovery",
-          title: "Backup & Recovery",
-        }}
-        next={{
-          href: "/docs/workflows/project-launcher",
-          title: "Project Launcher",
-        }}
-      />
-    </article>
-  );
+export default function Page() {
+  return <WorkflowGuide guide={guide} />;
 }

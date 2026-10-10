@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Callout } from "@/components/docs/callout";
 import { CodeBlock } from "@/components/docs/code-block";
 import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
-  title: "Recovery",
-  description:
-    "Uninstall Nyvorel safely, restore pre-install files, and protect user edits.",
+  title: "Recover or uninstall — v0.1.0",
+  description: "Preview Nyvorel recovery, restore pre-install files, and preserve later edits safely.",
   alternates: { canonical: "/docs/getting-started/recovery" },
 };
 
@@ -15,114 +15,110 @@ export default function RecoveryPage() {
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Getting started · 03</p>
-        <h1>Uninstall &amp; recover</h1>
+        <p className="docEyebrow">Getting started · 04 · Stable v0.1.0</p>
+        <h1>Uninstall without losing your work</h1>
         <p>
-          Setup delegates user-file installation to Nyvorel&apos;s manifest-backed
-          installer. Keep its backups and first-run snapshot until you have
-          verified your desktop.
+          The v0.1.0 uninstaller is manifest-backed. It restores managed files
+          that existed before Nyvorel and removes managed files that Nyvorel
+          created. Start by inspecting the plan—especially if you edited your
+          desktop after installation.
         </p>
       </header>
 
+      <Callout title="Recover user files, not a whole operating system" tone="important">
+        This procedure does not revert Arch package upgrades, remove optional
+        packages, or restore unrelated data. Make a separate backup of any
+        important personal configuration before proceeding.
+      </Callout>
+
       <section className="docSection">
-        <h2>Before changing an existing installation</h2>
-        <CodeBlock>{`nyvorel doctor --deep
-nyvorel update --dry-run`}</CodeBlock>
+        <h2>1. Check the installation evidence</h2>
         <p>
-          Review the update plan before applying a newer source checkout with
-          <code>nyvorel update --yes</code>. The updater refuses changed
-          managed files by default, so local edits are not silently replaced.
-          Setup itself refuses to rerun over a completed installation; use the
-          update command instead.
+          Return to the <strong>same v0.1.0 source checkout</strong> used for
+          installation. Do not run an uninstaller from a different source
+          version against an unfamiliar manifest.
+        </p>
+        <CodeBlock label="Terminal · read-only">{`cat "$HOME/.local/state/nyvorel/current-install"
+ls -ld "$HOME/.local/state/nyvorel/installations"`}</CodeBlock>
+        <p>
+          <strong>Expected:</strong> the first command prints the directory for
+          your current installation; the second shows retained installation
+          history. If the pointer is missing, see
+          <Link href="/docs/troubleshooting"> Troubleshooting</Link> before
+          supplying an explicit state path.
         </p>
       </section>
 
       <section className="docSection">
-        <h2>Normal recovery</h2>
-        <p>From the source checkout used for setup, preview before removal:</p>
-        <CodeBlock>{`./uninstall.sh --dry-run
-./uninstall.sh --yes`}</CodeBlock>
-        <p>The recovery flow:</p>
-        <ol>
-          <li>
-            reads <code>~/.local/state/nyvorel/current-install</code>;
-          </li>
-          <li>verifies managed files against the versions Nyvorel installed;</li>
-          <li>restores files that existed before installation;</li>
-          <li>removes files that Nyvorel originally created.</li>
-        </ol>
+        <h2>2. Preview what recovery would change</h2>
+        <CodeBlock label="Terminal · read-only">{`./uninstall.sh --dry-run`}</CodeBlock>
+        <p>
+          Review the counts of managed entries, restored backups, and removed
+          Nyvorel-created files. If managed files changed or disappeared after
+          installation, the tool refuses normal recovery (and may exit with a
+          nonzero status) before making changes.
+        </p>
       </section>
 
       <section className="docSection">
-        <h2>State intentionally retained</h2>
-        <p>Normal recovery intentionally keeps:</p>
-        <CodeBlock label="paths">{`~/.config/nyvorel
+        <h2>3. Choose a safe recovery path</h2>
+        <h3>If no managed files have changed</h3>
+        <CodeBlock label="Terminal · changes files and services">{`./uninstall.sh --yes`}</CodeBlock>
+        <p>
+          By default, this stops or disables Nyvorel&apos;s managed user services,
+          restores backed-up managed files, and removes only managed files
+          that Nyvorel installed as new destinations.
+        </p>
+        <h3>If the preview reports changed or missing files</h3>
+        <p>
+          Inspect the reported paths and back up your edits independently.
+          Then review the forced recovery plan <em>without applying it</em>:
+        </p>
+        <CodeBlock label="Terminal · read-only">{`./uninstall.sh --dry-run --force-changed`}</CodeBlock>
+        <p>
+          Only when you accept those file replacements or removals, run the
+          explicit forced recovery:
+        </p>
+        <CodeBlock label="Terminal · changes files and services">{`./uninstall.sh --yes --force-changed`}</CodeBlock>
+        <Callout title="How forced recovery preserves edits" tone="important">
+          Changed files that still exist are archived inside the installation
+          state under <code>uninstall-conflicts/&lt;timestamp&gt;/</code> before
+          the original destinations are recovered. Missing files have no
+          contents to archive. Check the archive yourself before deleting
+          installation history.
+        </Callout>
+      </section>
+
+      <section className="docSection">
+        <h2>4. Verify recovery</h2>
+        <p>
+          Confirm the uninstaller reported success and restored/removed counts.
+          Compare important pre-install desktop files with your own backup.
+          The state and runtime preferences are intentionally retained:
+        </p>
+        <CodeBlock label="Retained paths">{`~/.config/nyvorel
 ~/.local/state/nyvorel/installations/`}</CodeBlock>
         <p>
-          This preserves user/runtime state and installation/recovery history.
-          Pacman-installed packages are system packages and are not removed by
-          this user-file recovery command.
+          The <code>current-install</code> pointer is removed after a successful
+          uninstall when it refers to that installation. A retained state
+          directory does not mean the shell is still installed.
         </p>
       </section>
 
       <section className="docSection">
-        <h2>First-run wallpaper and palette</h2>
+        <h2>Testing recovery in a separate home</h2>
         <p>
-          Setup records a separate first-run snapshot before generating the
-          default wallpaper and palette. Check that state before using its
-          explicit rollback path.
+          Advanced maintainers can test file installation and recovery against
+          an isolated target home without activating/deactivating live services.
+          This is not a full graphical or package-installation test.
         </p>
-        <CodeBlock>{`nyvorel first-run --check
-nyvorel first-run --rollback ~/.local/state/nyvorel/first-run/SNAPSHOT --yes`}</CodeBlock>
-        <p>
-          Replace <code>SNAPSHOT</code> with the verified path printed by setup.
-          Rollback refuses files changed since initialization.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Protecting post-install edits</h2>
-        <p>
-          If an installed file was edited or removed after installation, the
-          normal uninstaller stops before making filesystem changes.
-        </p>
-        <CodeBlock>{`./uninstall.sh --dry-run`}</CodeBlock>
-
-        <Callout title="Nyvorel does not silently overwrite your edits" tone="safe">
-          Changed or missing managed files are treated as a boundary that
-          requires an explicit decision.
-        </Callout>
-
-        <h3>Forced recovery</h3>
-        <CodeBlock>{`./uninstall.sh --yes --force-changed`}</CodeBlock>
-        <p>
-          Existing changed files are archived under the installation state in{" "}
-          <code>uninstall-conflicts/&lt;timestamp&gt;/</code> before restoration
-          or removal continues.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Testing against another home</h2>
-        <p>
-          The lower-level file installer and uninstaller can target an alternate
-          home for isolated verification. This does not install Arch packages
-          or create a graphical session in that home.
-        </p>
-        <CodeBlock>{`./install.sh \\
-  --target-home /tmp/nyvorel-test-home \\
-  --yes \\
-  --no-activate
-
-./uninstall.sh \\
-  --target-home /tmp/nyvorel-test-home \\
-  --yes \\
-  --no-deactivate`}</CodeBlock>
+        <CodeBlock label="Isolated test home · changes only the target path">{`./install.sh --target-home /tmp/nyvorel-test-home --yes --no-activate
+./uninstall.sh --target-home /tmp/nyvorel-test-home --yes --no-deactivate`}</CodeBlock>
       </section>
 
       <PageFooter
-        previous={{ href: "/docs/getting-started/install", title: "Install" }}
-        next={{ href: "/docs/concepts/architecture", title: "Architecture" }}
+        previous={{ href: "/docs/getting-started/first-launch", title: "First launch" }}
+        next={{ href: "/docs/troubleshooting", title: "Troubleshooting" }}
       />
     </article>
   );

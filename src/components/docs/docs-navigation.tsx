@@ -57,7 +57,7 @@ export function DocsMobileNavigation() {
   return (
     <div className="docsMobileNav">
       <details ref={detailsRef}>
-        <summary>Documentation menu</summary>
+        <summary><span>Explore documentation</span><span className="docsMobileNavIndicator" aria-hidden="true">Browse chapters <b>⌄</b></span></summary>
         <div>
           <NavigationSections pathname={pathname} />
         </div>

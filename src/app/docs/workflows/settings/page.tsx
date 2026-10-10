@@ -1,110 +1,114 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-
-import { Callout } from "@/components/docs/callout";
-import { PageFooter } from "@/components/docs/page-footer";
+import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Settings",
-  description:
-    "Navigate Nyvorel Settings and understand its Quick, General, Bar, Background, Interface, Services, Advanced, and About sections.",
+  title: "Settings — Nyvorel v0.1.0",
+  description: "Find a setting, change it deliberately, and verify what happened.",
   alternates: { canonical: "/docs/workflows/settings" },
 };
 
-const sections = [
-  ["Quick", "Fast access to frequently adjusted Nyvorel options."],
-  ["General", "General shell behavior and broad environment preferences."],
-  ["Bar", "Bar presentation, visibility, utility actions, and related behavior."],
-  ["Background", "Wallpaper and desktop-background configuration."],
-  ["Interface", "Interface presentation and shell visual behavior."],
-  ["Services", "Settings related to services and integrations."],
-  ["Advanced", "Lower-level options intended for deliberate configuration."],
-  ["About", "Project and environment information."],
-] as const;
+const guide: WorkflowGuideData = {
+  "order": "01",
+  "title": "Settings",
+  "intro": "Use Nyvorel Settings when you want to change shell behavior, bar layout, background or integrations without editing QML by hand.",
+  "outcome": "Locate a control in Settings, decide whether to change it, and confirm the result on the desktop.",
+  "prerequisites": [
+    "Nyvorel is running inside the supported Hyprland session.",
+    "You can open its Settings window from your configured launcher or shell controls.",
+    "Record the original value of any setting you plan to change."
+  ],
+  "orient": [
+    [
+      "Quick",
+      "Frequent adjustments and appearance entry points."
+    ],
+    [
+      "General",
+      "Broad shell behavior and environment choices."
+    ],
+    [
+      "Bar",
+      "Location, display and behavior of the shell bar."
+    ],
+    [
+      "Background / Interface",
+      "Wallpaper and visual surface options."
+    ],
+    [
+      "Services / Advanced",
+      "Integrations and lower-level options; inspect before changing."
+    ]
+  ],
+  "steps": [
+    [
+      "Open Settings",
+      "Use the entry point supplied by your installed launcher or shell. If it does not appear, check that the Nyvorel Quickshell service is active.",
+      "The Settings window opens and exposes its main navigation."
+    ],
+    [
+      "Find the control",
+      "Choose a section from the top tabs or compact navigation rail. When available, use the in-window search to locate a named control instead of scanning every page.",
+      "You reach a page that explains the control or highlights the matching setting."
+    ],
+    [
+      "Change one reversible preference",
+      "Start with a low-risk visual preference such as bar position or appearance mode. Note the original value before selecting a new one.",
+      "The related shell surface reflects the new preference. If it does not, check whether the control needs an Apply action."
+    ],
+    [
+      "Verify and restore if needed",
+      "Return to the affected surface, confirm the effect, then switch back to your original value if you were only exploring.",
+      "The desktop matches the chosen value and can return to its original appearance."
+    ]
+  ],
+  "understand": [
+    [
+      "Search is navigation",
+      "Search helps locate existing settings; it is not a system-wide command runner."
+    ],
+    [
+      "Settings vs Appearance Studio",
+      "Settings covers the broader shell; Appearance Studio groups wallpaper, palette and visual composition into one staged workflow."
+    ],
+    [
+      "Some controls affect services",
+      "Do not change service or advanced options until you understand their effect on the live session."
+    ]
+  ],
+  "issues": [
+    [
+      "Settings does not open",
+      "Check your configured launcher entry point, then inspect the user service with systemctl --user status nyvorel-quickshell.service."
+    ],
+    [
+      "A change does not appear",
+      "Check if the specific control supports preview, needs confirmation, or is unavailable in the selected panel family."
+    ],
+    [
+      "A setting appears missing",
+      "Search the other relevant section and confirm the installed shell version; UI options may differ across releases."
+    ]
+  ],
+  "source": [
+    "quickshell/settings.qml",
+    "quickshell/modules/settings/"
+  ],
+  "image": {
+    "src": "/showcase/docs/settings-appearance-overview.png",
+    "alt": "Settings appearance controls in Nyvorel",
+    "width": 1100,
+    "height": 750
+  },
+  "previous": {
+    "title": "First launch",
+    "href": "/docs/getting-started/first-launch"
+  },
+  "next": {
+    "title": "Appearance Studio",
+    "href": "/docs/workflows/appearance-studio"
+  }
+};
 
-export default function SettingsPage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Using Nyvorel · 01</p>
-        <h1>Settings</h1>
-        <p>
-          Nyvorel Settings is a dedicated application window for configuring
-          the shell. Its navigation is intentionally divided by responsibility
-          instead of exposing one long configuration surface.
-        </p>
-      </header>
-
-      <figure className="docVisual">
-        <Image
-          src="/showcase/settings-overview.webp"
-          alt="Nyvorel Settings window"
-          width={1600}
-          height={899}
-          sizes="(max-width: 920px) 96vw, 820px"
-        />
-        <figcaption>
-          The Settings window uses a responsive navigation rail and loads each
-          settings area as a focused page.
-        </figcaption>
-      </figure>
-
-      <section className="docSection">
-        <h2>Settings areas</h2>
-
-        <div className="docSurfaceGrid">
-          {sections.map(([title, description], index) => (
-            <div className="docSurfaceCard" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          ))}
-        </div>
-
-        <Callout title="The source of truth is split by page">
-          The window maps these sections to dedicated QML files under{" "}
-          <code>quickshell/modules/settings/</code>, keeping each settings area
-          separately owned.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Responsive navigation</h2>
-        <p>
-          The settings navigation can expand on wider windows and collapses to
-          a compact rail when space is limited. The window also preserves page
-          scroll positions while moving between sections.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Search navigation</h2>
-        <p>
-          Nyvorel Settings includes control-rail search behavior that can move
-          to the relevant page, reveal matching content, and briefly highlight
-          the discovered setting.
-        </p>
-
-        <div className="docPath">quickshell/settings.qml</div>
-      </section>
-
-      <section className="docSection">
-        <h2>Settings vs Appearance Studio</h2>
-        <p>
-          Use Settings for the broader configuration surface. Use Appearance
-          Studio when the task is specifically about composing and previewing
-          the desktop&apos;s visual identity.
-        </p>
-      </section>
-
-      <PageFooter
-        previous={{ href: "/docs/getting-started/recovery", title: "Recovery" }}
-        next={{
-          href: "/docs/workflows/appearance-studio",
-          title: "Appearance Studio",
-        }}
-      />
-    </article>
-  );
+export default function Page() {
+  return <WorkflowGuide guide={guide} />;
 }

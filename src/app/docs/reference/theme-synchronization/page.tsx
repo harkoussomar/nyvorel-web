@@ -1,144 +1,128 @@
 import type { Metadata } from "next";
-
-import { Callout } from "@/components/docs/callout";
-import { CodeBlock } from "@/components/docs/code-block";
-import { PageFooter } from "@/components/docs/page-footer";
+import { TechnicalReference, type TechnicalGuide } from "@/components/docs/technical-reference";
 
 export const metadata: Metadata = {
   title: "Theme synchronization",
-  description:
-    "How Nyvorel propagates generated palette and interface-style changes to terminal, KDE, Zed, btop, Fuzzel, Zen, and VS Code.",
+  description: "The data flow from Nyvorel appearance inputs to application-specific generated outputs.",
   alternates: { canonical: "/docs/reference/theme-synchronization" },
 };
 
-const targets = [
-  ["Terminal", "Kitty, Fish, and optional Starship/template outputs.", "nyvorel-terminal-theme-sync"],
-  ["Dolphin", "KDE color scheme plus Darkly/Dolphin-specific appearance behavior.", "nyvorel-dolphin-theme-sync"],
-  ["Zed", "Theme and theme_overrides in the user settings file.", "nyvorel-zed-theme-sync"],
-  ["btop", "Generated Nyvorel themes and managed color_theme selection.", "nyvorel-btop-style-sync"],
-  ["Fuzzel", "Generated interface-style-aware Fuzzel include/output.", "nyvorel-fuzzel-style-sync"],
-  ["KDE apps", "Generated KDE color schemes and kdeglobals selection.", "nyvorel-kde-app-style-sync"],
-  ["Zen + VS Code", "Zen userChrome style plus generated VS Code theme extension/settings selection.", "nyvorel-zen-code-style-sync"],
-] as const;
+const guide: TechnicalGuide = {
+  "title": "Theme synchronization",
+  "intro": "The Quickshell theme and external application themes are related but not identical. Per-application helpers translate Nyvorel’s state into each target application’s own format.",
+  "kind": "Technical reference",
+  "number": "05",
+  "concepts": [
+    [
+      "Two main inputs",
+      "The palette is emitted to ~/.local/state/quickshell/user/generated/colors.json; persistent shell/interface choices live in ~/.config/nyvorel/config.json."
+    ],
+    [
+      "Path-driven updates",
+      "Published systemd .path templates watch changes to those sources; a matching .service calls an application-specific helper."
+    ],
+    [
+      "Application outputs are generated",
+      "Kitty/Fish, Zed, btop, Fuzzel, KDE/Dolphin and Zen/VS Code each consume files and conventions they understand."
+    ],
+    [
+      "Not every integration must exist",
+      "Application-specific tooling is optional for the overall shell. A missing optional application is not itself evidence that Nyvorel is broken."
+    ]
+  ],
+  "steps": [
+    [
+      "Choose a visual treatment",
+      "Use the shell appearance interface; do not manually alter generated sync outputs as the authoritative source."
+    ],
+    [
+      "Generate/write palette input",
+      "The shell creates or updates colors.json and persistent interface configuration as needed."
+    ],
+    [
+      "Trigger the appropriate watcher",
+      "When the watched file changes, systemd can activate the corresponding sync service."
+    ],
+    [
+      "Observe the actual target",
+      "Check the updated application independently, because a completed helper does not guarantee the application currently displays its new styling."
+    ]
+  ],
+  "contracts": [
+    [
+      "Terminal",
+      "Kitty and Fish; optional Starship integration",
+      "nyvorel-terminal-theme-sync"
+    ],
+    [
+      "Dolphin",
+      "KDE color schemes and Dolphin integration",
+      "nyvorel-dolphin-theme-sync"
+    ],
+    [
+      "Zed",
+      "Zed user settings/theme overrides",
+      "nyvorel-zed-theme-sync"
+    ],
+    [
+      "btop",
+      "Generated btop themes",
+      "nyvorel-btop-style-sync"
+    ],
+    [
+      "Fuzzel",
+      "Interface-style-aware theme include",
+      "nyvorel-fuzzel-style-sync"
+    ],
+    [
+      "KDE apps",
+      "KDE color schemes, including kdeglobals input",
+      "nyvorel-kde-app-style-sync"
+    ],
+    [
+      "Zen / VS Code",
+      "Browser chrome and editor theme integration",
+      "nyvorel-zen-code-style-sync"
+    ]
+  ],
+  "checks": [
+    [
+      "Inspect watchers",
+      "systemctl --user list-units \"nyvorel-*.path\" --all --no-pager",
+      "Read-only; check whether watchers exist and are active."
+    ],
+    [
+      "Inspect terminal sync unit",
+      "systemctl --user cat nyvorel-terminal-theme-sync.path",
+      "Read-only; shows actual watched file locations."
+    ],
+    [
+      "Check terminal theme results",
+      "journalctl --user -u nyvorel-terminal-theme-sync.service -n 40 --no-pager",
+      "Read-only; reveal error traces without changing settings."
+    ]
+  ],
+  "cautions": [
+    "Do not hand-edit generated theme outputs expecting them to persist through the next synchronization.",
+    "The exact appearance result depends on the target application, installed integration, and active interface style; there is no single universal CSS/JSON format.",
+    "The Zed helper uses a different write behavior from typical atomic generated outputs to support filesystem change detection."
+  ],
+  "refs": [
+    "systemd/nyvorel-terminal-theme-sync.path.in",
+    "systemd/nyvorel-kde-app-style-sync.path.in",
+    "bin/nyvorel-terminal-theme-sync",
+    "quickshell/modules/common/Config.qml"
+  ],
+  "previous": {
+    "href": "/docs/reference/systemd-integration",
+    "title": "systemd integration"
+  },
+  "next": {
+    "href": "/docs/reference/repository-map",
+    "title": "Repository map"
+  }
+};
 
-export default function ThemeSynchronizationPage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Technical reference · 05</p>
-        <h1>Theme synchronization</h1>
-        <p>
-          Nyvorel&apos;s visual identity is not limited to QML. systemd path
-          units watch the generated palette and persistent interface-style
-          configuration, then run small application-specific synchronizers.
-        </p>
-      </header>
-
-      <section className="docSection">
-        <h2>Primary inputs</h2>
-        <CodeBlock label="watched inputs">{`~/.local/state/quickshell/user/generated/colors.json
-~/.config/nyvorel/config.json`}</CodeBlock>
-        <p>
-          Most synchronization paths watch both files. The generated colors file
-          carries palette/theme output, while the Nyvorel configuration carries
-          interface-level choices such as the selected interface style.
-        </p>
-
-        <Callout title="KDE has an additional input">
-          The KDE app style path also watches <code>~/.config/kdeglobals</code>,
-          because KDE&apos;s current global style state is part of that
-          synchronization contract.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Propagation targets</h2>
-
-        <div className="docSurfaceGrid">
-          {targets.map(([title, description, helper], index) => (
-            <div className="docSurfaceCard" key={helper}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>
-                {description}
-                <br />
-                <code>{helper}</code>
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="docSection">
-        <h2>Interface style is part of the synchronization model</h2>
-        <p>
-          The helpers do more than copy colors. They read Nyvorel&apos;s
-          interface style and adapt each application to the intended identity.
-          Current helpers recognize the primary styles{" "}
-          <code>fluid</code>, <code>prism</code>, <code>inlay</code>, and{" "}
-          <code>default</code>, with compatibility handling where required.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Terminal synchronization</h2>
-        <p>
-          The terminal helper writes an auto-generated Kitty dynamic theme,
-          Fish color configuration, and startup overlay. When a Starship
-          dynamic template is present, it renders that target as well. It also
-          attempts to update live Kitty instances through Kitty&apos;s remote
-          control sockets.
-        </p>
-
-        <Callout title="Generated files are managed outputs" tone="important">
-          Files marked as auto-generated by Nyvorel sync helpers should be
-          treated as outputs, not as the persistent source of appearance
-          configuration. Change Nyvorel&apos;s palette/interface settings
-          instead.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Application-specific ownership</h2>
-        <p>
-          Each target keeps application semantics instead of forcing one generic
-          file format everywhere. Dolphin coordinates KDE scheme/Darkly state;
-          Zed manages theme overrides; btop creates dedicated theme files;
-          Fuzzel renders an include; the KDE helper maintains color schemes; and
-          the Zen/VS Code helper owns browser chrome overrides plus a generated
-          VS Code theme extension.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Write strategy</h2>
-        <p>
-          Most helpers use temporary-file replacement for atomic managed
-          outputs. Zed is a deliberate exception: its helper preserves the
-          existing <code>settings.json</code> inode and performs a normal write
-          so a running Zed instance receives the expected modify/close-write
-          filesystem event.
-        </p>
-
-        <div className="docPath">
-          systemd/nyvorel-*-sync.path.in
-          <br />
-          systemd/nyvorel-*-sync.service.in
-          <br />
-          bin/nyvorel-*-sync
-        </div>
-      </section>
-
-      <PageFooter
-        previous={{
-          href: "/docs/reference/systemd-integration",
-          title: "systemd integration",
-        }}
-        next={{
-          href: "/docs/reference/repository-map",
-          title: "Repository map",
-        }}
-      />
-    </article>
-  );
+export default function ReferencePage() {
+  return <TechnicalReference guide={guide} />;
 }

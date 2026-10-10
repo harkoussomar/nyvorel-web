@@ -1312,3 +1312,34 @@ main button:focus-visible {
     transition: none;
   }
 }
+
+/* NYVOREL ATELIER POINTER — scoped cursor variant */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body {
+    cursor: url("/cursors/atelier-arrow.png") 4 2, default;
+  }
+
+  /* Keep native text selection and editing cursors. */
+  :where(article p, article li, article h1, article h2, article h3,
+         article h4, article h5, article h6, article blockquote,
+         article pre, article code, article th, article td,
+         input:not([type="button"]):not([type="submit"]):not([type="reset"]),
+         textarea, [contenteditable="true"], [role="textbox"]) {
+    cursor: text;
+  }
+
+  /* Distinct, deliberately restrained interactive pointer. */
+  :where(a[href]:not([aria-disabled="true"]), button:not(:disabled),
+         [role="button"]:not([aria-disabled="true"]),
+         [role="link"], [role="tab"], [role="menuitem"], [role="option"],
+         summary, label[for], select,
+         input[type="button"], input[type="submit"], input[type="reset"]),
+  :where(a[href]:not([aria-disabled="true"]) *, button:not(:disabled) *,
+         [role="button"]:not([aria-disabled="true"]) *,
+         [role="link"] *, [role="tab"] *, [role="menuitem"] *,
+         [role="option"] *, summary *, label[for] *) {
+    cursor: url("/cursors/atelier-hand.png") 15 4, pointer !important;
+  }
+}
+/* END NYVOREL ATELIER POINTER */

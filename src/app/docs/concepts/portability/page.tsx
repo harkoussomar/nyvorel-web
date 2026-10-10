@@ -1,100 +1,103 @@
 import type { Metadata } from "next";
-
-import { Callout } from "@/components/docs/callout";
-import { CodeBlock } from "@/components/docs/code-block";
-import { PageFooter } from "@/components/docs/page-footer";
+import { TechnicalReference, type TechnicalGuide } from "@/components/docs/technical-reference";
 
 export const metadata: Metadata = {
-  title: "Portability",
-  description:
-    "How Nyvorel keeps public source independent from maintainer-local paths and runtime state.",
+  title: "Portable public source",
+  description: "How the v0.1.0 release separates portable source from user configuration, generated outputs and recovery state.",
   alternates: { canonical: "/docs/concepts/portability" },
 };
 
-export default function PortabilityPage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Core concepts · 02</p>
-        <h1>Portable public source</h1>
-        <p>
-          The public repository is designed to represent reusable Nyvorel
-          source, not a snapshot of the maintainer&apos;s live home directory.
-        </p>
-      </header>
+const guide: TechnicalGuide = {
+  "title": "Portable public source",
+  "intro": "Portable source is not a copy of the maintainer’s home directory. Nyvorel resolves machine-specific paths at installation time and keeps mutable user state outside the release tree.",
+  "kind": "Core concepts",
+  "number": "02",
+  "concepts": [
+    [
+      "Source is reusable",
+      "The repository includes source, portable templates, helpers, integrations, license information and redistributable assets—not live credentials or backup history."
+    ],
+    [
+      "A token is not a path",
+      "The literal @HOME@ is a placeholder in files requiring the target-user absolute home. Install materializes it in destination copies, not in the public source."
+    ],
+    [
+      "State is not installation source",
+      "User settings and installation history may survive uninstall. A restore of managed files is not the same as deleting all user/runtime data."
+    ]
+  ],
+  "steps": [
+    [
+      "Select a target home",
+      "The installer defaults to the invoking user’s HOME; the target-home option exists for isolated staging and testing."
+    ],
+    [
+      "Render copied files",
+      "install.sh replaces @HOME@ while copying managed files and converts .service.in/.path.in templates to installed unit filenames."
+    ],
+    [
+      "Record the transaction",
+      "The installer preserves pre-existing managed files and produces a timestamped manifest."
+    ],
+    [
+      "Recover deliberately",
+      "uninstall.sh consults that manifest, protects user-modified managed files, and retains user state/history."
+    ]
+  ],
+  "contracts": [
+    [
+      "@HOME@",
+      "Literal install-time home placeholder",
+      "29 occurrences across 10 source templates in v0.1.0"
+    ],
+    [
+      "~/.config/nyvorel/",
+      "Mutable user/runtime settings",
+      "Not copied from the maintainer’s home"
+    ],
+    [
+      "~/.local/state/nyvorel/installations/",
+      "Installation manifests/backups",
+      "Retained after normal uninstall"
+    ],
+    [
+      "~/.config/systemd/user/",
+      "Installed systemd unit templates",
+      "Derived from systemd/*.in sources"
+    ]
+  ],
+  "checks": [
+    [
+      "Check documented portability model",
+      "git show v0.1.0:PORTABILITY.md",
+      "Read-only when run inside a cloned Nyvorel repository."
+    ],
+    [
+      "Preview before installing",
+      "./install.sh --dry-run",
+      "Read-only, run from a checked-out v0.1.0 release; do not substitute development setup commands."
+    ]
+  ],
+  "cautions": [
+    "Never publish screenshots or archives containing credentials, private network identifiers or user-specific state.",
+    "A backup-first installer is not a substitute for independent system backups before replacing a desktop environment."
+  ],
+  "refs": [
+    "PORTABILITY.md",
+    "INSTALL.md",
+    "install.sh",
+    "uninstall.sh"
+  ],
+  "previous": {
+    "href": "/docs/concepts/architecture",
+    "title": "Architecture"
+  },
+  "next": {
+    "href": "/docs/reference/lifecycle",
+    "title": "Runtime lifecycle"
+  }
+};
 
-      <section className="docSection">
-        <h2>What stays out of the release tree</h2>
-        <ul>
-          <li>live <code>~/.config/nyvorel</code> runtime/user state;</li>
-          <li>maintainer backup and history trees;</li>
-          <li>generated package/file inventory;</li>
-          <li>legacy nested Quickshell configuration copies;</li>
-          <li>systemd enablement symlinks;</li>
-          <li>machine-local secrets, credentials, and user data.</li>
-        </ul>
-
-        <Callout title="Source boundary" tone="safe">
-          The release tree contains Nyvorel source, portable templates, helpers,
-          integrations, documentation, and redistributable project/third-party
-          assets.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>The `@HOME@` token</h2>
-        <p>
-          Source files that require an absolute target-user home path use a
-          literal portable token:
-        </p>
-        <CodeBlock label="source token">{`@HOME@`}</CodeBlock>
-        <p>
-          During installation, Nyvorel replaces the token in installed copies
-          with the selected target home while leaving the public source files
-          unchanged.
-        </p>
-
-        <p>
-          For v0.1.0, the published portability contract records 29 occurrences
-          across 10 source template files. Release verification confirms those
-          source tokens remain present while installed sandbox copies contain
-          zero unresolved tokens.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Portable systemd templates</h2>
-        <p>
-          User units are published as templates under <code>systemd/</code>.
-          Installation materializes the runtime filenames:
-        </p>
-        <dl className="docDefinitionGrid">
-          <dt><code>.service.in</code></dt>
-          <dd>becomes <code>.service</code></dd>
-          <dt><code>.path.in</code></dt>
-          <dd>becomes <code>.path</code></dd>
-          <dt><code>.conf.in</code></dt>
-          <dd>becomes <code>.conf</code></dd>
-        </dl>
-        <p>
-          The target-user home token is rendered before those units are
-          installed beneath <code>~/.config/systemd/user/</code>.
-        </p>
-      </section>
-
-      <section className="docSection">
-        <h2>Environment-specific configuration</h2>
-        <p>
-          Portability does not mean every machine uses identical monitor,
-          workspace, hardware, or optional-application settings. Those settings
-          should be reviewed for the target machine after installation.
-        </p>
-      </section>
-
-      <PageFooter
-        previous={{ href: "/docs/concepts/architecture", title: "Architecture" }}
-        next={{ href: "/docs/reference/lifecycle", title: "Runtime lifecycle" }}
-      />
-    </article>
-  );
+export default function ReferencePage() {
+  return <TechnicalReference guide={guide} />;
 }

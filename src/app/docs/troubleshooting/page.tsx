@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Callout } from "@/components/docs/callout";
 import { CodeBlock } from "@/components/docs/code-block";
 import { PageFooter } from "@/components/docs/page-footer";
 
 export const metadata: Metadata = {
-  title: "Troubleshooting",
-  description:
-    "Troubleshoot Nyvorel installation, activation, Quickshell lifecycle, and recovery failures using the project's published contracts.",
+  title: "Troubleshooting — stable v0.1.0",
+  description: "Diagnose Nyvorel v0.1.0 installation, activation, and recovery problems using safe checks first.",
   alternates: { canonical: "/docs/troubleshooting" },
 };
 
@@ -15,191 +15,135 @@ export default function TroubleshootingPage() {
   return (
     <article className="docArticle">
       <header className="docArticleHeader">
-        <p className="docEyebrow">Project & support · 03</p>
-        <h1>Troubleshooting</h1>
+        <p className="docEyebrow">Help · Stable v0.1.0</p>
+        <h1>Find where the problem starts</h1>
         <p>
-          Start from the boundary that failed: package setup, user-file
-          installation, first login, Quickshell runtime, or recovery. Use the
-          development-branch setup on a minimal Arch installation.
+          Diagnose one boundary at a time: prerequisites, the file-install plan,
+          service activation, shell runtime, or uninstall. Begin with read-only
+          evidence. Avoid repeated installs or destructive cleanup until you
+          know which step failed.
         </p>
       </header>
 
+      <Callout title="Use the matching source version" tone="important">
+        These checks apply to the published v0.1.0 release. The commands
+        <code>setup.sh</code>, development-only bootstrap flags, and newer
+        diagnostic subcommands are not assumed to exist in this release.
+      </Callout>
+
       <section className="docSection">
-        <h2>Setup needs an interactive terminal</h2>
+        <h2>Start with these safe checks</h2>
+        <CodeBlock label="Terminal · read-only">{`cat /etc/os-release
+command -v Hyprland
+command -v qs
+cat VERSION
+systemctl --user --no-pager status nyvorel-quickshell.service`}</CodeBlock>
         <p>
-          Pacman must show its full-system-upgrade transaction and receive a
-          response. Run from a local console or use SSH with a PTY.
-        </p>
-        <CodeBlock>{`./setup.sh --plan
-./setup.sh --install --yes`}</CodeBlock>
-        <p>
-          If an SSH connection reports no terminal, reconnect with
-          <code>ssh -t</code>. The plan itself is read-only and does not need a
-          PTY. Setup uses official pacman packages and no AUR helper.
+          Run <code>cat VERSION</code> in your Nyvorel source checkout. It should
+          print <code>0.1.0</code>. The service command is most meaningful in the
+          intended user&apos;s active session.
         </p>
       </section>
 
       <section className="docSection">
-        <h2>Setup found existing personal files</h2>
+        <h2>The installer says a dependency is missing</h2>
         <p>
-          Setup previews managed-file replacements and stops before replacing
-          them. Review the affected destinations and rerun only when you want
-          them backed up and replaced.
-        </p>
-        <CodeBlock>{`./setup.sh --install --yes --replace-existing`}</CodeBlock>
-        <Callout title="Keep the install backups" tone="important">
-          The file installer records original managed files under
-          <code>~/.local/state/nyvorel/installations/</code>.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Packages installed, but setup stopped later</h2>
-        <p>
-          An interrupted user-file or first-run step can be resumed from the
-          same checkout. Do not rerun a completed setup as a fresh install.
-        </p>
-        <CodeBlock>{`./setup.sh --install --yes --resume
-~/.local/bin/nyvorel doctor --no-session`}</CodeBlock>
-      </section>
-
-      <section className="docSection">
-        <h2>Files installed, but services are not active</h2>
-        <p>
-          Package and file setup runs outside the graphical session. Start
-          the first desktop from a text console; the session imports Wayland
-          state and activates Nyvorel&apos;s user services.
-        </p>
-        <CodeBlock>{`~/.local/bin/nyvorel session --check
-~/.local/bin/nyvorel session`}</CodeBlock>
-      </section>
-
-      <section className="docSection">
-        <h2>Nyvorel shell is not running</h2>
-        <p>
-          The published Quickshell service runs{" "}
-          <code>/usr/bin/qs -c nyvorel</code> and is owned by the user systemd
-          manager. Standard systemd inspection can show whether that boundary
-          is active and why it exited.
-        </p>
-
-        <CodeBlock label="diagnostics">{`systemctl --user status nyvorel-quickshell.service
-journalctl --user -u nyvorel-quickshell.service -b`}</CodeBlock>
-
-        <p>
-          If the graphical-session environment changed, use Nyvorel&apos;s
-          activation command inside the live Hyprland session:
-        </p>
-        <CodeBlock>{`nyvorel activate --yes`}</CodeBlock>
-      </section>
-
-      <section className="docSection">
-        <h2>Activation reports no systemctl</h2>
-        <p>
-          Nyvorel requires systemd user services for the supported desktop.
-          Confirm the account has a running systemd user manager and that the
-          graphical session was started using <code>nyvorel session</code>.
+          The v0.1.0 installer expects a working Arch + Hyprland + Quickshell
+          environment. It does not install missing system packages. Return to
+          <Link href="/docs/getting-started/requirements"> Requirements</Link>,
+          identify the missing command or user service, and establish a working
+          desktop environment before trying the installation again.
         </p>
       </section>
 
       <section className="docSection">
-        <h2>A virtual machine is slow or Zed will not open</h2>
+        <h2>The dry run lists files I want to keep</h2>
         <p>
-          Software-rendered QEMU can keep Hyprland busy and is not a useful
-          desktop performance baseline. The recommended Zed package needs a
-          working Vulkan provider; llvmpipe in the clean test VM did not
-          provide a reliable Zed session. Check the selected driver and test
-          on the intended GPU before diagnosing Nyvorel as the cause.
+          Stop before running <code>--yes</code>. The installer replaces
+          managed destinations and records backups for the originals, but a
+          separate backup is recommended for important configuration. Review
+          the dry-run plan and consider testing against an alternate target
+          home before applying it to your live user.
+        </p>
+        <CodeBlock label="Terminal · read-only">{`./install.sh --dry-run`}</CodeBlock>
+      </section>
+
+      <section className="docSection">
+        <h2>Files were installed, but the shell is not running</h2>
+        <p>
+          If you chose <code>./install.sh --yes</code> without
+          <code>--activate</code>, no service activation was requested. Do not
+          assume installation failure. The documented combined install and
+          activate option is intended for a live Hyprland session; consult the
+          <Link href="/docs/getting-started/install"> installation guide</Link>
+          before deciding how to activate an already-installed system.
+        </p>
+        <CodeBlock label="Hyprland session · read-only">{`systemctl --user --no-pager status nyvorel-quickshell.service
+journalctl --user -u nyvorel-quickshell.service -b --no-pager`}</CodeBlock>
+        <p>
+          Look for the first reported failure rather than only the final
+          restart message. Confirm the user manager, Wayland session, and
+          <code>qs</code> availability before changing service configuration.
         </p>
       </section>
 
       <section className="docSection">
-        <h2>Uninstall says there is no current installation</h2>
+        <h2>The desktop loads, but a particular tool does not</h2>
         <p>
-          Normal recovery follows:
+          Core shell readiness does not guarantee optional applications,
+          device support, or network services. Check the specific module
+          requirements in its guide. For GPU-dependent features, distinguish
+          software-rendered virtual machines from physical hardware; a slow VM
+          alone is not proof of a Nyvorel desktop regression.
         </p>
+      </section>
 
-        <CodeBlock label="pointer">{`~/.local/state/nyvorel/current-install`}</CodeBlock>
-
+      <section className="docSection">
+        <h2>Uninstall cannot find the installation</h2>
         <p>
-          If that pointer is absent, the uninstaller cannot infer the active
-          installation manifest. If you intentionally need a specific retained
-          installation state, the uninstaller also supports an explicit{" "}
-          <code>--state</code> path.
+          The uninstaller normally reads the current-install pointer. Check it
+          before trying to recover from an older state directory:
+        </p>
+        <CodeBlock label="Terminal · read-only">{`ls -l "$HOME/.local/state/nyvorel/current-install"
+ls -la "$HOME/.local/state/nyvorel/installations"`}</CodeBlock>
+        <p>
+          The verified uninstaller supports <code>--state PATH</code> for a
+          specific retained installation-state directory. Only provide a path
+          after verifying the <code>manifest.json</code> belongs to the intended
+          user and installation.
         </p>
       </section>
 
       <section className="docSection">
         <h2>Uninstall refuses changed or missing files</h2>
         <p>
-          This refusal is a safety feature. A managed destination changed after
-          installation, so Nyvorel will not overwrite/remove it silently.
+          The refusal protects modifications made since installation. Review
+          the reported destinations, make a separate backup, and preview the
+          explicit forced plan before taking action.
         </p>
-
-        <CodeBlock>{`./uninstall.sh --dry-run`}</CodeBlock>
-
+        <CodeBlock label="Terminal · read-only">{`./uninstall.sh --dry-run --force-changed`}</CodeBlock>
         <p>
-          After reviewing the affected files, forced recovery is explicit:
+          If you accept the consequences, follow the documented
+          <Link href="/docs/getting-started/recovery"> recovery procedure</Link>.
+          Do not delete the installation-state backups simply to bypass a
+          conflict.
         </p>
-
-        <CodeBlock>{`./uninstall.sh --yes --force-changed`}</CodeBlock>
-
-        <Callout title="Changed files are archived before forced recovery" tone="safe">
-          Existing conflicting files are copied under the installation state in
-          <code>uninstall-conflicts/&lt;timestamp&gt;/</code> before
-          restoration/removal continues.
-        </Callout>
       </section>
 
       <section className="docSection">
-        <h2>Testing recovery in an alternate home</h2>
+        <h2>Collect useful evidence safely</h2>
         <p>
-          Use the sandbox path documented by the installer/recovery contract
-          and disable service activation/deactivation for that alternate home.
+          When asking for help, record the release version, the first failed
+          command, its complete error, and the relevant user-service log.
+          Inspect logs before sharing: they can contain usernames, home paths,
+          IP addresses, process names, or other private data. Never include
+          passwords, tokens, authentication files, or private keys.
         </p>
-
-        <CodeBlock>{`./install.sh \
-  --target-home /tmp/nyvorel-test-home \
-  --yes \
-  --no-activate
-
-./uninstall.sh \
-  --target-home /tmp/nyvorel-test-home \
-  --yes \
-  --no-deactivate`}</CodeBlock>
-      </section>
-
-      <section className="docSection">
-        <h2>Where to inspect installation evidence</h2>
-        <CodeBlock label="state">{`~/.local/state/nyvorel/installations/YYYYMMDD-HHMMSS/
-├── manifest.json
-├── backup/
-└── uninstall-conflicts/   # when forced recovery archived changes`}</CodeBlock>
-
-        <p>
-          The manifest records the installation status, destinations, source
-          mapping, checksums, target home, and whether destinations existed
-          before installation.
-        </p>
-
-        <div className="docPath">
-          setup.sh
-          <br />
-          INSTALL.md
-          <br />
-          install.sh
-          <br />
-          uninstall.sh
-          <br />
-          systemd/nyvorel-quickshell.service.in
-        </div>
       </section>
 
       <PageFooter
-        previous={{
-          href: "/docs/project/licensing-provenance",
-          title: "Licensing & provenance",
-        }}
+        previous={{ href: "/docs/getting-started/recovery", title: "Recovery" }}
+        next={{ href: "/docs", title: "Documentation home" }}
       />
     </article>
   );

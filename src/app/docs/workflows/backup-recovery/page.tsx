@@ -1,146 +1,127 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-
-import { Callout } from "@/components/docs/callout";
-import { PageFooter } from "@/components/docs/page-footer";
+import { WorkflowGuide, type WorkflowGuideData } from "@/components/docs/workflow-guide";
 
 export const metadata: Metadata = {
-  title: "Backup & Recovery",
-  description:
-    "Understand Nyvorel protection state, Restic backups, Timeshift restore points, disk health, and recovery readiness.",
+  title: "Backup & Recovery — Nyvorel v0.1.0",
+  description: "Read protection evidence before trusting a backup.",
   alternates: { canonical: "/docs/workflows/backup-recovery" },
 };
 
-const areas = [
-  ["Overview", "The combined protection state and current operation."],
-  ["Backups", "Restic backup inventory, freshness, checks, and backup actions."],
-  ["Restore", "Restore-oriented evidence and verification state."],
-  ["History", "Backup/configuration history and recorded evidence."],
-  ["Disk Health", "Backup-disk identity, availability, capacity, and SMART evidence."],
-  ["Recovery", "Recovery manifests, readiness checks, documentation, and resilience evidence."],
-] as const;
+const guide: WorkflowGuideData = {
+  "order": "05",
+  "title": "Backup & Recovery",
+  "intro": "The protection dashboard distinguishes a snapshot existing from a restore actually being possible. Use this guide to review stale evidence, identify your backup disk, and decide what to verify next.",
+  "outcome": "Understand protection status, find missing evidence, and take a safe next step without implying recovery is guaranteed.",
+  "prerequisites": [
+    "Restic, Timeshift and disk-health features depend on actual local configuration and installed tools.",
+    "Know which drive and repository contain the intended backup before beginning an operation.",
+    "Keep an independent recovery path; dashboard status is not a substitute for a tested restore."
+  ],
+  "orient": [
+    [
+      "Overview",
+      "Protection state, attention and suggested next actions."
+    ],
+    [
+      "Backups",
+      "Restic snapshot inventory and repository checks."
+    ],
+    [
+      "Restore",
+      "Restore-oriented verification evidence."
+    ],
+    [
+      "History",
+      "Recorded work and recent outcomes."
+    ],
+    [
+      "Disk Health",
+      "Availability, identity, filesystem and health information."
+    ],
+    [
+      "Recovery",
+      "Recovery manifests and readiness checks."
+    ]
+  ],
+  "steps": [
+    [
+      "Read protection freshness",
+      "Open the Overview. Compare the most recent backup, restore point and recovery evidence to your intended schedule.",
+      "You can tell which proof is fresh, overdue, unknown or unavailable."
+    ],
+    [
+      "Verify the backup destination",
+      "Inspect Disk Health and confirm the expected drive identity, mount status and accessibility; do not infer identity from a mount path alone.",
+      "The drive is explicitly recognized as the intended backup destination, or a warning explains why it is not trusted."
+    ],
+    [
+      "Review backup evidence",
+      "On Backups, check whether Restic has recent snapshots and whether repository verification belongs to the current repository identity.",
+      "Snapshot existence and repository proof are distinguishable facts."
+    ],
+    [
+      "Review the restore path",
+      "On Restore and Recovery, look for current restore-test evidence, recovery manifests and unresolved prerequisites.",
+      "You can say what has been tested and what still needs evidence before a real emergency."
+    ],
+    [
+      "Run maintenance only when appropriate",
+      "If you decide to start an operation, confirm its target and risks in the UI; allow the operation to finish rather than issuing duplicate maintenance actions.",
+      "The status returns to a resolved result or explains what failed. Do not infer success until the operation reports it."
+    ]
+  ],
+  "understand": [
+    [
+      "Snapshot ≠ recovery",
+      "A snapshot existing does not establish that it can be decrypted, read and restored to a working machine."
+    ],
+    [
+      "Stale proof deserves attention",
+      "Repository checks and restore tests become less informative as configurations and backup identities change."
+    ],
+    [
+      "Different tools protect different things",
+      "Restic archives, Timeshift restore points and disk health signals are separate layers of protection."
+    ]
+  ],
+  "issues": [
+    [
+      "Backup drive is offline",
+      "Reconnect the intended drive and recheck identity before attempting mounting or repository operations."
+    ],
+    [
+      "Proof belongs to a different identity",
+      "Stop and check the configured repository or drive; do not treat earlier proof as proof for the new target."
+    ],
+    [
+      "Restore point is overdue",
+      "Review the Timeshift schedule and available disk space before starting a new snapshot."
+    ],
+    [
+      "An action appears stuck",
+      "Wait for an explicit completion/failure state, then inspect History or diagnostic output; avoid repeated clicks."
+    ]
+  ],
+  "source": [
+    "quickshell/modules/nyvorel/backupRecovery/BackupRecoveryContent.qml",
+    "quickshell/scripts/backup-recovery/control_center.py"
+  ],
+  "image": {
+    "src": "/showcase/docs/backup-recovery-protection-overview.png",
+    "alt": "Backup and Recovery protection status overview",
+    "width": 1160,
+    "height": 740
+  },
+  "previous": {
+    "title": "Operations Center",
+    "href": "/docs/workflows/operations-center"
+  },
+  "next": {
+    "title": "Arch Remote",
+    "href": "/docs/workflows/arch-remote"
+  }
+};
 
-export default function BackupRecoveryPage() {
-  return (
-    <article className="docArticle">
-      <header className="docArticleHeader">
-        <p className="docEyebrow">Using Nyvorel · 05</p>
-        <h1>Backup &amp; Recovery</h1>
-        <p>
-          Backup &amp; Recovery is Nyvorel&apos;s protection dashboard. It
-          combines backup inventory, restore evidence, disk health, and recovery
-          readiness instead of reducing protection to a single “backup passed”
-          indicator.
-        </p>
-      </header>
-
-      <figure className="docVisual">
-        <Image
-          src="/showcase/backup-recovery.webp"
-          alt="Nyvorel Backup and Recovery"
-          width={1600}
-          height={897}
-          sizes="(max-width: 920px) 96vw, 820px"
-        />
-        <figcaption>
-          The surface distinguishes current protection state from individual
-          backup, disk, verification, and recovery signals.
-        </figcaption>
-      </figure>
-
-      <section className="docSection">
-        <h2>Six protection views</h2>
-
-        <div className="docSurfaceGrid">
-          {areas.map(([title, description], index) => (
-            <div className="docSurfaceCard" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="docSection">
-        <h2>Evidence Nyvorel tracks</h2>
-        <dl className="docDefinitionGrid">
-          <dt>Backup disk</dt>
-          <dd>
-            Connection, mount state, filesystem accessibility, identity
-            verification, free space, model and transport.
-          </dd>
-          <dt>Restic</dt>
-          <dd>
-            Configuration/availability, snapshot inventory, freshness,
-            repository checks, restore-test evidence, and timer state.
-          </dd>
-          <dt>Timeshift</dt>
-          <dd>
-            Snapshot inventory, latest restore point, mode, freshness and
-            configured schedule.
-          </dd>
-          <dt>SMART</dt>
-          <dd>
-            Device health, condition, temperature, selected attributes and test
-            evidence when available.
-          </dd>
-          <dt>Recovery</dt>
-          <dd>
-            Core readiness checks, manifests, restore documentation and
-            resilience evidence.
-          </dd>
-        </dl>
-      </section>
-
-      <section className="docSection">
-        <h2>Actions are serialized</h2>
-        <p>
-          The UI treats protection actions as a global operation. While one
-          operation is running, the surface tracks its phase, elapsed time,
-          progress and message instead of launching overlapping maintenance.
-        </p>
-        <p>
-          Supported action labels in the current surface include Backup,
-          Restore point, Repository check, Restore verification, SMART short
-          test, SMART extended test, Mount, Safe unmount, Recovery refresh and
-          Repository maintenance.
-        </p>
-
-        <Callout title="Mount identity matters" tone="important">
-          A mounted disk is not treated as trusted merely because a path is
-          mounted. The state model separately records whether the mounted
-          filesystem identity has been verified and whether the filesystem is
-          accessible.
-        </Callout>
-      </section>
-
-      <section className="docSection">
-        <h2>Fast state vs full refresh</h2>
-        <p>
-          The surface supports instant, normal, and explicit full-refresh
-          snapshots. This lets the UI show last-known/current state quickly
-          while reserving heavier verification work for the appropriate
-          refresh path.
-        </p>
-
-        <div className="docPath">
-          quickshell/modules/nyvorel/backupRecovery/BackupRecoveryContent.qml
-          <br />
-          quickshell/scripts/backup-recovery/control_center.py
-        </div>
-      </section>
-
-      <PageFooter
-        previous={{
-          href: "/docs/workflows/operations-center",
-          title: "Operations Center",
-        }}
-        next={{
-          href: "/docs/workflows/arch-remote",
-          title: "Arch Remote",
-        }}
-      />
-    </article>
-  );
+export default function Page() {
+  return <WorkflowGuide guide={guide} />;
 }
